@@ -53,7 +53,7 @@ echo "--------------------------------"
 
 
 ############################################################################
-echo "Downloading benchmark datasets..." 
+echo "Downloading benchmark datasets and adapter weights..." 
 # git-lfs pull
 echo "--------------------------------"
 

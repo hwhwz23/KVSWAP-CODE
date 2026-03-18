@@ -50,7 +50,7 @@ If you are an artifact-evaluation reviewer, we can provide an API key upon reque
 
 ### 3.2 Quick Evaluation
 
-To quickly obtain evaluation results, we provide a **quick mode** that randomly samples a subset of the benchmark data (about **XX%** by default). This significantly reduces runtime while preserving the overall trends of the results. On our machine, a complete quick run takes approximately **XXX hours**.
+To quickly obtain evaluation results, we provide a **quick mode** that randomly samples a subset of the benchmark data (about **30%** by default). This significantly reduces runtime while preserving the overall trends of the results. On our machine, a complete quick run takes approximately **XXX hours**.
 
 All generated results will be stored under the `RESULTS/` directory.
 

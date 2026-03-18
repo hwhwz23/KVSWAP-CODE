@@ -4,10 +4,12 @@
 mode=${1:-quick}
 
 if [ "$mode" = "full" ]; then
-    eval_samples=0
+    eval_samples_longbench=0
+    eval_samples_ruler=0
     echo "=============== Running full data evaluation ==============="
 else
-    eval_samples=10
+    eval_samples_longbench=50
+    eval_samples_ruler=25
     echo "=============== Running quick evaluation ==============="
 fi
 
@@ -117,9 +119,11 @@ func(){
 mkdir -p ./RESULTS
 
 tasks=longbench
+eval_samples=$eval_samples_longbench
 func
 
 tasks=ruler
+eval_samples=$eval_samples_ruler
 func
 
 if [ "$mode" = "full" ]; then
