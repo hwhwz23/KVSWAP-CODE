@@ -1,4 +1,5 @@
-
+#!/bin/bash
+set -e
 
 
 echo "Running fig-9.sh..."

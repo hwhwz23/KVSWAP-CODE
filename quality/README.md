@@ -25,14 +25,17 @@ sudo apt-get install -y git git-lfs
 git lfs install
 ```
 
-## 2. Environment Setup and Data Download
+## 2. Setup and Data Download
 
 This process typically takes around **XXX hours**, depending on your network and disk.
 
 ```bash
-cd quality
-# use GPU0
+# Clone the repo first, but skip LFS objects initially.
+GIT_LFS_SKIP_SMUDGE=1 git clone https://github.com/hwhwz23/KVSWAP-CODE.git
+cd ./KVSWAP-CODE/quality/
+# Use GPU 0 for evaluation.
 export CUDA_VISIBLE_DEVICES="0"
+# Install dependencies, download models, and download benchmark datasets.
 bash scripts/init.sh
 ```
 
@@ -52,7 +55,7 @@ If you are an artifact-evaluation reviewer, we can provide an API key upon reque
 
 To quickly obtain evaluation results, we provide a **quick mode** that randomly samples a subset of the benchmark data (about **30%** by default). This significantly reduces runtime while preserving the overall trends of the results. On our machine, a complete quick run takes approximately **XXX hours**.
 
-All generated results will be stored under the `RESULTS/` directory.
+**All generated results will be stored under the `RESULTS/` directory.**
 
 #### 3.2.1 Single-step quick run
 

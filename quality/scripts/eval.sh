@@ -1,3 +1,6 @@
+#!/bin/bash
+set -e
+
 
 run_once(){
   model=$(basename $model_path)
