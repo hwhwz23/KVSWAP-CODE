@@ -24,7 +24,10 @@ fi
 
 ############################################################################
 echo "Installing dependencies..."
-uv venv --python 3.10
+
+if [ ! -d .venv ]; then
+    uv venv --python 3.10
+fi
 source .venv/bin/activate
 uv pip install pip setuptools
 uv pip install torch==2.6.0

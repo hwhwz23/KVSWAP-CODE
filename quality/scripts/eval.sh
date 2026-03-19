@@ -28,7 +28,7 @@ run_once(){
   SKIP_MODEL_RUN=${SKIP_MODEL_RUN:-0}
   if [ "$SKIP_MODEL_RUN" = "1" ]; then
     echo "SKIP_MODEL_RUN=1, skipping model run"
-    return 
+    return 0
   fi
 
   if [ "$lr_att_mode" = "none" ]; then
@@ -149,13 +149,12 @@ skewing_idx_path=${skewing_idx_dir}/${model_name}_${lr_ratio}
 model_path=$MODEL_BASE_DIR/$model_name
 run_once
 
-
 if [[ "$tasks" == longbench* ]]; then
     python bench/longbench_gen_result.py \
     --results_dir ${save_dir_} \
     --prefix ${name}
 elif [[ "$tasks" == needle ]]; then
-    bash bench/Needle_test/eval.sh "${save_dir_}" > "${log_file}.needle" 2>&1 
+    bash bench/Needle_test/eval.sh "${save_dir_}" > "${log_file}.needle" 
 elif [[ "$tasks" == ruler* ]]; then
     python bench/RULER/eval.py --results_dir ${save_dir_} --prefix ${name}
 elif [[ "$tasks" == mlvu && "$prepare_mlvu" == 0 ]]; then

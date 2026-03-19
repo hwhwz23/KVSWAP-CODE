@@ -14,7 +14,7 @@ else
     echo "=============== Running quick evaluation ==============="
 fi
 
-export PYTHONPATH=$(pwd)/src
+export PYTHONPATH=$(pwd)
 export TOKENIZERS_PARALLELISM=false
 export TORCHCODEC_NUM_THREADS=32
 export TORCH_CUDA_ALLOC_CONF=expandable_segments:True
@@ -133,8 +133,10 @@ else
     output_file=./RESULTS/tab-2.txt
 fi
 
+echo "Generating table 2 results..."
 python ./scripts/utils.py ./exps/results/{task}/${model_name}_${seq_len} table2 | tee $output_file
 
+echo "Table 2 results have been saved to $output_file"
 
 
 
