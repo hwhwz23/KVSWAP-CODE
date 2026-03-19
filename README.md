@@ -60,4 +60,4 @@ To save eMMC space, we install the system image on the NVMe SSD.
 We provide two ways to run throughput evaluation:
 
 1. **Remote access via Jupyter Notebook**: refer to `engine_remote/` to access our pre-configured hardware platform.
-2. **Local run (full code + instructions)**: refer to `engine/` to run everything on your own device (this requires that your device fully meet the hardware and software requirements above).
+2. **Local run (full code + instructions)**: refer to `engine/` to run everything on your own device (this requires that your device meet the hardware and software requirements above).
