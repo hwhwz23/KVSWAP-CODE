@@ -108,7 +108,7 @@ export CUDA_VISIBLE_DEVICES="0"
 bash ./scripts/fig-11-acc.sh
 ```
 
-### 3.3 Full Evaluation
+### 3.3 Optional: Full Evaluation
 
 This mode evaluates the **full benchmark dataset** and can take a long time to complete. On our machine, a full run takes approximately **XXX hours**.
 
