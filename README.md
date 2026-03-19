@@ -51,6 +51,7 @@ To save eMMC space, we install the system image on the NVMe SSD.
 #### 3.2.2 Software requirements
 
 - **JetPack**: 6.2
+--**Linux Kernel**: 5.15.148-tegra
 - **CUDA**: 12.6
 - **Python**: 3.10
 - **Pytorch**: 2.7 (with CUDA)
