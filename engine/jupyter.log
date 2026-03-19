@@ -1,0 +1,45 @@
+nohup: ignoring input
+[I 2026-03-19 22:10:02.404 ServerApp] jupyter_lsp | extension was successfully linked.
+[I 2026-03-19 22:10:02.409 ServerApp] jupyter_server_terminals | extension was successfully linked.
+[I 2026-03-19 22:10:02.415 ServerApp] jupyterlab | extension was successfully linked.
+[W 2026-03-19 22:10:02.421 ServerApp] ServerApp.password config is deprecated in 2.0. Use PasswordIdentityProvider.hashed_password.
+[I 2026-03-19 22:10:02.421 ServerApp] notebook | extension was successfully linked.
+[I 2026-03-19 22:10:02.422 ServerApp] Writing Jupyter server cookie secret to /home/schz/.local/share/jupyter/runtime/jupyter_cookie_secret
+[I 2026-03-19 22:10:02.887 ServerApp] notebook_shim | extension was successfully linked.
+[I 2026-03-19 22:10:02.905 ServerApp] notebook_shim | extension was successfully loaded.
+[I 2026-03-19 22:10:02.908 ServerApp] jupyter_lsp | extension was successfully loaded.
+[I 2026-03-19 22:10:02.909 ServerApp] jupyter_server_terminals | extension was successfully loaded.
+[I 2026-03-19 22:10:02.912 LabApp] JupyterLab extension loaded from /home/schz/.local/lib/python3.10/site-packages/jupyterlab
+[I 2026-03-19 22:10:02.912 LabApp] JupyterLab application directory is /home/schz/.local/share/jupyter/lab
+[I 2026-03-19 22:10:02.913 LabApp] Extension Manager is 'pypi'.
+[I 2026-03-19 22:10:03.081 LabApp] Extensions will be fetched using proxy, proxy host and port: ('169.254.25.45', '1081')
+[I 2026-03-19 22:10:03.086 ServerApp] jupyterlab | extension was successfully loaded.
+[I 2026-03-19 22:10:03.090 ServerApp] notebook | extension was successfully loaded.
+[I 2026-03-19 22:10:03.091 ServerApp] Serving notebooks from local directory: /home/schz/KVSWAP-CODE/engine
+[I 2026-03-19 22:10:03.091 ServerApp] Jupyter Server 2.17.0 is running at:
+[I 2026-03-19 22:10:03.091 ServerApp] http://127.0.0.1:8888/lab
+[I 2026-03-19 22:10:03.091 ServerApp] Use Control-C to stop this server and shut down all kernels (twice to skip confirmation).
+[I 2026-03-19 22:10:03.136 ServerApp] Skipped non-installed server(s): basedpyright, bash-language-server, dockerfile-language-server-nodejs, javascript-typescript-langserver, jedi-language-server, julia-language-server, pyrefly, pyright, python-language-server, python-lsp-server, r-languageserver, sql-language-server, texlab, typescript-language-server, unified-language-server, vscode-css-languageserver-bin, vscode-html-languageserver-bin, vscode-json-languageserver-bin, yaml-language-server
+[I 2026-03-19 22:12:40.708 ServerApp] 302 GET / (@127.0.0.1) 0.69ms
+[I 2026-03-19 22:12:40.731 LabApp] 302 GET /lab? (@127.0.0.1) 0.71ms
+[I 2026-03-19 22:12:49.531 ServerApp] User 6d6ad0c88735426dad3eb967edceb76d logged in.
+[I 2026-03-19 22:12:49.532 ServerApp] 302 POST /login?next=%2Flab%3F (6d6ad0c88735426dad3eb967edceb76d@127.0.0.1) 34.72ms
+[W 2026-03-19 22:12:50.836 LabApp] Could not determine jupyterlab build status without nodejs
+[I 2026-03-19 22:12:57.521 ServerApp] Writing notebook-signing key to /home/schz/.local/share/jupyter/notebook_secret
+[W 2026-03-19 22:12:57.522 ServerApp] Notebook run_evaluation.ipynb is not trusted
+[I 2026-03-19 22:12:57.817 ServerApp] Kernel started: f8de6d13-73ff-4632-b98e-72761adb69f2
+[I 2026-03-19 22:12:58.483 ServerApp] Connecting to kernel f8de6d13-73ff-4632-b98e-72761adb69f2.
+[I 2026-03-19 22:12:58.486 ServerApp] Connecting to kernel f8de6d13-73ff-4632-b98e-72761adb69f2.
+[I 2026-03-19 22:12:58.550 ServerApp] Connecting to kernel f8de6d13-73ff-4632-b98e-72761adb69f2.
+[I 2026-03-19 22:13:14.835 ServerApp] Saving file at /run_evaluation.ipynb
+[I 2026-03-19 22:14:45.942 ServerApp] Saving file at /run_evaluation.ipynb
+[I 2026-03-19 22:15:24.761 ServerApp] Saving file at /run_evaluation.ipynb
+[I 2026-03-19 22:15:54.780 ServerApp] Saving file at /run_evaluation.ipynb
+[I 2026-03-19 22:16:05.628 ServerApp] Saving file at /run_evaluation.ipynb
+[I 2026-03-19 22:28:05.798 ServerApp] Saving file at /run_evaluation.ipynb
+[I 2026-03-19 22:28:18.024 ServerApp] Saving file at /run_evaluation.ipynb
+[I 2026-03-19 22:28:31.567 ServerApp] Saving file at /run_evaluation.ipynb
+[I 2026-03-19 22:28:56.250 ServerApp] Saving file at /run_evaluation.ipynb
+[I 2026-03-19 22:29:26.493 ServerApp] Saving file at /run_evaluation.ipynb
+[I 2026-03-19 22:29:36.141 ServerApp] Saving file at /run_evaluation.ipynb
+[I 2026-03-19 22:29:38.592 ServerApp] Starting buffering for f8de6d13-73ff-4632-b98e-72761adb69f2:83dd9871-4c26-464d-a044-6af92285920c
