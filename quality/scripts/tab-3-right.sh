@@ -11,7 +11,7 @@ else
     echo "=============== Running quick evaluation ==============="
 fi
 
-export PYTHONPATH=$(pwd)/src
+export PYTHONPATH=$(pwd)
 export TOKENIZERS_PARALLELISM=false
 export TORCHCODEC_NUM_THREADS=32
 export TORCH_CUDA_ALLOC_CONF=expandable_segments:True
@@ -152,6 +152,7 @@ else
     output_file=./RESULTS/tab-3-right.txt
 fi
 
+echo "Generating table 3 right results..."
 python ./scripts/utils.py ./exps/results/mlvu/{model_name}_${seq_len} table3-right | tee $output_file
 
-
+echo "Table 3 right results have been saved to $output_file"

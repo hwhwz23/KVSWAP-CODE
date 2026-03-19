@@ -89,7 +89,7 @@ bash ./scripts/tab-2.sh
 ```bash
 # use GPU0
 export CUDA_VISIBLE_DEVICES="0"
-bash ./scripts/table-3-left.sh
+bash ./scripts/tab-3-left.sh
 ```
 
 ##### 3.2.2.4 Table 3 (right)
@@ -97,7 +97,7 @@ bash ./scripts/table-3-left.sh
 ```bash
 # use GPU0
 export CUDA_VISIBLE_DEVICES="0"
-bash ./scripts/table-3-right.sh
+bash ./scripts/tab-3-right.sh
 ```
 
 ##### 3.2.2.5 Accuracy results in Figure 11
@@ -108,7 +108,7 @@ export CUDA_VISIBLE_DEVICES="0"
 bash ./scripts/fig-11-acc.sh
 ```
 
-### 3.3 Full Evaluation
+### 3.3 Optional: Full Evaluation
 
 This mode evaluates the **full benchmark dataset** and can take a long time to complete. On our machine, a full run takes approximately **XXX hours**.
 

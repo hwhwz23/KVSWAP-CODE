@@ -443,12 +443,26 @@ if __name__ == "__main__":
             score, num = acc_from_tab2(method_key)
             rows.append((name, score, num))
 
-        # Print main table (absolute values)
-        print("Method".ljust(18) + "Accuracy(MQA+SUM)".rjust(18) + "  " + "NUM".rjust(6))
+        # Print main table (absolute values, no NUM)
+        print("================================================")
+        print("Method".ljust(18) + "Accuracy(MQA+SUM)".rjust(18))
         print("-" * 40)
         for method, score, num in rows:
             if method in {"KVSwap(eMMC)", "vLLM"}:
                 print("-" * 40)
+            s = fmt(score) if isinstance(score, (int, float)) else "N/A"
+            print(method.ljust(18) + s.rjust(12))
+        print("-" * 40)
+
+        # Between main table and detail results
+        for _ in range(20):
+            print("----"*80)
+        print("Below are detail results:")
+
+        # Detail table (includes NUM)
+        print("Method".ljust(18) + "Accuracy(MQA+SUM)".rjust(18) + "  " + "NUM".rjust(6))
+        print("-" * 40)
+        for method, score, num in rows:
             s = fmt(score) if isinstance(score, (int, float)) else "N/A"
             n = str(num) if isinstance(num, int) else "N/A"
             print(method.ljust(18) + s.rjust(12) + "  " + n.rjust(6))
@@ -552,6 +566,9 @@ if __name__ == "__main__":
                 sep()
 
         print("================================================")
+        for _ in range(20):
+            print("----"*80)
+        print("Below are detail results:")
         print("Per-model raw MLVU scores (absolute; avg = (subplot + summary) / 2):")
         for model in ordered_models:
             print("-" * (col_width_method + col_width * len(ordered_models)))
@@ -624,7 +641,7 @@ if __name__ == "__main__":
                     "path": path_method,
                 }
 
-        labels = ["Method", "S1", "S2", "MK1", "MQ", "MV", "QA1", "QA2", "VT", "AVG", "NUM"]
+        labels = ["Method", "S1", "S2", "MK1", "MQ", "MV", "QA1", "QA2", "VT", "AVG"]
         col_width = 12
         header_line = "".join(f"{h:>{col_width}}" for h in labels)
         print(header_line)
@@ -652,8 +669,7 @@ if __name__ == "__main__":
                     row.append(fmt_delta(scores["avg"] - baseline["avg"]))
                 else:
                     row.append("N/A")
-            # NUM column: always original num
-            row.append(str(scores["num"]) if scores["num"] is not None else "N/A")
+            # no NUM in the main table (NUM is available in detail outputs)
 
             line = "".join(f"{c:>{col_width}}" for c in row)
             print(line)
@@ -741,6 +757,9 @@ if __name__ == "__main__":
 
             # After full table, print raw values (and NUM) per model.
             print()
+            for _ in range(20):
+                print("----"*80)
+            print("Below are detail results:")
             print("Per-model raw MQA values:")
             for model in ordered_models:
                 print("-" * (col_width_method + col_width * len(ordered_models)))
@@ -796,7 +815,7 @@ if __name__ == "__main__":
                     "path": path_method,
                 }
 
-        labels = ["Method"] + tasks + ["AVG", "NUM"]
+        labels = ["Method"] + tasks + ["AVG"]
         header_line = "".join(f"{h:>{col_width}}" for h in labels)
         print(header_line)
         print("-" * (col_width * len(labels)))
@@ -821,7 +840,7 @@ if __name__ == "__main__":
                     row.append(fmt_delta(scores["avg"] - baseline["avg"]))
                 else:
                     row.append("N/A")
-            row.append(str(scores["num"]) if scores["num"] is not None else "N/A")
+            # no NUM in the main table (NUM is available in detail outputs)
 
             line = "".join(f"{c:>{col_width}}" for c in row)
             print(line)
@@ -830,6 +849,11 @@ if __name__ == "__main__":
                 print("-" * (col_width * len(labels)))
 
         print("================================================")
+
+        # Between main tables and detail subtables
+        for _ in range(20):
+            print("----"*80)
+        print("Below are detail results:")
 
         if print_ruler:
             # -------- RAW PER-METHOD OUTPUTS (absolute) --------

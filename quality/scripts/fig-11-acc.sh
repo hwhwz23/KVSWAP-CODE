@@ -12,7 +12,7 @@ else
     echo "=============== Running quick evaluation ==============="
 fi
 
-export PYTHONPATH=$(pwd)/src
+export PYTHONPATH=$(pwd)
 export TOKENIZERS_PARALLELISM=false
 export TORCHCODEC_NUM_THREADS=32
 export TORCH_CUDA_ALLOC_CONF=expandable_segments:True
@@ -108,8 +108,10 @@ else
     output_file=./RESULTS/fig-11-acc.txt
 fi
 
+echo "Generating figure 11 accuracy results..."
+
 python ./scripts/utils.py ./exps/results/${tasks}/${model_name}_${seq_len} fig-11-acc | tee $output_file
 
-
+echo "Figure 11 accuracy results have been saved to $output_file"
 
 

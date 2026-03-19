@@ -1,8 +1,14 @@
-
+#!/bin/bash
+set -e
 
 data_dir=./bench/MLVU/MVLU_DATA/MLVU
 output_dir=$1
 prefix=$2
+
+if [ ! -d $output_dir ]; then
+    echo "Output directory $output_dir does not exist."
+    exit 0
+fi
 
 
 python ./bench/MLVU/evaluation/generation_evaluation/evaluate.py \
@@ -26,4 +32,5 @@ python ./bench/MLVU/evaluation/generation_evaluation/calculate.py \
 
 python ./bench/MLVU/evaluation/generation_evaluation/calculate_sum.py \
     --path $output_dir/${prefix}_summary_all_eval > $output_dir/${prefix}_summary_all_eval.log
+
 

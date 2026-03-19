@@ -58,6 +58,10 @@ for i in file_list:
         rele+=0
   
 
+if len(file_list) == 0:
+    print("No files found in the directory.")
+    exit(0)
+
 accu = accu/ len(file_list)
 rele = rele/ len(file_list)
 total= (accu + rele ) 

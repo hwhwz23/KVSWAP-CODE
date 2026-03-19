@@ -237,7 +237,11 @@ def result(files, results_dir, prefix, is_cot):
             scores[dataset_name] = score
             scores[dataset_name+'_num'] = sample_nums
         else:
-            score = scorer(dataset_name, predictions, answers, all_classes)
+            try:
+                score = scorer(dataset_name, predictions, answers, all_classes)
+            except Exception as e:
+                print(f"Error calculating score for {dataset_name}: {e}")
+                exit(0)
             scores[dataset_name] = score
             scores[dataset_name+'_num'] = len(predictions)
 
@@ -324,6 +328,10 @@ if __name__ == "__main__":
     args = parser.parse_args()
     results_dir = args.results_dir
     prefix = args.prefix
+
+    if not os.path.exists(results_dir):
+        print(f"Results directory {results_dir} does not exist.")
+        exit(0)
 
     files = os.listdir(results_dir)
     files = [file for file in files if prefix in file]

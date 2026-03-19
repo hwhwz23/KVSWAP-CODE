@@ -172,7 +172,15 @@ def main():
     # Parse arguments.
     args = parse_args()
 
+    if not os.path.exists(args.pred_path):
+        print(f"Prediction path {args.pred_path} does not exist.")
+        exit(0)
+
     pred_contents = [json.loads(line) for line in open(args.pred_path, "r")]
+
+    if len(pred_contents) == 0:
+        print("No prediction contents found.")
+        exit(0)
 
     # Dictionary to store the count of occurrences for each video_id
     video_id_counts = {}

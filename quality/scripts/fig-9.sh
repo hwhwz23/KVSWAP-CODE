@@ -11,7 +11,7 @@ else
     echo "=============== Running quick evaluation ==============="
 fi
 
-export PYTHONPATH=$(pwd)/src
+export PYTHONPATH=$(pwd)
 export TOKENIZERS_PARALLELISM=false
 export TORCHCODEC_NUM_THREADS=32
 export TORCH_CUDA_ALLOC_CONF=expandable_segments:True
@@ -62,6 +62,8 @@ kvswap_t_result=./exps/results/needle/Qwen3-8B_32768/lr_proj_mh/sa${eval_samples
 
 mkdir -p ./RESULTS
 output_pdf=./RESULTS/fig-9.pdf
+
+echo "Plotting figure 9..."
 
 python bench/Needle_test/plot_all.py --shadowkv-t-result $shadowkv_t_result \
 --loki-t-result $loki_t_result \

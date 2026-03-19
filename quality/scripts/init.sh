@@ -24,9 +24,12 @@ fi
 
 ############################################################################
 echo "Installing dependencies..."
-uv venv --python 3.10
+
+if [ ! -d .venv ]; then
+    uv venv --python 3.10
+fi
 source .venv/bin/activate
-uv pip install pip
+uv pip install pip setuptools
 uv pip install torch==2.6.0
 uv pip install flash-attn==2.7.4.post1 --no-build-isolation
 uv pip install -r requirements.txt
@@ -38,7 +41,7 @@ echo "--------------------------------"
 
 ############################################################################
 echo "Downloading benchmark datasets and adapter weights..." 
-git lfs pull
+# git lfs pull
 echo "--------------------------------"
 
 
@@ -46,14 +49,14 @@ echo "--------------------------------"
 echo "Downloading models..."
 mkdir -p MODELS
 
-git clone https://huggingface.co/meta-llama/Llama-3.1-8B-Instruct MODELS/Llama-3.1-8B-Instruct
-git clone https://huggingface.co/Qwen/Qwen3-4B MODELS/Qwen3-4B
-git clone https://huggingface.co/Qwen/Qwen3-8B MODELS/Qwen3-8B
-git clone https://huggingface.co/Qwen/Qwen3-14B MODELS/Qwen3-14B
+# git clone https://huggingface.co/meta-llama/Llama-3.1-8B-Instruct MODELS/Llama-3.1-8B-Instruct
+# git clone https://huggingface.co/Qwen/Qwen3-4B MODELS/Qwen3-4B
+# git clone https://huggingface.co/Qwen/Qwen3-8B MODELS/Qwen3-8B
+# git clone https://huggingface.co/Qwen/Qwen3-14B MODELS/Qwen3-14B
 
-git clone https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct MODELS/Qwen2.5-VL-3B-Instruct
-git clone https://huggingface.co/Qwen/Qwen2.5-VL-7B-Instruct MODELS/Qwen2.5-VL-7B-Instruct
-git clone https://huggingface.co/OpenGVLab/InternVL3-14B MODELS/InternVL3-14B
+# git clone https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct MODELS/Qwen2.5-VL-3B-Instruct
+# git clone https://huggingface.co/Qwen/Qwen2.5-VL-7B-Instruct MODELS/Qwen2.5-VL-7B-Instruct
+# git clone https://huggingface.co/OpenGVLab/InternVL3-14B MODELS/InternVL3-14B
 
 echo "--------------------------------"
 
