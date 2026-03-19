@@ -1,7 +1,7 @@
 
 # Accuracy Evaluation
 
-## 1. Prerequsite
+## 1. Prerequisites
 
 Make sure the following tools are installed:
 - `uv`
@@ -57,7 +57,55 @@ To quickly obtain evaluation results, we provide a **quick mode** that randomly 
 
 **All generated results will be stored under the `RESULTS/` directory.**
 
-#### 3.2.1 Single-step quick run
+
+#### 3.2.1 Step-by-step quick run
+
+##### 3.2.1.1 Figure 9
+
+```bash
+# use GPU0
+export CUDA_VISIBLE_DEVICES="0"
+bash ./scripts/fig-9.sh
+```
+
+##### 3.2.1.2 Table 2
+
+```bash
+# use GPU0
+export CUDA_VISIBLE_DEVICES="0"
+bash ./scripts/tab-2.sh
+```
+
+##### 3.2.1.3 Table 3 (left)
+
+**In quick mode, we do not evaluate Qwen3-14B because it is very time-consuming.**
+
+```bash
+# use GPU0
+export CUDA_VISIBLE_DEVICES="0"
+bash ./scripts/tab-3-left.sh
+```
+
+##### 3.2.1.4 Table 3 (right)
+
+**In quick mode, we do not evaluate InternVL3-14B because it is very time-consuming.**
+
+```bash
+# use GPU0
+export CUDA_VISIBLE_DEVICES="0"
+bash ./scripts/tab-3-right.sh
+```
+
+##### 3.2.1.5 Accuracy results in Figure 11
+
+```bash
+# use GPU0
+export CUDA_VISIBLE_DEVICES="0"
+bash ./scripts/fig-11-acc.sh
+```
+
+
+#### 3.2.2 Single-step quick run
 
 To run all quick evaluations at once:
 ```bash
@@ -66,47 +114,6 @@ export CUDA_VISIBLE_DEVICES="0"
 bash ./scripts/quick_run.sh
 ```
 
-#### 3.2.2 Step-by-step quick run
-
-##### 3.2.2.1 Figure 9
-
-```bash
-# use GPU0
-export CUDA_VISIBLE_DEVICES="0"
-bash ./scripts/fig-9.sh
-```
-
-##### 3.2.2.2 Table 2
-
-```bash
-# use GPU0
-export CUDA_VISIBLE_DEVICES="0"
-bash ./scripts/tab-2.sh
-```
-
-##### 3.2.2.3 Table 3 (left)
-
-```bash
-# use GPU0
-export CUDA_VISIBLE_DEVICES="0"
-bash ./scripts/tab-3-left.sh
-```
-
-##### 3.2.2.4 Table 3 (right)
-
-```bash
-# use GPU0
-export CUDA_VISIBLE_DEVICES="0"
-bash ./scripts/tab-3-right.sh
-```
-
-##### 3.2.2.5 Accuracy results in Figure 11
-
-```bash
-# use GPU0
-export CUDA_VISIBLE_DEVICES="0"
-bash ./scripts/fig-11-acc.sh
-```
 
 ### 3.3 Optional: Full Evaluation
 

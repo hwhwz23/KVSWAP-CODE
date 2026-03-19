@@ -7,7 +7,6 @@ if [ "$(basename "$(pwd)")" != "quality" ]; then
     exit 1
 fi
 
-echo "Creating virtual environment..."
 
 if ! command -v uv &> /dev/null
 then

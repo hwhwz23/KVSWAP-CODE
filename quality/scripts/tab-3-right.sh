@@ -131,16 +131,17 @@ func
 
 
 ####################################################################
-model_name=InternVL3-14B
-shadowkv_mode=shadowkv-16-40-48-4
-shadowkv_t_mode=shadowkv-60-16
-loki_ratio=0.125
-loki_t_ratio=0.03125
-kvswap_ratio=1
-kvswap_t_ratio=0.25
-func
-
-
+# Only evaluate InternVL3-14B on full mode
+if [ "$mode" = "full" ]; then
+    model_name=InternVL3-14B
+    shadowkv_mode=shadowkv-16-40-48-4
+    shadowkv_t_mode=shadowkv-60-16
+    loki_ratio=0.125
+    loki_t_ratio=0.03125
+    kvswap_ratio=1
+    kvswap_t_ratio=0.25
+    func
+fi
 ####################################################################
 
 
@@ -156,3 +157,5 @@ echo "Generating table 3 right results..."
 python ./scripts/utils.py ./exps/results/mlvu/{model_name}_${seq_len} table3-right | tee $output_file
 
 echo "Table 3 right results have been saved to $output_file"
+
+

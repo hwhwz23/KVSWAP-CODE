@@ -105,8 +105,12 @@ func
 model_name=Qwen3-8B
 func
 
-model_name=Qwen3-14B
-func
+
+# Only evaluate Qwen3-14B on full mode
+if [ "$mode" = "full" ]; then
+    model_name=Qwen3-14B
+    func
+fi
 
 
 mkdir -p ./RESULTS
