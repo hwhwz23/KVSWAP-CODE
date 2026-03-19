@@ -1,13 +1,28 @@
 
 # Accuracy Evaluation
 
-## 1. Prerequisites
 
-Make sure the following tools are installed:
+## 1. Requirements
+
+### 1.1 Hardware
+
+We run accuracy experiments on a high-end server. Recommended configuration:
+- **CPU**: X86_64
+- **GPU**: NVIDIA A100 (80GB)
+- **Host memory**: >= 128GB
+- **Disk**: >= 500GB free space
+
+### 1.2 Software
+
+- **OS**: Ubuntu 22.04
+- **CUDA**: 12.6
+- **Python**: 3.10
+
+And make sure the following tools are installed:
 - `uv`
 - `git-lfs`
 
-### Install `uv`
+#### Install `uv`
 
 Run the following command, or refer to `https://docs.astral.sh/uv/getting-started/installation/`:
 
@@ -15,7 +30,7 @@ Run the following command, or refer to `https://docs.astral.sh/uv/getting-starte
 curl -LsSf https://astral.sh/uv/install.sh | sh
 ```
 
-### Install `git-lfs`
+#### Install `git-lfs`
 
 Run the following commands, or refer to `https://graphite.com/guides/how-to-install-git-lfs-on-ubuntu`:
 
@@ -24,6 +39,9 @@ sudo apt-get update
 sudo apt-get install -y git git-lfs
 git lfs install
 ```
+
+
+
 
 ## 2. Setup and Data Download
 
@@ -63,7 +81,7 @@ To quickly obtain evaluation results, we provide a **quick mode** that randomly 
 ##### 3.2.1.1 Figure 9
 
 ```bash
-# use GPU0
+# Use GPU 0
 export CUDA_VISIBLE_DEVICES="0"
 bash ./scripts/fig-9.sh
 ```
@@ -71,7 +89,7 @@ bash ./scripts/fig-9.sh
 ##### 3.2.1.2 Table 2
 
 ```bash
-# use GPU0
+# Use GPU 0
 export CUDA_VISIBLE_DEVICES="0"
 bash ./scripts/tab-2.sh
 ```
@@ -81,7 +99,7 @@ bash ./scripts/tab-2.sh
 **In quick mode, we do not evaluate Qwen3-14B because it is very time-consuming.**
 
 ```bash
-# use GPU0
+# Use GPU 0
 export CUDA_VISIBLE_DEVICES="0"
 bash ./scripts/tab-3-left.sh
 ```
@@ -91,7 +109,7 @@ bash ./scripts/tab-3-left.sh
 **In quick mode, we do not evaluate InternVL3-14B because it is very time-consuming.**
 
 ```bash
-# use GPU0
+# Use GPU 0
 export CUDA_VISIBLE_DEVICES="0"
 bash ./scripts/tab-3-right.sh
 ```
@@ -99,17 +117,17 @@ bash ./scripts/tab-3-right.sh
 ##### 3.2.1.5 Accuracy results in Figure 11
 
 ```bash
-# use GPU0
+# Use GPU 0
 export CUDA_VISIBLE_DEVICES="0"
 bash ./scripts/fig-11-acc.sh
 ```
 
 
-#### 3.2.2 Single-step quick run
+#### 3.2.2 Alternative: Single-step quick run
 
 To run all quick evaluations at once:
 ```bash
-# use GPU0
+# Use GPU 0
 export CUDA_VISIBLE_DEVICES="0"
 bash ./scripts/quick_run.sh
 ```
@@ -122,7 +140,7 @@ This mode evaluates the **full benchmark dataset** and can take a long time to c
 To evaluate on the full benchmark dataset, run:
 
 ```bash
-# use GPU0
+# Use GPU 0
 export CUDA_VISIBLE_DEVICES="0"
 bash ./scripts/full_run.sh
 ```
