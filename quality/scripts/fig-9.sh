@@ -56,9 +56,9 @@ token_group=4
 
 
 # plot
-shadowkv_t_result=./exps/results/needle/Qwen3-8B_32768/shadowkv-60-16/sa${eval_samples}_b${budget}-DeepSeek_deepseek-chat.jsonl
-loki_t_result=./exps/results/needle/Qwen3-8B_32768/loki/sa${eval_samples}_b${budget}_p${loki_lr_ratio}_${start_layer}_tg${loki_token_group}-DeepSeek_deepseek-chat.jsonl
-kvswap_t_result=./exps/results/needle/Qwen3-8B_32768/lr_proj_mh/sa${eval_samples}_b${budget}_p${lr_ratio}_${start_layer}_tg${token_group}-DeepSeek_deepseek-chat.jsonl
+shadowkv_t_result=./exps/results/needle/Qwen3-8B_32768/shadowkv-60-16/b${budget}-DeepSeek_deepseek-chat.jsonl
+loki_t_result=./exps/results/needle/Qwen3-8B_32768/loki/b${budget}_p${loki_lr_ratio}_${start_layer}_tg${loki_token_group}-DeepSeek_deepseek-chat.jsonl
+kvswap_t_result=./exps/results/needle/Qwen3-8B_32768/lr_proj_mh/b${budget}_p${lr_ratio}_${start_layer}_tg${token_group}-DeepSeek_deepseek-chat.jsonl
 
 mkdir -p ./RESULTS
 output_pdf=./RESULTS/fig-9.pdf
