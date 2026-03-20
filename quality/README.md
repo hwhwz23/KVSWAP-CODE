@@ -49,7 +49,9 @@ This process typically takes around **XXX hours**, depending on your network and
 
 ```bash
 # Clone the repo first, but skip LFS objects initially.
+Change to sparse checkout
 GIT_LFS_SKIP_SMUDGE=1 git clone https://github.com/hwhwz23/KVSWAP-CODE.git
+
 cd ./KVSWAP-CODE/quality/
 # Use GPU 0 for evaluation.
 export CUDA_VISIBLE_DEVICES="0"
