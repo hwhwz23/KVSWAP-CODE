@@ -39,15 +39,11 @@ echo "--------------------------------"
 
 
 ############################################################################
-echo "Downloading benchmark datasets and adapter weights..." 
-# git lfs pull
+echo "Downloading adapter weights..." 
+git lfs pull --include="adapters/**/*.pt"
 echo "--------------------------------"
-
-
 ############################################################################
-./download_model.sh
 
 
-############################################################################
 echo "Initialization completed!"
 

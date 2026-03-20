@@ -1,27 +1,71 @@
 #!/usr/bin/env bash
-set -euo pipefail
-
-echo "Downloading models..."
+set -e
 
 MODELS_DIR="${MODELS_DIR:-MODELS}"
 mkdir -p "${MODELS_DIR}"
 
-mode="${1:-}"
+mode="${1:-quick}"
 
 # If INTERACTIVE_PROMPT=1 and the script is run in a terminal,
 # we will ask whether you already have model weights locally and symlink them.
-INTERACTIVE_PROMPT="${INTERACTIVE_PROMPT:-0}"
+INTERACTIVE_PROMPT="${INTERACTIVE_PROMPT:-1}"
 
-has_model_dir() {
+has_weight_files() {
+  local dir="$1"
+  shopt -s nullglob
+  # Common Hugging Face weight file patterns (supports sharded weights).
+  local candidates=(
+    "${dir}/model*.safetensors"
+    "${dir}/pytorch_model*.bin"
+    "${dir}/*.bin"
+    "${dir}/model*.pt"
+    "${dir}/*.pt"
+    "${dir}/model*.pth"
+    "${dir}/*.pth"
+    "${dir}/model*.safetensors.index.json"
+    "${dir}/pytorch_model*.bin.index.json"
+  )
+  for c in "${candidates[@]}"; do
+    if [ -e $c ]; then
+      return 0
+    fi
+  done
+  return 1
+}
+
+is_valid_model_dir() {
   local dir="$1"
   if [ ! -d "${dir}" ]; then
     return 1
   fi
-  # Heuristic: model folder should contain at least one common metadata file.
-  if [ -f "${dir}/config.json" ] || [ -f "${dir}/generation_config.json" ] || [ -d "${dir}/model" ]; then
-    return 0
+  # Require config.json AND weight files.
+  if [ ! -f "${dir}/config.json" ]; then
+    return 1
   fi
-  return 1
+  has_weight_files "${dir}"
+}
+
+validate_local_path() {
+  local model_name="$1"
+  local dir="$2"
+
+  if [ ! -d "$dir" ]; then
+    echo "Invalid path: $dir (not a directory)"
+    return 1
+  fi
+
+  # Must look like a HF model folder.
+  if [ ! -f "${dir}/config.json" ]; then
+    echo "Invalid local folder for ${model_name}: missing config.json"
+    return 1
+  fi
+
+  if ! has_weight_files "$dir"; then
+    echo "Invalid local folder for ${model_name}: no weight files found (expected *.safetensors or *.bin, etc.)"
+    return 1
+  fi
+
+  return 0
 }
 
 ensure_model() {
@@ -30,7 +74,7 @@ ensure_model() {
   local hf_repo="$3"
   local full_dest="${MODELS_DIR}/${dest_dir}"
 
-  if has_model_dir "${full_dest}"; then
+  if is_valid_model_dir "${full_dest}"; then
     echo "Already present: ${model_name} -> ${full_dest}"
     return 0
   fi
@@ -45,12 +89,16 @@ ensure_model() {
     if [ "${ans}" == "y" ] || [ "${ans}" == "yes" ]; then
       echo "Enter local path to the ${model_name} folder:"
       read -r local_path || true
-      if [ -n "${local_path}" ] && [ -d "${local_path}" ]; then
-        ln -sfn "${local_path}" "${full_dest}"
-        echo "Symlink created: ${full_dest} -> ${local_path}"
-        return 0
+      if [ -n "${local_path}" ]; then
+        if validate_local_path "${model_name}" "${local_path}"; then
+          ln -sfn "${local_path}" "${full_dest}"
+          echo "Symlink created: ${full_dest} -> ${local_path}"
+          return 0
+        else
+          echo "Local path does not look like a valid model. Will download instead."
+        fi
       else
-        echo "Invalid local path. Will download instead."
+        echo "Empty local path. Will download instead."
       fi
     fi
   fi
@@ -74,9 +122,11 @@ download_model2() {
 }
 
 if [ "${mode}" == "full" ]; then
+  echo "Downloading all models..."
   download_model
   download_model2
 else
+  echo "Downloading models..."
   download_model
 fi
 
