@@ -161,7 +161,6 @@ source .venv/bin/activate
 offload_device="disk"
 
 
-
 if [ -z "$EVAL_USER" ]; then
   echo "EVAL_USER is not set. This is set for storing results. Exit."
   exit 1
