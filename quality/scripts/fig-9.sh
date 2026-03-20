@@ -65,6 +65,7 @@ output_pdf=./RESULTS/fig-9.pdf
 
 echo "Plotting figure 9..."
 
+source .venv/bin/activate
 python bench/Needle_test/plot_all.py --shadowkv-t-result $shadowkv_t_result \
 --loki-t-result $loki_t_result \
 --kvswap-t-result $kvswap_t_result \

@@ -134,6 +134,8 @@ else
 fi
 
 echo "Generating table 2 results..."
+source .venv/bin/activate
+
 python ./scripts/utils.py ./exps/results/{task}/${model_name}_${seq_len} table2 | tee $output_file
 
 echo "Table 2 results have been saved to $output_file"

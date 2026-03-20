@@ -110,6 +110,7 @@ fi
 
 echo "Generating figure 11 accuracy results..."
 
+source .venv/bin/activate
 python ./scripts/utils.py ./exps/results/${tasks}/${model_name}_${seq_len} fig-11-acc | tee $output_file
 
 echo "Figure 11 accuracy results have been saved to $output_file"

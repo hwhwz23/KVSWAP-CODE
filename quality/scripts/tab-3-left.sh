@@ -122,6 +122,8 @@ else
 fi
 
 echo "Generating table 3 left results..."
+source .venv/bin/activate
+
 python ./scripts/utils.py ./exps/results/longbench_cot_only/{model_name}_${seq_len} table3-left | tee $output_file
 
 echo "Table 3 left results have been saved to $output_file"

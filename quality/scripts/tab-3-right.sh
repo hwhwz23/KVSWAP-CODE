@@ -154,6 +154,8 @@ else
 fi
 
 echo "Generating table 3 right results..."
+source .venv/bin/activate
+
 python ./scripts/utils.py ./exps/results/mlvu/{model_name}_${seq_len} table3-right | tee $output_file
 
 echo "Table 3 right results have been saved to $output_file"
