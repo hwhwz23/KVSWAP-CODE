@@ -18,7 +18,17 @@ fi
 
 MODEL_PATH=${MODEL_PATH_BASE_HF}/${TEST_MODEL}
 
-OUTPUT_PATH=./exps/vllm_results
+if [ -z "$EVAL_USER" ]; then
+  echo "EVAL_USER is not set. This is set for storing results. Exit."
+  exit 1
+fi
+
+if [ -z "$EVAL_LOG_DIR" ]; then
+  echo "EVAL_LOG_DIR is not set. This is set for storing results. Exit."
+  exit 1
+fi
+
+OUTPUT_PATH=$EVAL_LOG_DIR/$EVAL_USER/vllm_results
 mkdir -p $OUTPUT_PATH
 
 LOG_OUT=$OUTPUT_PATH/$TEST_MODEL.log

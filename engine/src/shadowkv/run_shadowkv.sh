@@ -97,7 +97,18 @@ source .venv/bin/activate
 offload_device="disk"
 
 DEV=$HOSTNAME
-log_dir=./exps/logs/shadowkv/${DEV}
+
+if [ -z "$EVAL_USER" ]; then
+  echo "EVAL_USER is not set. This is set for storing results. Exit."
+  exit 1
+fi
+
+if [ -z "$EVAL_LOG_DIR" ]; then
+  echo "EVAL_LOG_DIR is not set. This is set for storing results. Exit."
+  exit 1
+fi
+
+log_dir=$EVAL_LOG_DIR/$EVAL_USER/logs/shadowkv/${DEV}
 mkdir -p $log_dir
 
 READAHEAD=0

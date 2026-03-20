@@ -7,7 +7,17 @@ echo "Running on host: $HOSTNAME"
 
 TEST_INPUT_PATH=./data/test_inputs
 
-SET_LOG_DIR=./exps/logs
+if [ -z "$EVAL_USER" ]; then
+  echo "EVAL_USER is not set. This is set for storing results. Exit."
+  exit 1
+fi
+
+if [ -z "$EVAL_LOG_DIR" ]; then
+  echo "EVAL_LOG_DIR is not set. This is set for storing results. Exit."
+  exit 1
+fi
+
+SET_LOG_DIR=$EVAL_LOG_DIR/$EVAL_USER/logs
 mkdir -p $SET_LOG_DIR
 
 PASSWD=
