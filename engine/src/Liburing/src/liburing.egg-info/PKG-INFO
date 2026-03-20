@@ -1,0 +1,332 @@
+Metadata-Version: 2.4
+Name: liburing
+Version: 2024.5.3
+Summary: ...
+Author: Ritesh
+License: Creative Commons Legal Code
+        
+        CC0 1.0 Universal
+        
+            CREATIVE COMMONS CORPORATION IS NOT A LAW FIRM AND DOES NOT PROVIDE
+            LEGAL SERVICES. DISTRIBUTION OF THIS DOCUMENT DOES NOT CREATE AN
+            ATTORNEY-CLIENT RELATIONSHIP. CREATIVE COMMONS PROVIDES THIS
+            INFORMATION ON AN "AS-IS" BASIS. CREATIVE COMMONS MAKES NO WARRANTIES
+            REGARDING THE USE OF THIS DOCUMENT OR THE INFORMATION OR WORKS
+            PROVIDED HEREUNDER, AND DISCLAIMS LIABILITY FOR DAMAGES RESULTING FROM
+            THE USE OF THIS DOCUMENT OR THE INFORMATION OR WORKS PROVIDED
+            HEREUNDER.
+        
+        Statement of Purpose
+        
+        The laws of most jurisdictions throughout the world automatically confer
+        exclusive Copyright and Related Rights (defined below) upon the creator
+        and subsequent owner(s) (each and all, an "owner") of an original work of
+        authorship and/or a database (each, a "Work").
+        
+        Certain owners wish to permanently relinquish those rights to a Work for
+        the purpose of contributing to a commons of creative, cultural and
+        scientific works ("Commons") that the public can reliably and without fear
+        of later claims of infringement build upon, modify, incorporate in other
+        works, reuse and redistribute as freely as possible in any form whatsoever
+        and for any purposes, including without limitation commercial purposes.
+        These owners may contribute to the Commons to promote the ideal of a free
+        culture and the further production of creative, cultural and scientific
+        works, or to gain reputation or greater distribution for their Work in
+        part through the use and efforts of others.
+        
+        For these and/or other purposes and motivations, and without any
+        expectation of additional consideration or compensation, the person
+        associating CC0 with a Work (the "Affirmer"), to the extent that he or she
+        is an owner of Copyright and Related Rights in the Work, voluntarily
+        elects to apply CC0 to the Work and publicly distribute the Work under its
+        terms, with knowledge of his or her Copyright and Related Rights in the
+        Work and the meaning and intended legal effect of CC0 on those rights.
+        
+        1. Copyright and Related Rights. A Work made available under CC0 may be
+        protected by copyright and related or neighboring rights ("Copyright and
+        Related Rights"). Copyright and Related Rights include, but are not
+        limited to, the following:
+        
+          i. the right to reproduce, adapt, distribute, perform, display,
+             communicate, and translate a Work;
+         ii. moral rights retained by the original author(s) and/or performer(s);
+        iii. publicity and privacy rights pertaining to a person's image or
+             likeness depicted in a Work;
+         iv. rights protecting against unfair competition in regards to a Work,
+             subject to the limitations in paragraph 4(a), below;
+          v. rights protecting the extraction, dissemination, use and reuse of data
+             in a Work;
+         vi. database rights (such as those arising under Directive 96/9/EC of the
+             European Parliament and of the Council of 11 March 1996 on the legal
+             protection of databases, and under any national implementation
+             thereof, including any amended or successor version of such
+             directive); and
+        vii. other similar, equivalent or corresponding rights throughout the
+             world based on applicable law or treaty, and any national
+             implementations thereof.
+        
+        2. Waiver. To the greatest extent permitted by, but not in contravention
+        of, applicable law, Affirmer hereby overtly, fully, permanently,
+        irrevocably and unconditionally waives, abandons, and surrenders all of
+        Affirmer's Copyright and Related Rights and associated claims and causes
+        of action, whether now known or unknown (including existing as well as
+        future claims and causes of action), in the Work (i) in all territories
+        worldwide, (ii) for the maximum duration provided by applicable law or
+        treaty (including future time extensions), (iii) in any current or future
+        medium and for any number of copies, and (iv) for any purpose whatsoever,
+        including without limitation commercial, advertising or promotional
+        purposes (the "Waiver"). Affirmer makes the Waiver for the benefit of each
+        member of the public at large and to the detriment of Affirmer's heirs and
+        successors, fully intending that such Waiver shall not be subject to
+        revocation, rescission, cancellation, termination, or any other legal or
+        equitable action to disrupt the quiet enjoyment of the Work by the public
+        as contemplated by Affirmer's express Statement of Purpose.
+        
+        3. Public License Fallback. Should any part of the Waiver for any reason
+        be judged legally invalid or ineffective under applicable law, then the
+        Waiver shall be preserved to the maximum extent permitted taking into
+        account Affirmer's express Statement of Purpose. In addition, to the
+        extent the Waiver is so judged Affirmer hereby grants to each affected
+        person a royalty-free, non transferable, non sublicensable, non exclusive,
+        irrevocable and unconditional license to exercise Affirmer's Copyright and
+        Related Rights in the Work (i) in all territories worldwide, (ii) for the
+        maximum duration provided by applicable law or treaty (including future
+        time extensions), (iii) in any current or future medium and for any number
+        of copies, and (iv) for any purpose whatsoever, including without
+        limitation commercial, advertising or promotional purposes (the
+        "License"). The License shall be deemed effective as of the date CC0 was
+        applied by Affirmer to the Work. Should any part of the License for any
+        reason be judged legally invalid or ineffective under applicable law, such
+        partial invalidity or ineffectiveness shall not invalidate the remainder
+        of the License, and in such case Affirmer hereby affirms that he or she
+        will not (i) exercise any of his or her remaining Copyright and Related
+        Rights in the Work or (ii) assert any associated claims and causes of
+        action with respect to the Work, in either case contrary to Affirmer's
+        express Statement of Purpose.
+        
+        4. Limitations and Disclaimers.
+        
+         a. No trademark or patent rights held by Affirmer are waived, abandoned,
+            surrendered, licensed or otherwise affected by this document.
+         b. Affirmer offers the Work as-is and makes no representations or
+            warranties of any kind concerning the Work, express, implied,
+            statutory or otherwise, including without limitation warranties of
+            title, merchantability, fitness for a particular purpose, non
+            infringement, or the absence of latent or other defects, accuracy, or
+            the present or absence of errors, whether or not discoverable, all to
+            the greatest extent permissible under applicable law.
+         c. Affirmer disclaims responsibility for clearing rights of other persons
+            that may apply to the Work or any use thereof, including without
+            limitation any person's Copyright and Related Rights in the Work.
+            Further, Affirmer disclaims responsibility for obtaining any necessary
+            consents, permissions or other rights required for any use of the
+            Work.
+         d. Affirmer understands and acknowledges that Creative Commons is not a
+            party to this document and has no duty or obligation with respect to
+            this CC0 or use of the Work.
+        
+Project-URL: Homepage, https://github.com/YoSTEALTH/Liburing
+Project-URL: Issues, https://github.com/YoSTEALTH/Liburing/issues
+Classifier: Topic :: Software Development
+Classifier: License :: Public Domain
+Classifier: Intended Audience :: Developers
+Classifier: Operating System :: POSIX :: Linux
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Development Status :: 3 - Alpha
+Requires-Python: >=3.8
+Description-Content-Type: text/x-rst
+License-File: LICENSE.txt
+Requires-Dist: dynamic-import
+Provides-Extra: test
+Requires-Dist: pytest; extra == "test"
+Dynamic: license-file
+
+|test-status| |downloads|
+
+Liburing
+========
+
+Liburing is Python + Cython wrapper around `C Liburing`_, which is a helper to setup and tear-down io_uring instances.
+
+* Fast & scalable asynchronous I/O (storage, networking, ...) interface.
+* ``io_uring`` reduces number of syscalls overhead & context switches, thus improving speed.
+* ...
+
+Good(old) documentation `Lord of the io_uring`_
+
+Check out `Shakti`_. It uses ``liburing`` and provides an easy to use Python ``async`` ``await`` Interface.
+
+
+Requires
+--------
+
+    - Linux 6.1+ (6.7+ recommended)
+    - Python 3.8+
+
+
+Includes (battery)
+------------------
+
+    - C liburing 2.6+
+
+
+Install, update & uninstall (Alpha)
+-----------------------------------
+
+Use `pip`_ to install, upgrade & uninstall Python wrapper:
+
+.. code-block:: text
+
+    python3 -m pip install liburing             # install
+
+    python3 -m pip install --upgrade liburing   # upgrade
+
+    python3 -m pip uninstall liburing           # uninstall
+
+
+Install directly from GitHub:
+
+.. code-block:: text
+
+    python3 -m pip install --upgrade git+https://github.com/YoSTEALTH/Liburing
+
+
+To find out all the class, functions and definitions:
+
+.. code-block:: python
+    
+    import liburing
+
+    print(dir(liburing))  # to see all the importable names (this will not load all the modules)
+    help(liburing)        # to see all the help docs (this will load all the modules.)
+
+
+Find out which ``io_uring`` operations is supported by the kernel:
+
+.. code-block:: python
+    
+    # example/probe.py
+    import liburing
+
+    probe = liburing.probe()
+    print(probe)
+
+
+Simple File Example
+-------------------
+
+.. code-block:: python
+
+    # example/open_write_read_close.py
+    from liburing import O_CREAT, O_RDWR, AT_FDCWD, iovec, io_uring, io_uring_get_sqe, \
+                         io_uring_prep_openat, io_uring_prep_write, io_uring_prep_read, \
+                         io_uring_prep_close, io_uring_submit, io_uring_wait_cqe, \
+                         io_uring_cqe_seen, io_uring_cqe, io_uring_queue_init, \
+                         io_uring_queue_exit, trap_error
+
+
+    def open(ring, cqes, path, flags, mode=0o660, dir_fd=AT_FDCWD):
+        _path = path if isinstance(path, bytes) else str(path).encode()
+        # if `path` is relative and `dir_fd` is `AT_FDCWD`, then `path` is relative
+        # to current working directory. Also `_path` must be in bytes
+
+        sqe = io_uring_get_sqe(ring)  # sqe(submission queue entry)
+        io_uring_prep_openat(sqe, dir_fd, _path, flags, mode)
+        return _submit_and_wait(ring, cqes)  # returns fd
+
+
+    def write(ring, cqes, fd, data, offset=0):
+        iov = iovec(data)  # or iovec([bytearray(data)])
+        sqe = io_uring_get_sqe(ring)
+        io_uring_prep_write(sqe, fd, iov.iov_base, iov.iov_len, offset)
+        return _submit_and_wait(ring, cqes)  # returns length(s) of bytes written
+
+
+    def read(ring, cqes, fd, length, offset=0):
+        iov = iovec(bytearray(length))  # or [bytearray(length)]
+        sqe = io_uring_get_sqe(ring)
+        io_uring_prep_read(sqe, fd, iov.iov_base, iov.iov_len, offset)
+        _submit_and_wait(ring, cqes)  # get actual length of file read.
+        return iov.iov_base
+
+
+    def close(ring, cqes, fd):
+        sqe = io_uring_get_sqe(ring)
+        io_uring_prep_close(sqe, fd)
+        _submit_and_wait(ring, cqes)  # no error means success!
+
+
+    def _submit_and_wait(ring, cqes):
+        io_uring_submit(ring)  # submit entry
+        io_uring_wait_cqe(ring, cqes)  # wait for entry to finish
+        result = trap_error(cqes.res)  # auto raise appropriate exception if failed
+        # note `cqe.res` returns results, if ``< 0`` its an error, if ``>= 0`` its the value
+
+        # done with current entry so clear it from completion queue.
+        io_uring_cqe_seen(ring, cqes)
+        return result  # type: int
+
+
+    def main():
+        ring = io_uring()
+        cqes = io_uring_cqe()
+        try:
+            io_uring_queue_init(8, ring, 0)
+
+            fd = open(ring, cqes, '/tmp/liburing-test-file.txt', O_CREAT | O_RDWR)
+            print('fd:', fd)
+
+            length = write(ring, cqes, fd, b'hello world')
+            print('wrote:', length)
+
+            content = read(ring, cqes, fd, length)
+            print('read:', content)
+
+            close(ring, cqes, fd)
+            print('closed.')
+        finally:
+            io_uring_queue_exit(ring)
+
+
+    if __name__ == '__main__':
+        main()
+
+
+Note
+----
+    - Try not to use ``from liburing import *`` this will load all the modules at once, unless that's what you want!
+
+
+Cython Note
+-----------
+    - You can ``cimport`` ``liburing`` directly into your project if you are planning on compiling your project as well.
+    - There is also ``src/liburing/lib`` directory with raw ``.pxd`` header files.
+    - All raw ``C`` wrapped function, enum, struct, defines starts with ``__``, not including anything that's ``ctypedef``. This is to prevent naming confusion between whats ``C`` and ``Cython`` side.
+    - ``liburing`` must be included in both ``build-system.requires`` and ``project.dependencies`` in ``pyproject.toml`` to compile and use properly.
+    - Check out `Shakti`_ to see how to include ``liburing`` using ``cython``.
+
+
+TODO
+----
+    - Stable Release (currently still in alpha)
+    - Linux 6.1 Backwards compatibility.
+
+
+License
+-------
+Free, Public Domain (CC0). `Read more`_
+
+.. _pip: https://pip.pypa.io/en/stable/getting-started/
+.. _Read more: https://github.com/YoSTEALTH/Liburing/blob/master/LICENSE.txt
+.. _C Liburing: https://github.com/axboe/liburing
+.. _Lord of the io_uring: https://unixism.net/loti/
+.. _Shakti: https://github.com/YoSTEALTH/Shakti
+.. |test-status| image:: https://github.com/YoSTEALTH/Liburing/actions/workflows/test.yml/badge.svg?branch=master
+    :target: https://github.com/YoSTEALTH/Liburing/actions/workflows/test.yml
+    :alt: Test status
+.. |downloads| image:: https://img.shields.io/pypi/dm/liburing
+   :alt: PyPI - Downloads
