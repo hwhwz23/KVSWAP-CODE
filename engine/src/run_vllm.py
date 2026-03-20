@@ -6,6 +6,8 @@ random.seed(12)
 from transformers import AutoTokenizer
 from datasets import load_dataset
 import argparse
+import os
+import csv
 
 def get_promopts(tokenizer, batch, prompt_len, shuffle=False):
 	def shuffle_words(text):
@@ -97,7 +99,7 @@ if __name__ == "__main__":
         max_model_len=32768,
         max_num_batched_tokens=8192,
         max_num_seqs=16,
-        gpu_memory_utilization=0.9,
+        gpu_memory_utilization=0.85,
         # enforce_eager=True,
         enforce_eager=False,
         swap_space=0

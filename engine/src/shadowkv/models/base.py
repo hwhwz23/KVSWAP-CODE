@@ -294,9 +294,9 @@ class LLM:
         logits = torch.zeros(batch_size, 1, self.vocab_size, device=self.device, dtype=torch.float32)
 
         if input_ids.shape[-1] > 120*1024 and input_ids.shape[-1] < 200*1024:
-            T = 8
+            T = 1
         else:
-            T = 4
+            T = 1
         # for bsz in range(0, batch_size, T):
         for bsz in tqdm(range(0, batch_size, T), desc=f"Prefilling (batch size={batch_size})"):
             req_input_ids = input_ids[bsz:bsz+T]

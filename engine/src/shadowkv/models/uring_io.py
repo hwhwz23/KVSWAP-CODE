@@ -184,19 +184,13 @@ class DiskIO(DiskIO_Base):
                                                             self.timeout_array, self.timeout_num_array, self.real_req_num_array)
                 if ret < 0:
                     if ret == -2:
-                        print(f"-2 retry={retry_i}, timeout_array={self.timeout_array[:read_req_n]}", flush=True)
+                        pass
                     else:
                         raise RuntimeError(f"prepare_sqe_batch_submit_wait_advance_timeout failed: {ret}")  
-                    # print(f"prepare_sqe_batch_submit_wait_advance_timeout failed: {ret}", flush=True)  
-                    # print(f"fd={fd}, fd_={fd_}, read_req_n={read_req_n}, read_addrs={read_addrs}, n_group={n_group}, group_offset={group_offset}, \
-                        # bytes_per_read={bytes_per_read}, file_offsets={file_offsets}, timeout_ns={timeout_ns}", flush=True)
                 elif self.timeout_num_array[0] == 0:
                     break
-                if self.timeout_num_array[0] > 0:
-                    print(f"retry={retry_i}, num={self.timeout_num_array[0]}", flush=True)
                 timeout_ns_ = timeout_ns
-                if retry_i == self.timeout_max_retries - 1:
-                    print("Retry failed", flush=True)
+
         # dur1 = time.time() - start_time
         # print(f"fd_={fd_}, {dur0*1000:.1f}-{dur1*1000:.1f} ms")
         

@@ -5,7 +5,7 @@ TEST_INPUT_PATH=./data/test_inputs
 HOSTNAME=$(hostname)
 echo "Running on host: $HOSTNAME"
 
-set_powermode() { 
+check_powermode() { 
   # For Jetson Orin AGX experiments we require MAXN mode.
   if ! command -v nvpmodel >/dev/null 2>&1; then
     echo "nvpmodel not found; cannot verify power mode"
@@ -21,6 +21,68 @@ set_powermode() {
   fi
 
   echo "Power mode verified: MAXN"
+  return 0
+}
+
+check_jetson_clocks() {
+  # Simple check (no root required):
+  # Consider jetson clocks "enabled" if CPU/GPU frequency constraints
+  # are pinned to their maximum supported values.
+
+  local cpu_policy="/sys/devices/system/cpu/cpufreq/policy0"
+  local gpu_dev="/sys/devices/platform/17000000.gpu/devfreq_dev"
+
+  # ---- CPU ----
+  if [ -d "$cpu_policy" ] && \
+     [ -f "$cpu_policy/scaling_min_freq" ] && \
+     [ -f "$cpu_policy/scaling_max_freq" ] && \
+     [ -f "$cpu_policy/scaling_available_frequencies" ]; then
+    local cpu_min cpu_max cpu_avail_max
+    cpu_min="$(cat "$cpu_policy/scaling_min_freq" 2>/dev/null || echo "")"
+    cpu_max="$(cat "$cpu_policy/scaling_max_freq" 2>/dev/null || echo "")"
+    cpu_avail_max="$(
+      awk '
+        { for (i = 1; i <= NF; i++) { v = $i + 0; if (v > max) max = v } }
+        END { if (max == "") max = 0; print max }
+      ' "$cpu_policy/scaling_available_frequencies" 2>/dev/null
+    )"
+
+    if [ -n "$cpu_avail_max" ] && { [ "$cpu_min" != "$cpu_avail_max" ] || [ "$cpu_max" != "$cpu_avail_max" ]; }; then
+      echo "CPU clocks not pinned to max: min=$cpu_min max=$cpu_max expected_max=$cpu_avail_max"
+      echo "Please enable jetson clocks and try again."
+      exit 1
+    fi
+  else
+    echo "CPU cpufreq policy0 info not found."
+    exit 1
+  fi
+
+  # ---- GPU ----
+  if [ -d "$gpu_dev" ] && \
+     [ -f "$gpu_dev/min_freq" ] && \
+     [ -f "$gpu_dev/max_freq" ] && \
+     [ -f "$gpu_dev/available_frequencies" ]; then
+    local gpu_min gpu_max gpu_avail_max
+    gpu_min="$(cat "$gpu_dev/min_freq" 2>/dev/null || echo "")"
+    gpu_max="$(cat "$gpu_dev/max_freq" 2>/dev/null || echo "")"
+    gpu_avail_max="$(
+      awk '
+        { for (i = 1; i <= NF; i++) { v = $i + 0; if (v > max) max = v } }
+        END { if (max == "") max = 0; print max }
+      ' "$gpu_dev/available_frequencies" 2>/dev/null
+    )"
+
+    if [ -n "$gpu_avail_max" ] && { [ "$gpu_min" != "$gpu_avail_max" ] || [ "$gpu_max" != "$gpu_avail_max" ]; }; then
+      echo "GPU clocks not pinned to max: min=$gpu_min max=$gpu_max expected_max=$gpu_avail_max"
+      echo "Please enable jetson clocks and try again."
+      exit 1
+    fi
+  else
+    echo "GPU devfreq_dev info not found."
+    exit 1
+  fi
+
+  echo "Jetson clocks verified (CPU/GPU pinned to max)."
   return 0
 }
 
@@ -65,9 +127,9 @@ run(){
 
     mkdir -p $OFFLOAD_DIR_
 
-    echo $PASSWD | sudo -S sh -c "blockdev --setra $READAHEAD /dev/${DISK_DEV_NAME_}"
-    echo "/dev/${DISK_DEV_NAME_} READAHEAD is: "
-    sudo -S sh -c "blockdev --getra /dev/${DISK_DEV_NAME_}"
+    # echo $PASSWD | sudo -S sh -c "blockdev --setra $READAHEAD /dev/${DISK_DEV_NAME_}"
+    # echo "/dev/${DISK_DEV_NAME_} READAHEAD is: "
+    # sudo -S sh -c "blockdev --getra /dev/${DISK_DEV_NAME_}"
 
     model_name=$(basename ${model_path})
     if [ "$offload_device" = "disk" ]; then
@@ -90,13 +152,14 @@ run(){
 
 
 ####################################################################
-set_powermode
+check_powermode
+check_jetson_clocks
+
 export CUDA_LAUNCH_BLOCKING=0
 export CUDA_VISIBLE_DEVICES="0"
 source .venv/bin/activate
 offload_device="disk"
 
-DEV=$HOSTNAME
 
 if [ -z "$EVAL_USER" ]; then
   echo "EVAL_USER is not set. This is set for storing results. Exit."
@@ -108,7 +171,7 @@ if [ -z "$EVAL_LOG_DIR" ]; then
   exit 1
 fi
 
-log_dir=$EVAL_LOG_DIR/$EVAL_USER/logs/shadowkv/${DEV}
+log_dir=$EVAL_LOG_DIR/$EVAL_USER/logs/shadowkv
 mkdir -p $log_dir
 
 READAHEAD=0

@@ -49,6 +49,9 @@ To save eMMC space, please install the system image on the NVMe SSD.
 
 After confirming that your device meets the hardware and software requirements above, proceed with the setup steps below.
 
+uv
+
+
 git clone this-repo/engine
 TODO...
 

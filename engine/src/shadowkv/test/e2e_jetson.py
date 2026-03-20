@@ -30,7 +30,7 @@ import random
 import json
 
 from data.dataset import Dataset
-os.chdir(root_dir)
+# os.chdir(root_dir)
 
 from models import choose_model_class
 

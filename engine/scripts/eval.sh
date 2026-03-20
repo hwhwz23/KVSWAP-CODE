@@ -80,7 +80,7 @@ set_io() {
 }
 
 
-set_powermode() { 
+check_powermode() { 
   # For Jetson Orin AGX experiments we require MAXN mode.
   if ! command -v nvpmodel >/dev/null 2>&1; then
     echo "nvpmodel not found; cannot verify power mode"
@@ -100,8 +100,70 @@ set_powermode() {
 }
 
 
+check_jetson_clocks() {
+  # Simple check (no root required):
+  # Consider jetson clocks "enabled" if CPU/GPU frequency constraints
+  # are pinned to their maximum supported values.
+
+  local cpu_policy="/sys/devices/system/cpu/cpufreq/policy0"
+  local gpu_dev="/sys/devices/platform/17000000.gpu/devfreq_dev"
+
+  # ---- CPU ----
+  if [ -d "$cpu_policy" ] && \
+     [ -f "$cpu_policy/scaling_min_freq" ] && \
+     [ -f "$cpu_policy/scaling_max_freq" ] && \
+     [ -f "$cpu_policy/scaling_available_frequencies" ]; then
+    local cpu_min cpu_max cpu_avail_max
+    cpu_min="$(cat "$cpu_policy/scaling_min_freq" 2>/dev/null || echo "")"
+    cpu_max="$(cat "$cpu_policy/scaling_max_freq" 2>/dev/null || echo "")"
+    cpu_avail_max="$(
+      awk '
+        { for (i = 1; i <= NF; i++) { v = $i + 0; if (v > max) max = v } }
+        END { if (max == "") max = 0; print max }
+      ' "$cpu_policy/scaling_available_frequencies" 2>/dev/null
+    )"
+
+    if [ -n "$cpu_avail_max" ] && { [ "$cpu_min" != "$cpu_avail_max" ] || [ "$cpu_max" != "$cpu_avail_max" ]; }; then
+      echo "CPU clocks not pinned to max: min=$cpu_min max=$cpu_max expected_max=$cpu_avail_max"
+      echo "Please enable jetson clocks and try again."
+      exit 1
+    fi
+  else
+    echo "CPU cpufreq policy0 info not found."
+    exit 1
+  fi
+
+  # ---- GPU ----
+  if [ -d "$gpu_dev" ] && \
+     [ -f "$gpu_dev/min_freq" ] && \
+     [ -f "$gpu_dev/max_freq" ] && \
+     [ -f "$gpu_dev/available_frequencies" ]; then
+    local gpu_min gpu_max gpu_avail_max
+    gpu_min="$(cat "$gpu_dev/min_freq" 2>/dev/null || echo "")"
+    gpu_max="$(cat "$gpu_dev/max_freq" 2>/dev/null || echo "")"
+    gpu_avail_max="$(
+      awk '
+        { for (i = 1; i <= NF; i++) { v = $i + 0; if (v > max) max = v } }
+        END { if (max == "") max = 0; print max }
+      ' "$gpu_dev/available_frequencies" 2>/dev/null
+    )"
+
+    if [ -n "$gpu_avail_max" ] && { [ "$gpu_min" != "$gpu_avail_max" ] || [ "$gpu_max" != "$gpu_avail_max" ]; }; then
+      echo "GPU clocks not pinned to max: min=$gpu_min max=$gpu_max expected_max=$gpu_avail_max"
+      echo "Please enable jetson clocks and try again."
+      exit 1
+    fi
+  else
+    echo "GPU devfreq_dev info not found."
+    exit 1
+  fi
+
+  echo "Jetson clocks verified (CPU/GPU pinned to max)."
+  return 0
+}
+
 set_base_dir() {
-  DIR_NAME=${DEV}/${DISK_TYPE}/${MODEL_NAME}
+  DIR_NAME=${DISK_TYPE}/${MODEL_NAME}
   LOG_DIR_=$SET_LOG_DIR/log/${DIR_NAME}
   mkdir -p $LOG_DIR_
   if [ "$NV_PROFILE" = 1 ]; then
@@ -192,19 +254,19 @@ run_once() {
       fi
     fi
 
-    for DISK_DEV_NAME_ in "${DISK_DEV_NAME_LIST[@]}"; do
-      echo $PASSWD | sudo -S sh -c "blockdev --setra $READAHEAD /dev/${DISK_DEV_NAME_}"
-      echo "/dev/${DISK_DEV_NAME_} READAHEAD is: "
-      sudo -S sh -c "blockdev --getra /dev/${DISK_DEV_NAME_}"
-    done
+    # for DISK_DEV_NAME_ in "${DISK_DEV_NAME_LIST[@]}"; do
+    #   echo $PASSWD | sudo -S sh -c "blockdev --setra $READAHEAD /dev/${DISK_DEV_NAME_}"
+    #   echo "/dev/${DISK_DEV_NAME_} READAHEAD is: "
+    #   sudo -S sh -c "blockdev --getra /dev/${DISK_DEV_NAME_}"
+    # done
 
     if [ "$NV_PROFILE" = 1 ]
     then
       echo "CMD="$CMD > $LOG_OUT
-      $NVPROF_CMD$NVVP_DIR/$RUN_INFO $PYTHON_EXE main.py $CMD --nv_profile 1 >> $LOG_OUT &
+      $NVPROF_CMD$NVVP_DIR/$RUN_INFO $PYTHON_EXE src/main.py $CMD --nv_profile 1 >> $LOG_OUT &
     else
       echo "CMD="$CMD > $LOG_OUT
-      $PYTHON_EXE main.py $CMD --nv_profile 0 >> $LOG_OUT &
+      $PYTHON_EXE src/main.py $CMD --nv_profile 0 >> $LOG_OUT &
     fi
     PROGRAM_PID=$!
     wait $PROGRAM_PID
@@ -222,18 +284,12 @@ export CUDA_VISIBLE_DEVICES="0"
 source .venv/bin/activate
 
 #####################################################
-DEV=${HOSTNAME}
 BATCH_SPLIT=1
 NV_PROFILE=0
 READAHEAD=0
 DK_RD=clear
 DK_WR=none
 # DK_RD=none
-set_io
-
-
-set_powermode
-trap cleanup SIGINT
 
 #####################################################
 TEST_MODEL=$1
@@ -245,11 +301,11 @@ MAX_NUM_KV=$6
 SEED=$7
 REUSE_BUDGET=$8
 RATIO=$9
-START_LAYER=$10
-USE_TOKEN_CACHE=$11
+START_LAYER=${10}
+USE_TOKEN_CACHE=${11}
 # L0: original; L1: map_dict; L2: +copy_key(finer_sync); L3: +ahead_prefetch; L4: +finer_prefetch_sync;
-RUN_ARGS=$12
-IFS=' ' read -r -a BATCHSIZE_LIST <<< "$13"
+RUN_ARGS=${12}
+IFS=' ' read -r -a BATCHSIZE_LIST <<< "${13}"
 ##################################################
 echo TEST_MODEL=$TEST_MODEL
 echo DISK_TYPE=$DISK_TYPE
@@ -264,6 +320,12 @@ echo START_LAYER=$START_LAYER
 echo USE_TOKEN_CACHE=$USE_TOKEN_CACHE
 echo RUN_ARGS=$RUN_ARGS
 echo BATCHSIZE_LIST=$BATCHSIZE_LIST
+
+##################################################
+set_io
+check_powermode
+check_jetson_clocks
+trap cleanup SIGINT
 ##################################################
 if [ "$LR_PROJ_MODE" = "base" ]; then
   SKEW_RARIO=$RATIO

@@ -7,7 +7,7 @@ if [ "$run_mode" = "full" ]; then
     MAX_COUNT=40
     echo "=============== Running full evaluation ==============="
 else
-    MAX_COUNT=5
+    MAX_COUNT=2
     echo "=============== Running quick evaluation ==============="
 fi
 
@@ -100,7 +100,7 @@ run_model_run(){
           echo "Running with sequence length: $TOTAL_LEN and seed: $seed"
           SEED=$seed
           #########################################################
-          export MAX_ALLOC_KV_SIZE=$((1024*1024*768))
+          export MAX_ALLOC_KV_SIZE=$((1024*1024*2048))
           BATCH_LIST="1 8"
           DISK_TYPE=nvme
           KVSWAP_TG=4
@@ -130,7 +130,7 @@ run_model_run(){
           echo "Running with sequence length: $TOTAL_LEN and seed: $seed"
           SEED=$seed
           #########################################################
-          export MAX_ALLOC_KV_SIZE=$((1024*1024*768))
+          export MAX_ALLOC_KV_SIZE=$((1024*1024*2048))
           BATCH_LIST="1 8"
           DISK_TYPE=nvme
           run_shadowkv
@@ -157,7 +157,8 @@ run_model_run(){
 
 }
 
-# TEST_MODEL=Llama-3.1-8B-Instruct
+# TEST_MODEL=Llama-3.1-8B-Instruct 
+
 TEST_MODEL=Llama-3.2-3B-Instruct
 run_model_run
 
@@ -165,3 +166,10 @@ TEST_MODEL=Qwen3-14B
 run_model_run
 
 
+#############################################
+# Output Results
+
+
+
+
+##############################################

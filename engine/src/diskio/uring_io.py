@@ -57,7 +57,7 @@ class DiskIO(DiskIO_Base):
 		self.fd_dict = {}
 		self.reg_buffer = False
 		self.read_timeout_ns = 5 * 1000000 * 100 # 500ms
-		self.timeout_max_retries = 2
+		self.timeout_max_retries = 1
 		self.do_fsync = False
 		self.real_req_num_array = np.array([0], dtype=np.uint32)
 		self.timeout_array = np.array([0 for _ in range(self.max_rd_req)], dtype=np.uint32)
@@ -130,7 +130,7 @@ class DiskIO(DiskIO_Base):
 		
 		if prefill and prefill_mode == 'all_seq':
 			write_size_per = self.seq_len * self.hd_bytes
-			write_size = self.b_size * write_size_per    
+			write_size = write_size_per
 			if self.prefill_buffer is None:
 				self.prefill_tensor, _, self.prefill_buffer, self.prefill_buf_mv = self.allocate_tensor(write_size)
 				dtype = values[0].dtype if type(values) == tuple else values.dtype
@@ -140,19 +140,20 @@ class DiskIO(DiskIO_Base):
 			ind_len = indices[1].stop - indices[1].start
 			if attr == 'bn2ghd':
 				real_seq_len = ind_len * self.token_group
-				self.prefill_tensor = self.prefill_tensor.view(self.b_size, self.seq_len//self.token_group, 2, -1)
+				self.prefill_tensor = self.prefill_tensor.view(1, self.seq_len//self.token_group, 2, -1)
 			else:
 				real_seq_len = ind_len
-				self.prefill_tensor = self.prefill_tensor.view(self.b_size, self.seq_len, 2, -1)
+				self.prefill_tensor = self.prefill_tensor.view(1, self.seq_len, 2, -1)
 			assert real_seq_len <= self.seq_len, f"Real sequence length {real_seq_len} is larger than {self.seq_len}"
 			
 			# layout: (b, s, hd) + (b, s, hd) -> (b, s, 2hd)
 			# layout: (b, s//g, ghd) + (b, s//g, ghd) -> (b, s//g, 2ghd)
-			self.prefill_tensor[:, :ind_len, 0].copy_(values[0].view(self.b_size, ind_len, -1))
-			self.prefill_tensor[:, :ind_len, 1].copy_(values[1].view(self.b_size, ind_len, -1))
-		
+			self.prefill_tensor[:, :ind_len, 0].copy_(values[0].view(1, ind_len, -1))
+			self.prefill_tensor[:, :ind_len, 1].copy_(values[1].view(1, ind_len, -1))
+			batch_i = kwargs['batch_i']
+			batch_offset = batch_i * write_size
 			ret = write_prepare_sqe_batch_submit_wait_advance(self.wr_ring, 1, self.wr_addr_array, fd_, 
-																write_size, 0, 0, len(self.fd_dict) > 0, self.do_fsync)
+																write_size, batch_offset, 0, len(self.fd_dict) > 0, self.do_fsync)
 			if ret < 0:
 				raise RuntimeError(f"write_prepare_sqe_batch_submit_wait_advance failed: {ret}") 
 			
@@ -164,6 +165,7 @@ class DiskIO(DiskIO_Base):
 			else:
 				real_seq_len = ind_len
 			if prefill: # values is a tuple
+				raise NotImplementedError
 				if self.prefill_buffer is None:
 					write_size = real_seq_len * self.hd_bytes * self.b_size
 					self.prefill_tensor, _, self.prefill_buffer, self.prefill_buf_mv = self.allocate_tensor(write_size)   
@@ -184,7 +186,7 @@ class DiskIO(DiskIO_Base):
 			else:
 				if self.wr_buf is None:
 					# use token_group instead as real_seq_len could be smaller than token group
-					write_size = self.token_group * self.hd_bytes * self.b_size 
+					write_size = self.token_group * self.hd_bytes * 1
 					self.free_prefill_buffer()
 					self.wr_blk_size = write_size
 					assert self.wr_blk_size % BLOCK_DEV_SIZE == 0, f"Write block size {self.wr_blk_size} not aligned to {BLOCK_DEV_SIZE}"        
@@ -192,8 +194,8 @@ class DiskIO(DiskIO_Base):
 					self.wr_mv_list = []
 					dtype = values[0].dtype if type(values) == tuple else values.dtype
 					self.wr_tensor = self.wr_tensor.view(dtype)
-					buffer_size = write_size // self.max_wr_req
-					for i in range(self.max_wr_req):
+					buffer_size = write_size
+					for i in range(1):
 						mv = memoryview((ctypes.c_char * buffer_size).from_address(self.wr_buf.value + i * buffer_size))
 						self.wr_mv_list.append(mv.obj)
 						self.wr_addr_array[i] = ctypes.addressof(mv.obj)             
@@ -217,8 +219,10 @@ class DiskIO(DiskIO_Base):
 			
 			total_bytes_per = real_seq_len * self.hd_bytes
 			assert total_bytes_per % BLOCK_DEV_SIZE == 0, f"{total_bytes_per} is not aligned to block size {BLOCK_DEV_SIZE}"
-			ret = write_prepare_sqe_batch_submit_wait_advance(self.wr_ring, self.b_size, self.wr_addr_array, fd_, 
-																total_bytes_per, file_offset_i, self.batch_offset, len(self.fd_dict) > 0,
+			batch_i = kwargs['batch_i']
+			file_offset_i += self.batch_offset * batch_i
+			ret = write_prepare_sqe_batch_submit_wait_advance(self.wr_ring, 1, self.wr_addr_array, fd_, 
+																total_bytes_per, file_offset_i, 0, len(self.fd_dict) > 0,
 																self.do_fsync)
 			if ret < 0:
 				raise RuntimeError(f"write_prepare_sqe_batch_submit_wait_advance failed: {ret}")  
@@ -324,24 +328,14 @@ class DiskIO(DiskIO_Base):
 				
 				if ret < 0:
 					if ret == -2:
-						print(f"-2 retry={retry_i}, timeout_array={self.timeout_array[:read_req_n]}", flush=True)
-						# os._exit(1)
-						# raise RuntimeError(f"prepare_sqe_batch_submit_wait_advance_timeout failed: {ret}")  
+						pass
 					else:
 						print(f"prepare_sqe_batch_submit_wait_advance_timeout failed: {ret}", flush=True)
 						os._exit(1)
 						# raise RuntimeError(f"prepare_sqe_batch_submit_wait_advance_timeout failed: {ret}")  
 				elif self.timeout_num_array[0] == 0:
 					break
-				if self.timeout_num_array[0] > 0:
-					print(f"retry={retry_i}, num={self.timeout_num_array[0]}", flush=True)
-				# print(f"retry_i={retry_i}, Timeout num={self.timeout_num_array[0]}, timeout_array={self.timeout_array[:read_req_n]}", flush=True)
-				# timeout_ns_ = max(round(timeout_ns * (self.timeout_num_array[0] / read_req_n)), self.min_read_timeout_ns)
-				timeout_ns_ = timeout_ns
-				# print(f"Retrying w timeout_ns_={timeout_ns_} ({timeout_ns_ / 1e6:.1f} ms)", flush=True)
-				if retry_i == self.timeout_max_retries - 1:
-					print("Retry failed", flush=True)
-					
+				timeout_ns_ = timeout_ns					
 			if en_reuse:
 				out_tensor = self.read_tensor[:real_req_num].view(real_req_num, 2, -1)
 				# print(f"Read {real_req_num} requests, out_tensor.shape={out_tensor.shape}", flush=True)

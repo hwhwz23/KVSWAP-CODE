@@ -2,3 +2,4 @@
 exps/
 .venv/
 jupyter.log
+wheel_pkgs/*

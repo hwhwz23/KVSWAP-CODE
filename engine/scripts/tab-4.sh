@@ -3,6 +3,10 @@ set -e
 
 run_mode=${1:-quick}
 
+<<<<<<< HEAD
+
+=======
+>>>>>>> 42928dfb6dbe24fd624aa3ed4139465e215e4d34
 if [ "$run_mode" = "full" ]; then
     MAX_COUNT=40
     echo "=============== Running full evaluation ==============="

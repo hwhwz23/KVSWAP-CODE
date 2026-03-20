@@ -1,18 +1,23 @@
 #!/bin/bash
 set -e
 
+##########################################################
+# check if orin agx
+
+
 
 if [ "$(basename "$(pwd)")" != "engine" ]; then
     echo "Error: Please run this script from the engine directory."
     exit 1
 fi
 
+if ! command -v uv &> /dev/null
+then
+    echo "Error: uv is not installed. Please install uv before running this script."
+    exit 1
+fi
 
-# if ! command -v uv &> /dev/null
-# then
-#     echo "Error: uv is not installed. Please install uv before running this script."
-#     exit 1
-# fi
+
 
 ##########################################################
 echo "Installing dependencies..."
@@ -21,19 +26,11 @@ if [ ! -d .venv ]; then
     uv venv --python 3.10
 fi
 
-# source .venv/bin/activate
-
-
-# uv pip install notebook jupyterlab
-# jupyter notebook --generate-config
-# python -c "from jupyter_server.auth import passwd; print(passwd())"
-# TODO...
-
-
-nohup jupyter lab --no-browser --ip=127.0.0.1 --port=8888 > jupyter.log 2>&1 &
-
-# TODO...
-
+source .venv/bin/activate
+uv pip install pip setuptools
+uv pip install -r requirements.txt
+uv pip install ./wheel_pkgs/torch-2.7.0-cp310-cp310-linux_aarch64.whl
+uv pip install ./wheel_pkgs/flash_attn-2.7.4.post1-cp310-cp310-linux_aarch64.whl --no-build-isolation
 
 echo "Building shadowkv..."
 pushd src/shadowkv
@@ -44,6 +41,8 @@ echo "Building Liburing..."
 pushd src/Liburing
 pip install -e .
 popd
+
+uv pip install vllm_wheel
 
 echo "--------------------------------"
 
@@ -119,5 +118,20 @@ echo "Check disk free space..."
 # TODO 
 
 
+
+
+##########################################################
+# switch to maxn power mode and enable jetson_clocks
+
+
+
+##########################################################
+# uv pip install notebook jupyterlab
+# jupyter notebook --generate-config
+# python -c "from jupyter_server.auth import passwd; print(passwd())"
+# TODO...
+
+
+nohup jupyter lab --no-browser --ip=127.0.0.1 --port=8888 > jupyter.log 2>&1 &
 
 
