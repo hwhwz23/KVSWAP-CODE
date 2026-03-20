@@ -13,12 +13,9 @@ from tqdm import tqdm
 # from datasets import load_dataset
 import random
 torch.cuda.set_per_process_memory_fraction(0.8, device=0)
-
-# torch.use_deterministic_algorithms(True, warn_only=False)
 random.seed(1234)
 torch.manual_seed(1234)
 np.random.seed(1234)
-# torch.set_num_threads(num_threads)
 torch.backends.cudnn.benchmark = True
 torch.backends.cuda.matmul.allow_tf32 = True
 
@@ -324,14 +321,6 @@ class SelfAttention:
 	def set_task(self, task):
 		self.task = task
 		self.chunk_size = 128*1024
-		# platform = os.uname()[1]
-		platform = 'orin-agx'
-		if platform == 'orin-agx':
-			pass
-		elif platform == 'orin-nano':
-			raise NotImplementedError()
-		else:
-			raise NotImplementedError(f"Platform {platform} not supported")
   
 		# if task.gen_len > 1:
 		# base = 1 * 4096 * 4096 // 2
@@ -620,7 +609,6 @@ class SelfAttention:
 						prefetch_idx_cpu = prefetch_idx.cpu()
 			# assert n == self.cache_manager.shared_max_blocks_per_seq, f"n={n}, shared_max_blocks_per_seq={self.cache_manager.shared_max_blocks_per_seq}"
 			if not skip_load:
-				# print(f"prefetch_idx_cpu={prefetch_idx_cpu}", flush=True)
 				general_copy(buffer, ('cachemanager', self.cache_manager.scatter_mask), kv_home, prefetch_idx_cpu, key='load_kv')
 			else:
 				print("skip load kv for layer", self.layer_id, flush=True)
@@ -831,17 +819,10 @@ class MLP:
 		bsz = len(task.inputs)
 		plen = task.prompt_len
 		self.chunk_size = 32 * 1024
-		# platform = os.uname()[1]
-		platform = 'orin-agx'
-		if platform == 'orin-agx':
-			if bsz * plen > 8 * 1024:
-				prop_iter = bsz * plen // (8*1024)
-				self.chunk_size = bsz * plen // prop_iter
-		elif platform == 'orin-nano':
-			raise NotImplementedError()
-		else:
-			raise NotImplementedError(f"Platform {platform} not supported")
-   
+		if bsz * plen > 8 * 1024:
+			prop_iter = bsz * plen // (8*1024)
+			self.chunk_size = bsz * plen // prop_iter
+
 		if self.layer_id == 0:
 			num_chucks = (plen + self.chunk_size - 1) // self.chunk_size
 			print(f"MLP setting chunk size={self.chunk_size}, num_chucks={num_chucks}")
@@ -967,9 +948,6 @@ class LM:
 		layers.append(InputEmbed(self.config, self.env, self.policy))
   
 		for i in range(self.config.num_hidden_layers):
-			# when i=0, only enable prediction if start_prefetch_layer=0 and not use_cur_hidden_forl0;
-			# if use_cur_hidden_forl0 and start_prefetch_layer=0, prediction is done outside.
-			# when i=1, always enable prediction
 			if i == 0:
 				enable_pred = self.start_prefetch_layer <= 0 and not self.use_cur_hidden_forl0
 			else:
@@ -1655,9 +1633,6 @@ def run_flexgen(args):
 	np.lib.format.ARRAY_ALIGN = 4096
 	print(f"np.lib.format.ARRAY_ALIGN={np.lib.format.ARRAY_ALIGN}")
 	
-	# cache_cap = (int(args.cache_cap * (args.prompt_len + args.gen_len)) * num_prompts * config.num_attention_heads) // config.num_kv_groups
-	# cache_cfg = cache_cap, args.cache_strategy, args.cache_sample_rate, args.cache_sample_mode, args.cache_groups
-	# print(f"cache_cfg={cache_cfg}")
 
 	disk_dev_name = args.disk_dev_name.split(',')
  
@@ -1687,7 +1662,6 @@ def run_flexgen(args):
  
 	disk_cfg = {'interface':(args.dk_rd, args.dk_wr), 
 				'common_cfg': (args.max_num_kv, args.token_group, layer_num), 
-				# 'cache_cfg': cache_cfg, 
 				'disk_dev_name': disk_dev_name}
 	
 	disk = TorchDisk(args.offload_dir, num_copy_threads=2, 
@@ -1754,10 +1728,6 @@ def run_flexgen(args):
 	finally:
 		env.close_copy_threads()
 
-	# if (output_ids[0] != output_ids).any():
-	# 	print('Generate failed')
-	# else:
-	# 	print('Generate success')
 	outputs = tokenizer.batch_decode(output_ids[:, args.prompt_len:], skip_special_tokens=True)
 	show_str = ''
 	show_str += "Outputs:\n" + 70 * '-' + "\n"

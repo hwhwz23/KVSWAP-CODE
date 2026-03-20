@@ -15,15 +15,6 @@ libc = ctypes.CDLL("libc.so.6", use_errno=True)
 PAGE_SIZE = mmap.ALLOCATIONGRANULARITY
 BLOCK_DEV_SIZE = 512
 
-# 128*2*2=512
-# 512*8192=4M
-# 4M*32=128M
-# 128M*16=2G
-# MAX_KV_SIZE = 768*1024*1024
-# MAX_KV_SIZE = 1024*1024*1024
-# MAX_KV_SIZE = 2048*1024*1024
-# MAX_KV_SIZE = 1024*1024*512
-
 MAX_KV_SIZE = os.environ.get('MAX_ALLOC_KV_SIZE')
 if MAX_KV_SIZE is None:
     raise ValueError("MAX_ALLOC_KV_SIZE is not set")
@@ -112,17 +103,13 @@ class DiskInterface():
 										2, self.token_group * data_.shape[2] // 2) for data_ in self.data]
 			self.addr = None     
 		else:
-			# flags = os.O_RDWR | os.O_NONBLOCK
-			# flags = os.O_RDWR | os.O_NOATIME
 			flags = os.O_RDWR
 			if self.dk_rd == 'clear':
 				flags |= os.O_DIRECT
-				# print("Enable O_DIRECT for RW")
 			if self.dk_wr == 'flush':
 				flags |= os.O_SYNC
 				print("make sure you want to use O_SYNC!")
 			self.fd = [os.open(path_, flags) for path_ in path]
-			# self.fd = [openat(os.open(path_, os.O_PATH), "", flags) for path_ in path]
 			element_size = np.dtype(dtype_dict[path[0]]).itemsize
 			self.element_bytes = self.shape_[0][-1] * element_size  
 			self.disk_io_list = disk_io_list

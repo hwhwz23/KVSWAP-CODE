@@ -54,11 +54,7 @@ class DiskIO(DiskIO_Base):
 		ret = io_uring_queue_init_sqpoll(self.max_wr_req, self.wr_ring, 4)
 		# ret = io_uring_queue_init(self.max_wr_req, self.wr_ring, 0)
 		assert ret == 0, f"io_uring_queue_init failed: {ret}"
-		# self.wr_cqe = io_uring_cqe()
-		# self.rd_cqe = io_uring_cqe()
 		self.fd_dict = {}
-		# self.wr_tensor_dev = wr_tensor_dev
-		# self.name = name
 		self.reg_buffer = False
 		self.read_timeout_ns = 5 * 1000000 * 100 # 500ms
 		self.timeout_max_retries = 2
@@ -154,30 +150,15 @@ class DiskIO(DiskIO_Base):
 			# layout: (b, s//g, ghd) + (b, s//g, ghd) -> (b, s//g, 2ghd)
 			self.prefill_tensor[:, :ind_len, 0].copy_(values[0].view(self.b_size, ind_len, -1))
 			self.prefill_tensor[:, :ind_len, 1].copy_(values[1].view(self.b_size, ind_len, -1))
-			
-			if 0:
-				sqe = io_uring_get_sqe(self.wr_ring)
-				io_uring_prep_write(sqe, fd_, self.prefill_buf_mv.obj, write_size, 0)
-				if len(self.fd_dict) > 0:
-					sqe.flags |= IOSQE_FIXED_FILE
-				io_uring_submit(self.wr_ring)
-				io_uring_wait_cqe(self.wr_ring, self.wr_cqe)
-				result = trap_error(self.wr_cqe.res)
-				assert result == write_size, f"Write size {result} is not equal to {write_size}"
-				io_uring_cqe_seen(self.wr_ring, self.wr_cqe)
-			else:
-				ret = write_prepare_sqe_batch_submit_wait_advance(self.wr_ring, 1, self.wr_addr_array, fd_, 
-																  write_size, 0, 0, len(self.fd_dict) > 0, self.do_fsync)
-				if ret < 0:
-					raise RuntimeError(f"write_prepare_sqe_batch_submit_wait_advance failed: {ret}") 
+		
+			ret = write_prepare_sqe_batch_submit_wait_advance(self.wr_ring, 1, self.wr_addr_array, fd_, 
+																write_size, 0, 0, len(self.fd_dict) > 0, self.do_fsync)
+			if ret < 0:
+				raise RuntimeError(f"write_prepare_sqe_batch_submit_wait_advance failed: {ret}") 
 			
 		else:
 			ind_len = indices[1].stop - indices[1].start
-			###############################
 			token_group = self.token_group
-			# for no_rb
-			# token_group = 1
-			###############################
 			if attr == 'bn2ghd':
 				real_seq_len = ind_len * token_group
 			else:
@@ -193,8 +174,7 @@ class DiskIO(DiskIO_Base):
 						mv = memoryview((ctypes.c_char * buffer_size).from_address(self.prefill_buffer.value + i * buffer_size))
 						self.wr_mv_list.append(mv.obj)
 						self.wr_addr_array[i] = ctypes.addressof(mv.obj)
-				# buf = self.prefill_buffer
-				
+
 				if attr == 'bn2ghd':
 					tensor = self.prefill_tensor.view(self.b_size, ind_len, 2, -1)
 				else:
@@ -233,31 +213,15 @@ class DiskIO(DiskIO_Base):
 				tensor[:, :, 0].copy_(values[0].view(values[0].shape[0], ind_len, -1))
 				tensor[:, :, 1].copy_(values[1].view(values[1].shape[0], ind_len, -1))
 			else: # (b, 1, 2ghd)
-				# tensor.copy_(values.view(-1))     
 				tensor.copy_(values.reshape(-1))     
 			
 			total_bytes_per = real_seq_len * self.hd_bytes
 			assert total_bytes_per % BLOCK_DEV_SIZE == 0, f"{total_bytes_per} is not aligned to block size {BLOCK_DEV_SIZE}"
-
-			if 0:
-				for i in range(self.b_size):
-					mv = memoryview((ctypes.c_char * total_bytes_per).from_address(buf.value + i * total_bytes_per))
-					sqe = io_uring_get_sqe(self.wr_ring)            
-					io_uring_prep_write(sqe, fd_, mv.obj, total_bytes_per, i * self.seq_len * self.hd_bytes + file_offset_i)
-					if len(self.fd_dict) > 0:
-						sqe.flags |= IOSQE_FIXED_FILE
-				io_uring_submit(self.wr_ring)
-				for _ in range(self.b_size):
-					io_uring_wait_cqe(self.wr_ring, self.wr_cqe)
-					result = trap_error(self.wr_cqe.res)
-					assert result == total_bytes_per, f"Write size {result} is not equal to {total_bytes_per}"
-					io_uring_cqe_seen(self.wr_ring, self.wr_cqe)
-			else:
-				ret = write_prepare_sqe_batch_submit_wait_advance(self.wr_ring, self.b_size, self.wr_addr_array, fd_, 
-																  total_bytes_per, file_offset_i, self.batch_offset, len(self.fd_dict) > 0,
-																  self.do_fsync)
-				if ret < 0:
-					raise RuntimeError(f"write_prepare_sqe_batch_submit_wait_advance failed: {ret}")  
+			ret = write_prepare_sqe_batch_submit_wait_advance(self.wr_ring, self.b_size, self.wr_addr_array, fd_, 
+																total_bytes_per, file_offset_i, self.batch_offset, len(self.fd_dict) > 0,
+																self.do_fsync)
+			if ret < 0:
+				raise RuntimeError(f"write_prepare_sqe_batch_submit_wait_advance failed: {ret}")  
 
 
 	def read(self, fd, indices, attr, dtype, **kwargs):
@@ -291,10 +255,7 @@ class DiskIO(DiskIO_Base):
 				self.read_tensor = self.read_tensor.view(dtype).view(self.b_size*self.max_group_num, 2, -1)
 			read_addrs = self.rd_addr_array
 			set_fixed_buffer = self.reg_buffer
-			# file_offsets = indices.contiguous().view(-1).cpu().numpy().astype(np.uint32)
-			# file_offsets = indices.view(-1).numpy().astype(np.int32)
 			file_offsets = indices.view(-1).numpy()
-			# file_offsets = np.tile(np.arange(n_group, dtype=np.uint32), indices.shape[0]).reshape(-1)
 			group_offset = self.buffer_size
 			bytes_per_read = self.buffer_size
 			
@@ -370,9 +331,6 @@ class DiskIO(DiskIO_Base):
 						print(f"prepare_sqe_batch_submit_wait_advance_timeout failed: {ret}", flush=True)
 						os._exit(1)
 						# raise RuntimeError(f"prepare_sqe_batch_submit_wait_advance_timeout failed: {ret}")  
-					# print(f"prepare_sqe_batch_submit_wait_advance_timeout failed: {ret}", flush=True)  
-					# print(f"fd={fd}, fd_={fd_}, read_req_n={read_req_n}, read_addrs={read_addrs}, n_group={n_group}, group_offset={group_offset}, \
-						# bytes_per_read={bytes_per_read}, file_offsets={file_offsets}, timeout_ns={timeout_ns}", flush=True)
 				elif self.timeout_num_array[0] == 0:
 					break
 				if self.timeout_num_array[0] > 0:

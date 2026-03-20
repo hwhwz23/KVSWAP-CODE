@@ -278,35 +278,6 @@ class TorchDevice:
 	
 	def init_cache_one_gpu_batch(self, config, task, policy):
 		raise NotImplementedError
-
-	# @staticmethod
-	# def chuck_attn(q, k, v, scaling, flashatt, lr_proj_mode, skew_matrix, 
-	#                b, s, d, attention_mask, dev, n_head, head_dim, kv_rep, chunk_size=-1):
-	#     if flashatt and (lr_proj_mode != 'base' or skew_matrix is None):            
-	#         out = flash_attn_func(q, k, v, causal=True, softmax_scale=scaling).reshape(b, s, d)
-	#     else:
-	#         key = repeat_kv(k, kv_rep, h_dim=2) # b, s, h, d
-	#         value = repeat_kv(v, kv_rep, h_dim=2) 
-	#         if lr_proj_mode == 'base' and skew_matrix is not None: 
-	#             # b, s, h, d @ h, d, e -> b, s, h, e
-	#             key = torch.einsum('bshd,hde->bshe', key, skew_matrix.to(key.dtype))
-	#         if flashatt:
-	#             out = flash_attn_func(q, key, value, causal=True, softmax_scale=scaling).reshape(b, s, d)
-	#         else:
-	#             # q: b, s, h, d -> b, h, s, d
-	#             # key: b, s, h, d -> b, h, d, s
-	#             out = torch.matmul(q.transpose(1, 2), key.permute(0, 2, 3, 1)) * scaling
-	#             idx = torch.arange(s, device=dev)
-	#             causal_mask = (idx <= idx.view(s, 1)).view(1, 1, s, s)
-	#             mask = attention_mask.data.view(b, 1, 1, s) & causal_mask
-	#             # shape: (b, n_head, s, s)
-	#             out = out.view(b, n_head, s, s)
-	#             out = torch.where(mask, out, torch.tensor(torch.finfo(out.dtype).min, dtype=out.dtype, device=out.device))
-	#             out = F.softmax(out.float(), dim=-1).to(out.dtype)
-	#             # b, h, s, s @ b, h, s, d -> b, h, s, d
-	#             out = torch.matmul(out, value.transpose(1, 2)).view(b, n_head, s, head_dim)
-	#             out = out.transpose(1, 2).reshape(b, s, d)
-	#     return out
 	
 	@staticmethod
 	@torch.inference_mode()
@@ -427,12 +398,6 @@ class TorchDevice:
 			out = flash_attn_kvpacked_func(q, k, causal=True, softmax_scale=scaling).view(*shape)
 		else:
 			out = flash_attn_func(q, k, v, causal=True, softmax_scale=scaling).view(*shape)
-		# out = torch.matmul(q, key.transpose(2, 3)) * scaling # b, h, 1, s
-		# out = F.softmax(out.float(), dim=-1).to(out.dtype) # b, h, 1, s
-		# out = F.softmax(out, dim=-1) # b, h, 1, s
-		# out = torch.matmul(out, value).view(b, n_head, tgt_s, head_dim) # b, h, 1, s @ b, h, s, d
-		# b, h, s, d -> b, s, h, d -> b, s, h*d
-		# out = out.transpose(1, 2).view(b, tgt_s, h)
 		out = F.linear(out, w_out.data.to(dtype), bias=b_out.data.to(dtype) if b_out is not None else None)
 		return out
 
@@ -452,7 +417,6 @@ class TorchDevice:
 		dtype = inputs.data.dtype
 		if spec_stream is not None:
 			event = torch.cuda.Event()
-			# event2 = torch.cuda.Event()
 		b, tgt_s, d = inputs.shape
 
 		if b_ln is not None:
@@ -477,7 +441,6 @@ class TorchDevice:
 				if spec_stream is not None:
 					with torch.cuda.stream(spec_stream):
 						spec_stream.wait_event(event)
-						# event2.record()
 						att_ins.prefetch_idx = speculate_attention(lr_proj_mode, spec_hidden_in, next_partial_wq, skew_matrix, 
 																	next_qproj, next_qnorm, next_lr_kproj, next_lr_kcache, pos_emb,
 																	next_partial_index, scaling,
@@ -490,15 +453,10 @@ class TorchDevice:
 																n_head, kv_rep, alpha, max_num_kv, token_group,
 																score_mode)
 			if prefetch_event is not None:
-				# TODO better implementation?
 				def func():
-					# if enable finer fetch, check if the prev fetch is done before the next fetch
 					if prefetch_sync is not None:
 						prefetch_sync()
 						newest_fetch_flag.set()
-					# wait until spec_stream starts
-					# if spec_stream is not None:
-						# event2.synchronize()
 					prefetch_event()
 				t = threading.Thread(target=func)
 				t.start()
@@ -566,19 +524,8 @@ class TorchDevice:
 					# shape: (b, s, 2, h, d)
 					kv_data = kv_cache.data.view(kv_cache.shape[0], kv_cache.shape[1], 2, -1, head_dim)
 					kv_packed = True
-					# b, s-1, h, d
-					# k = kv_data[:, :, 0]
-					# v = kv_data[:, :, 1]
 					del kv_cache
-					# del kv_data, kv_cache
 				elif kv_layout == 'nb2ghd':
-					# shape: (n, b, -1)
-					# n, b, 2, ghd
-					# n, b, ghd -> b, n, ghd -> b, ng, h, d
-					# k = kv_cache.data[:, :, 0].transpose(0, 1).reshape(b, kv_cache.shape[0]*token_group, -1, head_dim)
-					# v = kv_cache.data[:, :, 1].transpose(0, 1).reshape(b, kv_cache.shape[0]*token_group, -1, head_dim)
-					# n, b, 2, ghd -> b, ng, 2, h, d
-					# n, b, 2, ghd -> n, b, 2, g, h, d -> b, n, g, 2, h, d
 					kv_data = kv_cache.data.view(kv_cache.data.shape[0], kv_cache.data.shape[1], 
 												 2, token_group, -1, head_dim).permute(1, 0, 3, 2, 4, 5).reshape(
 													 b, kv_cache.data.shape[0]*token_group, 2, -1, head_dim
@@ -593,18 +540,11 @@ class TorchDevice:
 				# token cache branch won't meet this condition
 				local_kv = window_kv_buf.view(2, window_kv_buf.shape[1], b, -1, head_dim)[:, :kv_window_index+1]
 				local_kv = local_kv.permute(2, 1, 0, 3, 4) # b, g, 2, h, d
-				# g, b, h, d
-				# local_k = local_kv[0]
-				# local_v = local_kv[1]
 				if att_comp_mode == 'mixed':
 					raise NotImplementedError
 				else:
 					kv_data = torch.cat((kv_data, local_kv), dim=1) # b, s+g, 2, h, d
 					del local_kv
-					# pass
-					# TODO any optimization?
-					# k = torch.cat((k, local_k.transpose(0, 1)), dim=1) # b, s, h, d
-					# v = torch.cat((v, local_v.transpose(0, 1)), dim=1) # b, s, h, d
 				src_s = kv_data.shape[1]
 			elif kv_layout != 'cache_manager':
 				if kv_packed:
@@ -802,10 +742,10 @@ class TorchDisk:
 
 
 	def fstrim(self):
-		for path_ in self.path:
-			print(f"fstrim {path_}")
-			os.system(f'echo myzhww | sudo -S sh -c "fstrim -v {path_}"')
-		# time.sleep(1)
+		pass
+		# for path_ in self.path:
+			# print(f"fstrim {path_}")
+			# os.system(f'echo PASSWORD | sudo -S sh -c "fstrim -v {path_}"')
 
 	def register_fd(self):
 		fd_dict = {}
@@ -954,32 +894,12 @@ def general_copy(dst, dst_indices, src, src_indices, key=None):
 	elif src.device.device_type == DeviceType.DISK:
 		# The tensor is on the disk, dispatch to copy threads for asynchronous copy
 		src.device.submit_copy(key, dst, dst_indices, src, src_indices)
-	# elif dst.device.device_type == DeviceType.DISK:
-		# The tensor is on the disk, dispatch to copy threads for asynchronous copy
-		# dst.device.submit_copy(key, dst, dst_indices, src, src_indices)
-	# elif (src.device.device_type == DeviceType.CUDA and
-	#       dst.device.device_type == DeviceType.CPU and
-	#       not dst.data.is_pinned() and src.shape[0] > 1):
-	#     # The cpu tensor is not pinned, dispatch to copy threads and use pin_memory
-	#     # as a relay
-	#     global_disk_device.submit_copy(key, dst, dst_indices, src, src_indices)
-	# elif (src.device.device_type == DeviceType.CPU and
-	#       dst.device.device_type == DeviceType.CUDA and
-	#       not src.data.is_pinned()):
-	#     # The cpu tensor is not pinned, use pin_memory as a relay
-	#     src = src.data[src_indices] if src_indices else src.data
-	#     dst = dst.data[dst_indices] if dst_indices else dst.data
-	#     src = src.pin_memory()
-	#     dst.copy_(src, non_blocking=True)
 	else:
 		# The normal path
 		src = src.data[src_indices] if src_indices else src.data
 		dst = dst.data[dst_indices] if dst_indices else dst.data
 		dst.copy_(src, non_blocking=True)
 
-
-# from cache_impl.cache import BatchLRUCacheHalf as Cache
-# hit_mask = None
 
 class DiskTensor():
 	def __init__(self, path, cfg):
@@ -1072,7 +992,6 @@ class DiskTensor():
 			
 		if verbose:
 			print(f"Data size: {data_size_list}")
-			# print(f"Cache Time break down: {cache_time_break_down_list} ms")
 			print(f"DiskIO Time break down: {disk_time_break_down_list} ms")
 			print(f"DiskIO time: {diskio_time*1000} ms")
 					
@@ -1115,20 +1034,11 @@ class DiskTensor():
 				bh_start = self.diskio_allo_indices[g]
 				bh_end = self.diskio_allo_indices[g+1]    
 				if type(indices) == tuple:
-					# print(output[g].shape, flush=True)
-					# print(dst_data.shape, flush=True)
-					# print(bh_start, bh_end, flush=True)
 					dst_data[bh_start:bh_end].copy_(output[g], non_blocking=non_blocking)
 				else:
 					if is_cachemanager and mask is not None:
-						# dst_view = dst_data[:, bh_start:bh_end]                  
-						# mask_view = mask[:, bh_start:bh_end]                     # [B, H']
 						src = output[g].cuda().transpose(0, 1).contiguous()      # [2, B_sel, H_sel]
-						# dst_view[mask_view] = src.view(-1)
 						dst_data[:, bh_start:bh_end][mask[:, bh_start:bh_end]] = src.view(-1) 
-						# dst_data[:, bh_start:bh_end][mask[:, bh_start:bh_end]].view(2, output[g].shape[0], -1).copy_(output[g].cuda().transpose(0,1))
-						# print(f"copy2dst: {output[g].shape}", flush=True)
-						# dst_data[:, bh_start:bh_end][mask[:, bh_start:bh_end]].view(2, output[g].shape[0], -1).copy_(output[g].transpose(0,1), non_blocking=non_blocking)
 					elif is_cachemanager:
 						dst_data[:, bh_start:bh_end].copy_(output[g].permute(2, 0, 1, 3), non_blocking=non_blocking)
 					else:
@@ -1139,13 +1049,11 @@ class DiskTensor():
 			# if 1:
 				with torch.cuda.stream(copy_stream): 
 					copy2dst(non_blocking=True)
-				# can this actually block the stream?
 				copy_stream.synchronize()
 			else:
 				copy2dst(non_blocking=False)
 		# torch.cuda.synchronize()
 		# print(f"readout copy time={(time.time()-start_time)*1000:.1f} ms")
-		
 		
 	def writein(self, indices, src_data, prefill_mode='all_seq'):        
 		
@@ -1158,10 +1066,6 @@ class DiskTensor():
 		
 		if self.disk_interface.attr == 'bn2ghd':
 			write_num = write_num * self.token_group
-			##################
-			# for no rb
-			# write_num = write_num
-			##################
 		
 		self.flush_num_list.append(write_num)
 		

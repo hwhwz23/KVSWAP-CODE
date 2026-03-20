@@ -97,7 +97,18 @@ source .venv/bin/activate
 offload_device="disk"
 
 DEV=$HOSTNAME
-log_dir=./exps/logs/shadowkv/${DEV}
+
+if [ -z "$EVAL_USER" ]; then
+  echo "EVAL_USER is not set. This is set for storing results. Exit."
+  exit 1
+fi
+
+if [ -z "$EVAL_LOG_DIR" ]; then
+  echo "EVAL_LOG_DIR is not set. This is set for storing results. Exit."
+  exit 1
+fi
+
+log_dir=$EVAL_LOG_DIR/$EVAL_USER/logs/shadowkv/${DEV}
 mkdir -p $log_dir
 
 READAHEAD=0
@@ -131,6 +142,13 @@ echo BATCHSIZE_LIST=${BATCHSIZE_LIST[@]}
 model_path=${MODEL_PATH_BASE_HF}/${TEST_MODEL}
 genlen=100
 min_prompt_len=$((TOTAL_LEN - genlen))
+
+
+SKIP_MODEL_RUN=${SKIP_MODEL_RUN:-0}
+if [ "$SKIP_MODEL_RUN" = "1" ]; then
+  echo "SKIP_MODEL_RUN=1, skipping model run"
+  exit 0
+fi
 
 for bsz in ${BATCHSIZE_LIST[@]}; do
   echo Evaluating bsz=$bsz
