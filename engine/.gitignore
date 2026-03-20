@@ -1,3 +1,4 @@
 *.pyc
 exps/
 .venv/
+jupyter.log

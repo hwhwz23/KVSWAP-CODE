@@ -23,6 +23,13 @@ mkdir -p $OUTPUT_PATH
 
 LOG_OUT=$OUTPUT_PATH/$TEST_MODEL.log
 
+SKIP_MODEL_RUN=${SKIP_MODEL_RUN:-0}
+if [ "$SKIP_MODEL_RUN" = "1" ]; then
+  echo "SKIP_MODEL_RUN=1, skipping model run"
+  exit 0
+fi
+
+
 echo "Running vLLM with model: $TEST_MODEL"
 
 python src/run_vllm.py --model_path $MODEL_PATH --output_path $OUTPUT_PATH \

@@ -273,6 +273,12 @@ MODEL_PATH=${MODEL_PATH_BASE}/${TEST_MODEL}
 MODEL_NAME=$(basename $MODEL_PATH)
 set_base_dir
 
+SKIP_MODEL_RUN=${SKIP_MODEL_RUN:-0}
+if [ "$SKIP_MODEL_RUN" = "1" ]; then
+  echo "SKIP_MODEL_RUN=1, skipping model run"
+  exit 0
+fi
+
 for BATCHSIZE in ${BATCHSIZE_LIST[@]}; do
   echo Evaluating BATCHSIZE=$BATCHSIZE
   run_once

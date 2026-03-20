@@ -132,6 +132,13 @@ model_path=${MODEL_PATH_BASE_HF}/${TEST_MODEL}
 genlen=100
 min_prompt_len=$((TOTAL_LEN - genlen))
 
+
+SKIP_MODEL_RUN=${SKIP_MODEL_RUN:-0}
+if [ "$SKIP_MODEL_RUN" = "1" ]; then
+  echo "SKIP_MODEL_RUN=1, skipping model run"
+  exit 0
+fi
+
 for bsz in ${BATCHSIZE_LIST[@]}; do
   echo Evaluating bsz=$bsz
   run
