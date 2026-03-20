@@ -45,5 +45,7 @@ echo "Running vLLM with model: $TEST_MODEL"
 python src/run_vllm.py --model_path $MODEL_PATH --output_path $OUTPUT_PATH \
     --seqlen-list $SEQLEN_LIST --batch-list $BATCH_LIST > $LOG_OUT 2>&1
 
+sleep 3
+
 echo "Done"
 
