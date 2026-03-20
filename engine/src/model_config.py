@@ -68,9 +68,3 @@ def get_model_config(model_path):
     model_config.scaling = model_config.head_dim ** -0.5
     return model_config
 
-if __name__ == "__main__":
-    # model_path = '/home/schz/research/KVSwap/engine/model_weights/Llama-3.2-1B'
-    model_path = '/home/schz/research/KVSwap/engine/model_weights/Qwen2.5-3B'
-    config = get_model_config(model_path)
-    print(config.attention_bias)
-    # print(config)

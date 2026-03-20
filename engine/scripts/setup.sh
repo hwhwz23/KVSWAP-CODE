@@ -115,3 +115,9 @@ echo "Done: Making np weights"
 
 ##########################################################
 
+echo "Check disk free space..."
+# TODO 
+
+
+
+

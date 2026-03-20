@@ -7,7 +7,7 @@ if [ "$run_mode" = "full" ]; then
     MAX_COUNT=40
     echo "=============== Running full evaluation ==============="
 else
-    MAX_COUNT=5
+    MAX_COUNT=2
     echo "=============== Running quick evaluation ==============="
 fi
 
@@ -55,6 +55,8 @@ clear_offload_dir(){
 
 ################FlexGen################
 run_flexgen(){
+    return 0
+    echo "Running FlexGen..."
     RUN_ARGS=L1 
     USE_TOKEN_CACHE=0
     START_LAYER=none
@@ -66,10 +68,12 @@ run_flexgen(){
     ./scripts/eval.sh $TEST_MODEL $DISK_TYPE $LR_PROJ_MODE $TOTAL_LEN $TOKEN_GROUP \
         $MAX_NUM_KV $SEED $REUSE_BUDGET $RATIO $START_LAYER $USE_TOKEN_CACHE \
         $RUN_ARGS $BATCH_LIST
+    echo "FlexGen done."
 }
 
 ################Infinigen/Infinigen*(+reuse)################
 run_infinigen(){
+    echo "Running Infinigen..."
     RUN_ARGS=L4 
     USE_TOKEN_CACHE=0
     START_LAYER=0-curr-emb
@@ -86,20 +90,24 @@ run_infinigen(){
     ./scripts/eval.sh $TEST_MODEL $DISK_TYPE $LR_PROJ_MODE $TOTAL_LEN $TOKEN_GROUP \
         $MAX_NUM_KV $SEED $REUSE_BUDGET $SKEW_RARIO $START_LAYER $USE_TOKEN_CACHE \
         $RUN_ARGS $BATCH_LIST
+    echo "Infinigen done."
 }
 
 ################ShadowKV#######################
 run_shadowkv(){
+    echo "Running ShadowKV..."
     # chunk_size=8
     # rank=160
     chunk_size=16
     rank=40
     ./src/shadowkv/run_shadowkv.sh $TEST_MODEL $DISK_TYPE $TOTAL_LEN \
         $SEED $MAX_NUM_KV $chunk_size $rank $BATCH_LIST
+    echo "ShadowKV done."
 }
 
 ################KVSwap#######################
 run_kvswap(){
+    echo "Running KVSwap..."
     RUN_ARGS=L4 
     USE_TOKEN_CACHE=0
     START_LAYER=0-curr-emb
@@ -113,6 +121,7 @@ run_kvswap(){
     ./scripts/eval.sh $TEST_MODEL $DISK_TYPE $LR_PROJ_MODE $TOTAL_LEN $TOKEN_GROUP \
         $MAX_NUM_KV $SEED $REUSE_BUDGET $LR_PROJ_RATIO $START_LAYER $USE_TOKEN_CACHE \
         $RUN_ARGS $BATCH_LIST
+    echo "KVSwap done."
 }
 
 
@@ -126,8 +135,6 @@ INFI_RATIO=0.125
 
 SEQ_LIST=(16384 32768)
 
-
-
 clear_offload_dir nvme
 clear_offload_dir emmc
 COUNT=0
@@ -137,7 +144,7 @@ while IFS= read -r seed; do
         echo "Running with sequence length: $TOTAL_LEN and seed: $seed"
         SEED=$seed
         #########################################################
-        export MAX_ALLOC_KV_SIZE=$((1024*1024*768))
+        export MAX_ALLOC_KV_SIZE=$((1024*1024*2048))
         BATCH_LIST="1 2 4 8 16"
         DISK_TYPE=nvme
         KVSWAP_TG=4
@@ -171,13 +178,13 @@ while IFS= read -r seed; do
         echo "Running with sequence length: $TOTAL_LEN and seed: $seed"
         SEED=$seed
         #########################################################
-        export MAX_ALLOC_KV_SIZE=$((1024*1024*768))
+        export MAX_ALLOC_KV_SIZE=$((1024*1024*2048))
         BATCH_LIST="1 2 4 8 16"
         DISK_TYPE=nvme
         run_shadowkv
         #########################################################
         export MAX_ALLOC_KV_SIZE=$((1024*1024*768))
-        BATCH_LIST="1 2 4"
+        BATCH_LIST="1 2 4 8"
         DISK_TYPE=emmc
         run_shadowkv
         #########################################################
@@ -192,9 +199,14 @@ done < "./data/seeds.txt"
 SEQ_LIST="16384,32768"
 BATCH_LIST="1,2,4,8,16"
 
-./scripts/run_vllm.sh $TEST_MODEL $SEQ_LIST $BATCH_LIST
+echo "Running vLLM..."
+./scripts/run_vllm.sh $TEST_MODEL $DISK_TYPE $SEQ_LIST $BATCH_LIST
+echo "vLLM done."
 
 #############################################
+# Output Results
 
 
 
+
+##############################################
