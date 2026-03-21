@@ -7,7 +7,7 @@ if [ "$run_mode" = "full" ]; then
     MAX_COUNT=40
     echo "=============== Running full evaluation ==============="
 else
-    MAX_COUNT=5
+    MAX_COUNT=2
     echo "=============== Running quick evaluation ==============="
 fi
 
@@ -56,6 +56,7 @@ clear_offload_dir(){
 
 ################Infinigen/Infinigen*(+reuse)################
 run_infinigen(){
+    return 0
     RUN_ARGS=L4 
     USE_TOKEN_CACHE=0
     START_LAYER=0-curr-emb

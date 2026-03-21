@@ -172,16 +172,23 @@ run_model_run
 # Output Results
 mkdir -p ./RESULTS
 
+if [ -z "$EVAL_USER" ]; then
+    echo "EVAL_USER is not set. Exit."
+    exit 1
+fi
+
+mkdir -p ./RESULTS/$EVAL_USER
+
 if [ "$run_mode" = "full" ]; then
-    output_file=./RESULTS/fig-10-full.pdf
+    output_file=./RESULTS/$EVAL_USER/fig-10-full.pdf
 else
-    output_file=./RESULTS/fig-10.pdf
+    output_file=./RESULTS/$EVAL_USER/fig-10.pdf
 fi
 
 echo "Generating figure 10..."
 
 source .venv/bin/activate
-python scripts/utils.py $EVAL_LOG_DIR/$EVAL_USER fig10 $output_file
+python scripts/utils.py $EVAL_LOG_DIR/$EVAL_USER fig10 $output_file > $output_file.log 
 
 echo "Figure 10 generated and saved to $output_file"
 

@@ -80,7 +80,7 @@ class DiskIO(DiskIO_Base):
 				mv = memoryview((ctypes.c_char * buffer_size).from_address(self.tensor_buf.value + i * buffer_size))
 				self.rd_mv_list.append(mv.obj)
 				self.rd_addr_array[i] = ctypes.addressof(mv.obj)
-			self.register_buffer(self.rd_mv_list)
+			# self.register_buffer(self.rd_mv_list)
 		##########################################################################
 		self.wr_addr_array = (ctypes.c_uint64 * self.max_wr_req)()
 		self.wr_mv_list = []
