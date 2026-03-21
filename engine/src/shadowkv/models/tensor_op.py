@@ -26,7 +26,7 @@ from torch.nn import functional as F
 # from flashinfer.norm import rmsnorm
 # from minference import vertical_slash_sparse_attention, block_sparse_attention, streaming_forward
 import vllm
-from src.shadowkv.kernels import shadowkv
+from kernels import shadowkv
 from vllm.attention.ops.paged_attn import PagedAttention
 
 def layer_norm(hidden_states, eps, w):
