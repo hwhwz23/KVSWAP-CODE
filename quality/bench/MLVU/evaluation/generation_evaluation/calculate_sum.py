@@ -24,9 +24,14 @@ def extract_scores(text):
         start_number_index = text.find(":", start_index) + 2
         end_number_index = text.find(",", start_number_index)  # Assuming the number ends before a comma
 
-        # Extract and convert the number to float
-        score = float(text[start_number_index:end_number_index])
-        scores.append(score)
+        try:
+            # Extract and convert the number to float
+            score = float(text[start_number_index:end_number_index])
+            scores.append(score)
+        except:
+            print(f"Error extracting score for {key} in {text}")
+            print("Skip this sample")
+            return None
 
     return scores
 
@@ -38,6 +43,7 @@ total=0
 file_list=os.listdir(path)
 
 
+skip_count=0
 
 for i in file_list:
     file_path=os.path.join(path,i)
@@ -49,7 +55,9 @@ for i in file_list:
     # print(text)
     scores=extract_scores(text)
     # print("score",scores)
-
+    if scores is None:
+        skip_count += 1
+        continue
     try:
         accu += scores[0]
         rele += scores[1]
@@ -62,8 +70,8 @@ if len(file_list) == 0:
     print("No files found in the directory.")
     exit(0)
 
-accu = accu/ len(file_list)
-rele = rele/ len(file_list)
+accu = accu/ (len(file_list) - skip_count)
+rele = rele/ (len(file_list) - skip_count)
 total= (accu + rele ) 
 
 print(f"Average Completeness Score: {accu:.2f}")
