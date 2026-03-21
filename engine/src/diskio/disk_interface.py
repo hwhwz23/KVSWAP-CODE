@@ -50,7 +50,7 @@ def zero_out(path, size):
 	finally:
 		os.close(fd)
 
-def create_kv_file(path, shape, dtype, use_mmap, attr=None):
+def create_kv_file(path, shape, dtype, use_mmap, attr=None, force_bf16=False):
 	if use_mmap:
 		np.lib.format.open_memmap(path, mode="w+", shape=shape, dtype=dtype)
 	else:
@@ -68,7 +68,7 @@ def create_kv_file(path, shape, dtype, use_mmap, attr=None):
 			zero_out(path, MAX_KV_SIZE)
 			
 	shape_dict[path] = shape
-	dtype_dict[path] = dtype
+	dtype_dict[path] = dtype if not force_bf16 else torch.bfloat16
 	attr_dict[path] = attr
 
 
@@ -88,8 +88,10 @@ class DiskInterface():
 		self.use_mmap = use_mmap
 		self.shape_ = [shape_dict[path_] for path_ in path]
 		# assume all paths have the same dtype and attr
-		self.dtype = np_dtype_to_torch_dtype[dtype_dict[path[0]]]
-		# self.dtype = torch.bfloat16
+		if dtype_dict[path[0]] == torch.bfloat16:
+			self.dtype = torch.bfloat16
+		else:
+			self.dtype = np_dtype_to_torch_dtype[dtype_dict[path[0]]]
 		self.attr = attr_dict[path[0]]
 		self.dk_rd, self.dk_wr = disk_cfg
 		self.token_group = token_group
@@ -110,7 +112,10 @@ class DiskInterface():
 				flags |= os.O_SYNC
 				print("make sure you want to use O_SYNC!")
 			self.fd = [os.open(path_, flags) for path_ in path]
-			element_size = np.dtype(dtype_dict[path[0]]).itemsize
+			if dtype_dict[path[0]] == torch.bfloat16:
+				element_size = 2 # 2 bytes for bfloat16
+			else:
+				element_size = np.dtype(dtype_dict[path[0]]).itemsize
 			self.element_bytes = self.shape_[0][-1] * element_size  
 			self.disk_io_list = disk_io_list
 			

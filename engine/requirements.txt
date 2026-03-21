@@ -168,6 +168,7 @@ tomli==2.2.1
 tomlkit==0.13.2
 tqdm
 transformers==4.51.0
+accelerate
 typed-ast==1.4.3
 typeguard==4.4.2
 typer==0.15.2

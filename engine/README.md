@@ -31,8 +31,8 @@ The **NVIDIA Jetson Orin AGX** has built-in **eMMC** storage; please additionall
 
 Since KV cache data will be offloaded to eMMC and NVMe, please ensure:
 
-- **eMMC free space**: >= 64GB
-- **NVMe free space**: >= 200GB
+- **eMMC**: >= 64GB
+- **NVMe**: >= 256GB
 
 To save eMMC space, please install the system image on the NVMe SSD.
 

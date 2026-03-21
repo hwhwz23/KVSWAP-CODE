@@ -157,9 +157,11 @@ run_model_run(){
 
 }
 
-# TEST_MODEL=Llama-3.1-8B-Instruct 
 
 TEST_MODEL=Llama-3.2-3B-Instruct
+run_model_run
+
+TEST_MODEL=Llama-3.1-8B-Instruct 
 run_model_run
 
 TEST_MODEL=Qwen3-14B
@@ -168,8 +170,20 @@ run_model_run
 
 #############################################
 # Output Results
+mkdir -p ./RESULTS
 
+if [ "$run_mode" = "full" ]; then
+    output_file=./RESULTS/fig-10-full.pdf
+else
+    output_file=./RESULTS/fig-10.pdf
+fi
 
+echo "Generating figure 10..."
 
+source .venv/bin/activate
+python scripts/utils.py $EVAL_LOG_DIR/$EVAL_USER fig10 $output_file
+
+echo "Figure 10 generated and saved to $output_file"
 
 ##############################################
+

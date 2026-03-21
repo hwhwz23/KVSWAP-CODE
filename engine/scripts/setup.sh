@@ -31,6 +31,7 @@ uv pip install pip setuptools
 uv pip install -r requirements.txt
 uv pip install ./wheel_pkgs/torch-2.7.0-cp310-cp310-linux_aarch64.whl
 uv pip install ./wheel_pkgs/flash_attn-2.7.4.post1-cp310-cp310-linux_aarch64.whl --no-build-isolation
+uv pip install ./wheel_pkgs/triton-3.2.0-cp310-cp310-linux_aarch64.whl --no-deps
 
 echo "Building shadowkv..."
 pushd src/shadowkv
@@ -43,6 +44,9 @@ pip install -e .
 popd
 
 uv pip install vllm_wheel
+
+transformers==4.51.0
+tokenizers==0.21
 
 echo "--------------------------------"
 

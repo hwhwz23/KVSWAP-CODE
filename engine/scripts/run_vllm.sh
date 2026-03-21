@@ -126,28 +126,16 @@ fi
 
 echo "Running vLLM with model: $TEST_MODEL"
 
-# clear system cache
-if [ -z "$SUDO_PASSWD" ]; then
-  echo "Warning: SUDO_PASSWD is not set. Skipping system cache clearing."
-  echo "This may cause out-of-memory errors."
-else
-  echo "Clearing system cache..."
-  echo ${SUDO_PASSWD} | sudo -S sync && sudo -S sh -c 'echo 3 > /proc/sys/vm/drop_caches'
-  # exit if password is incorrect
-  if [ $? -ne 0 ]; then
-    echo "Error: Failed to clear system cache. Exit."
-    exit 1
-  fi
-  echo "System cache cleared."
-  sleep 3
+echo "Clearing system cache..."
+sync
+echo 3 | sudo tee /proc/sys/vm/drop_caches
+# exit if no permission
+if [ $? -ne 0 ]; then
+  echo "Error: No permission to clear system cache."
+  echo "We enforce clearing system cache to avoid OOM errors when running vLLM."
+  echo "Add '<user> ALL=(ALL) NOPASSWD: /usr/bin/tee' to /etc/sudoers to grant permission."
+  exit 1  
 fi
 
-python src/run_vllm.py --model_path $MODEL_PATH --output_path $OUTPUT_PATH \
-    --seqlen-list $SEQLEN_LIST --batch-list $BATCH_LIST > $LOG_OUT 
-
-sleep 3
-
-echo "Done"
-
-
-
+echo "System cache cleared."
+sleep 2
