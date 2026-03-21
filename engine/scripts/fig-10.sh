@@ -61,7 +61,7 @@ run_shadowkv(){
     chunk_size=16
     rank=40
     ./src/shadowkv/run_shadowkv.sh $TEST_MODEL $DISK_TYPE $TOTAL_LEN \
-        $SEED $MAX_NUM_KV $chunk_size $rank $BATCH_LIST
+        $SEED $MAX_NUM_KV $chunk_size $rank "$BATCH_LIST"
 }
 
 ################KVSwap#######################
@@ -78,7 +78,7 @@ run_kvswap(){
     LR_PROJ_RATIO=$KVSWAP_RATIO
     ./scripts/eval.sh $TEST_MODEL $DISK_TYPE $LR_PROJ_MODE $TOTAL_LEN $TOKEN_GROUP \
         $MAX_NUM_KV $SEED $REUSE_BUDGET $LR_PROJ_RATIO $START_LAYER $USE_TOKEN_CACHE \
-        $RUN_ARGS $BATCH_LIST
+        $RUN_ARGS "$BATCH_LIST"
 }
 
 
@@ -107,7 +107,7 @@ run_model_run(){
           run_kvswap
           #########################################################
           export MAX_ALLOC_KV_SIZE=$((1024*1024*768))
-          BATCH_LIST="1 8"
+          BATCH_LIST="1"
           DISK_TYPE=emmc
           KVSWAP_TG=8
           run_kvswap

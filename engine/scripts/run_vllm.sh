@@ -124,6 +124,13 @@ if [ "$SKIP_MODEL_RUN" = "1" ]; then
 fi
 
 
+# check if OUTPUT_PATH/$TEST_MODEL_results.csv exists
+if [ -f "$OUTPUT_PATH/${TEST_MODEL}_results.csv" ]; then
+  echo "Results already exist in $OUTPUT_PATH/${TEST_MODEL}_results.csv"
+  echo "Skipping model run"
+  exit 0
+fi
+
 echo "Running vLLM with model: $TEST_MODEL"
 
 echo "Clearing system cache..."

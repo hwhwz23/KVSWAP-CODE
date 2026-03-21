@@ -67,7 +67,7 @@ run_flexgen(){
     RATIO=none
     ./scripts/eval.sh $TEST_MODEL $DISK_TYPE $LR_PROJ_MODE $TOTAL_LEN $TOKEN_GROUP \
         $MAX_NUM_KV $SEED $REUSE_BUDGET $RATIO $START_LAYER $USE_TOKEN_CACHE \
-        $RUN_ARGS $BATCH_LIST
+        $RUN_ARGS "$BATCH_LIST"
     echo "FlexGen done."
 }
 
@@ -84,12 +84,12 @@ run_infinigen(){
     REUSE_BUDGET=0
     ./scripts/eval.sh $TEST_MODEL $DISK_TYPE $LR_PROJ_MODE $TOTAL_LEN $TOKEN_GROUP \
         $MAX_NUM_KV $SEED $REUSE_BUDGET $SKEW_RARIO $START_LAYER $USE_TOKEN_CACHE \
-        $RUN_ARGS $BATCH_LIST
+        $RUN_ARGS "$BATCH_LIST"
 
     REUSE_BUDGET=$MAX_KV_FETCH 
     ./scripts/eval.sh $TEST_MODEL $DISK_TYPE $LR_PROJ_MODE $TOTAL_LEN $TOKEN_GROUP \
         $MAX_NUM_KV $SEED $REUSE_BUDGET $SKEW_RARIO $START_LAYER $USE_TOKEN_CACHE \
-        $RUN_ARGS $BATCH_LIST
+        $RUN_ARGS "$BATCH_LIST"
     echo "Infinigen done."
 }
 
@@ -101,7 +101,7 @@ run_shadowkv(){
     chunk_size=16
     rank=40
     ./src/shadowkv/run_shadowkv.sh $TEST_MODEL $DISK_TYPE $TOTAL_LEN \
-        $SEED $MAX_NUM_KV $chunk_size $rank $BATCH_LIST
+        $SEED $MAX_NUM_KV $chunk_size $rank "$BATCH_LIST"
     echo "ShadowKV done."
 }
 
@@ -120,7 +120,7 @@ run_kvswap(){
     LR_PROJ_RATIO=$KVSWAP_RATIO
     ./scripts/eval.sh $TEST_MODEL $DISK_TYPE $LR_PROJ_MODE $TOTAL_LEN $TOKEN_GROUP \
         $MAX_NUM_KV $SEED $REUSE_BUDGET $LR_PROJ_RATIO $START_LAYER $USE_TOKEN_CACHE \
-        $RUN_ARGS $BATCH_LIST
+        $RUN_ARGS "$BATCH_LIST"
     echo "KVSwap done."
 }
 
