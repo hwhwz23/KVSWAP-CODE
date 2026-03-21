@@ -24,6 +24,8 @@ fi
 ############################################################################
 echo "Installing dependencies..."
 
+export CUDA_VISIBLE_DEVICES="0"
+
 if [ ! -d .venv ]; then
     uv venv --python 3.10
 fi
@@ -35,15 +37,7 @@ uv pip install -r requirements.txt
 pushd src/shadowkv
 python setup.py build_ext --inplace
 popd
+
+echo "Installation completed!"
 echo "--------------------------------"
-
-
-############################################################################
-echo "Downloading adapter weights..." 
-git lfs pull --include="adapters/**/*.pt"
-echo "--------------------------------"
-############################################################################
-
-
-echo "Initialization completed!"
 
