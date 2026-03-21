@@ -139,3 +139,10 @@ fi
 
 echo "System cache cleared."
 sleep 2
+
+python src/run_vllm.py --model_path $MODEL_PATH --output_path $OUTPUT_PATH \
+    --seqlen-list $SEQLEN_LIST --batch-list $BATCH_LIST > $LOG_OUT 
+
+sleep 3
+
+echo "Done"

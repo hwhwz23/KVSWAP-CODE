@@ -612,7 +612,7 @@ def main():
         out_dir = os.path.dirname(out_path)
         if out_dir:
             os.makedirs(out_dir, exist_ok=True)
-        if args.mode == "fig10" and args.output_file.lower().endswith(".pdf"):
+        if args.mode == "fig10" and args.output_file.lower().endswith(".pdf") or args.output_file.lower().endswith(".png"):
             data_b1, data_b8 = build_fig10_plot_data(result)
             save_fig10_pdf(data_b1, data_b8, out_path)
         else:

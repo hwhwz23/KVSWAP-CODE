@@ -180,9 +180,9 @@ fi
 mkdir -p ./RESULTS/$EVAL_USER
 
 if [ "$run_mode" = "full" ]; then
-    output_file=./RESULTS/$EVAL_USER/fig-10-full.pdf
+    output_file=./RESULTS/$EVAL_USER/fig-10-full.png
 else
-    output_file=./RESULTS/$EVAL_USER/fig-10.pdf
+    output_file=./RESULTS/$EVAL_USER/fig-10.png
 fi
 
 echo "Generating figure 10..."
