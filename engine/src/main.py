@@ -1750,9 +1750,6 @@ def run_flexgen(args):
 	total_latency = prefill_latency + decode_latency
 	total_throughput = num_generated_tokens / total_latency
 	
-	if gpu is not None:
-		gpu.print_stats()
-	# cpu.print_stats()
 	
 	print("+++++++++++++++++++++++++++++++++++++++++++++++++")
 	print("input: " + str(args.prompt_len) + " output: " + str(args.gen_len) + " bsz: " + str(num_prompts))

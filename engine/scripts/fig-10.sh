@@ -61,7 +61,7 @@ run_shadowkv(){
     chunk_size=16
     rank=40
     ./src/shadowkv/run_shadowkv.sh $TEST_MODEL $DISK_TYPE $TOTAL_LEN \
-        $SEED $MAX_NUM_KV $chunk_size $rank $BATCH_LIST
+        $SEED $MAX_NUM_KV $chunk_size $rank "$BATCH_LIST"
 }
 
 ################KVSwap#######################
@@ -78,7 +78,7 @@ run_kvswap(){
     LR_PROJ_RATIO=$KVSWAP_RATIO
     ./scripts/eval.sh $TEST_MODEL $DISK_TYPE $LR_PROJ_MODE $TOTAL_LEN $TOKEN_GROUP \
         $MAX_NUM_KV $SEED $REUSE_BUDGET $LR_PROJ_RATIO $START_LAYER $USE_TOKEN_CACHE \
-        $RUN_ARGS $BATCH_LIST
+        $RUN_ARGS "$BATCH_LIST"
 }
 
 
@@ -107,7 +107,7 @@ run_model_run(){
           run_kvswap
           #########################################################
           export MAX_ALLOC_KV_SIZE=$((1024*1024*768))
-          BATCH_LIST="1 8"
+          BATCH_LIST="1"
           DISK_TYPE=emmc
           KVSWAP_TG=8
           run_kvswap
@@ -157,9 +157,11 @@ run_model_run(){
 
 }
 
-# TEST_MODEL=Llama-3.1-8B-Instruct 
 
 TEST_MODEL=Llama-3.2-3B-Instruct
+run_model_run
+
+TEST_MODEL=Llama-3.1-8B-Instruct 
 run_model_run
 
 TEST_MODEL=Qwen3-14B
@@ -168,8 +170,27 @@ run_model_run
 
 #############################################
 # Output Results
+mkdir -p ./RESULTS
 
+if [ -z "$EVAL_USER" ]; then
+    echo "EVAL_USER is not set. Exit."
+    exit 1
+fi
 
+mkdir -p ./RESULTS/$EVAL_USER
 
+if [ "$run_mode" = "full" ]; then
+    output_file=./RESULTS/$EVAL_USER/fig-10-full.png
+else
+    output_file=./RESULTS/$EVAL_USER/fig-10.png
+fi
+
+echo "Generating figure 10..."
+
+source .venv/bin/activate
+python scripts/utils.py $EVAL_LOG_DIR/$EVAL_USER fig10 $output_file > $output_file.log 
+
+echo "Figure 10 generated and saved to $output_file"
 
 ##############################################
+

@@ -7,7 +7,7 @@ if [ "$run_mode" = "full" ]; then
     MAX_COUNT=40
     echo "=============== Running full evaluation ==============="
 else
-    MAX_COUNT=5
+    MAX_COUNT=2
     echo "=============== Running quick evaluation ==============="
 fi
 
@@ -56,6 +56,7 @@ clear_offload_dir(){
 
 ################Infinigen/Infinigen*(+reuse)################
 run_infinigen(){
+    return 0
     RUN_ARGS=L4 
     USE_TOKEN_CACHE=0
     START_LAYER=0-curr-emb
@@ -66,12 +67,12 @@ run_infinigen(){
     REUSE_BUDGET=0
     ./scripts/eval.sh $TEST_MODEL $DISK_TYPE $LR_PROJ_MODE $TOTAL_LEN $TOKEN_GROUP \
         $MAX_NUM_KV $SEED $REUSE_BUDGET $SKEW_RARIO $START_LAYER $USE_TOKEN_CACHE \
-        $RUN_ARGS $BATCH_LIST
+        $RUN_ARGS "$BATCH_LIST"
 
     REUSE_BUDGET=$MAX_KV_FETCH 
     ./scripts/eval.sh $TEST_MODEL $DISK_TYPE $LR_PROJ_MODE $TOTAL_LEN $TOKEN_GROUP \
         $MAX_NUM_KV $SEED $REUSE_BUDGET $SKEW_RARIO $START_LAYER $USE_TOKEN_CACHE \
-        $RUN_ARGS $BATCH_LIST
+        $RUN_ARGS "$BATCH_LIST"
 }
 
 ################ShadowKV#######################
@@ -79,7 +80,7 @@ run_shadowkv(){
     chunk_size=8
     rank=160
     ./src/shadowkv/run_shadowkv.sh $TEST_MODEL $DISK_TYPE $TOTAL_LEN \
-        $SEED $MAX_NUM_KV $chunk_size $rank $BATCH_LIST
+        $SEED $MAX_NUM_KV $chunk_size $rank "$BATCH_LIST"
 }
 
 ################KVSwap#######################
@@ -96,12 +97,12 @@ run_kvswap(){
     LR_PROJ_RATIO=$KVSWAP_RATIO
     ./scripts/eval.sh $TEST_MODEL $DISK_TYPE $LR_PROJ_MODE $TOTAL_LEN $TOKEN_GROUP \
         $MAX_NUM_KV $SEED $REUSE_BUDGET $LR_PROJ_RATIO $START_LAYER $USE_TOKEN_CACHE \
-        $RUN_ARGS $BATCH_LIST
+        $RUN_ARGS "$BATCH_LIST"
 
     LR_PROJ_RATIO=$KVSWAP_t_RATIO
     ./scripts/eval.sh $TEST_MODEL $DISK_TYPE $LR_PROJ_MODE $TOTAL_LEN $TOKEN_GROUP \
         $MAX_NUM_KV $SEED $REUSE_BUDGET $LR_PROJ_RATIO $START_LAYER $USE_TOKEN_CACHE \
-        $RUN_ARGS $BATCH_LIST
+        $RUN_ARGS "$BATCH_LIST"
 }
 
 
@@ -124,7 +125,7 @@ while IFS= read -r seed; do
         echo "Running with sequence length: $TOTAL_LEN and seed: $seed"
         SEED=$seed
         #########################################################
-        export MAX_ALLOC_KV_SIZE=$((1024*1024*768))
+        export MAX_ALLOC_KV_SIZE=$((1024*1024*2048))
         DISK_TYPE=nvme
         KVSWAP_TG=4
         BATCH_LIST="1 3"
@@ -158,7 +159,7 @@ while IFS= read -r seed; do
         echo "Running with sequence length: $TOTAL_LEN and seed: $seed"
         SEED=$seed
         #########################################################
-        export MAX_ALLOC_KV_SIZE=$((1024*1024*768))
+        export MAX_ALLOC_KV_SIZE=$((1024*1024*2048))
         BATCH_LIST="2 4"
         DISK_TYPE=nvme
         run_shadowkv

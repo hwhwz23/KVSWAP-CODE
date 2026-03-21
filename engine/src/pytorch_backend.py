@@ -769,9 +769,9 @@ class TorchDisk:
 			path = os.path.join(path_, name)
 			path_list.append(path)
 			if name.endswith("mmap"):
-				create_kv_file(path, shape_, dtype, use_mmap=True, attr=attr)
+				create_kv_file(path, shape_, dtype, use_mmap=True, attr=attr, force_bf16=force_bf16)
 			elif name.endswith("bin"):
-				create_kv_file(path, shape_, dtype, use_mmap=False, attr=attr)
+				create_kv_file(path, shape_, dtype, use_mmap=False, attr=attr, force_bf16=force_bf16)
 			else:
 				raise ValueError(f"Unsupported file extension: {name}")
 		if tot_shape is not None:

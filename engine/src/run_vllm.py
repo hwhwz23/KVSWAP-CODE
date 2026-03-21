@@ -9,6 +9,23 @@ import argparse
 import os
 import csv
 
+def load_existing_results(output_csv):
+	existing = {}
+	if not os.path.exists(output_csv):
+		return existing
+	with open(output_csv, "r", encoding="utf-8", errors="ignore") as f:
+		reader = csv.DictReader(f)
+		for row in reader:
+			try:
+				seqlen = int(row["seqlen"])
+				batch = int(row["batch"])
+				throughput = float(row["throughput"])
+				existing[(seqlen, batch)] = throughput
+			except (KeyError, ValueError, TypeError):
+				# Ignore malformed rows and keep valid ones.
+				continue
+	return existing
+
 def get_promopts(tokenizer, batch, prompt_len, shuffle=False):
 	def shuffle_words(text):
 		words = text.split()
@@ -67,15 +84,27 @@ if __name__ == "__main__":
     model = args.model_path
 
     model_name = os.path.basename(model)
+    seqlen_list = [int(seqlen) for seqlen in args.seqlen_list.split(',')]
+    batch_list = [int(batch) for batch in args.batch_list.split(',')]
+    print(f"seqlen_list: {seqlen_list}, batch_list: {batch_list}")
 
     if not os.path.exists(args.output_path):
         os.makedirs(args.output_path)
 
     output_csv = os.path.join(args.output_path, f'{model_name}_results.csv')
+    expected_cases = {(seqlen, batch) for seqlen in seqlen_list for batch in batch_list}
+    result_dict = load_existing_results(output_csv)
 
     if os.path.exists(output_csv):
-        print(f"Results already exist in {output_csv}")
-        exit(0)
+        print(f"Found existing result file: {output_csv}")
+        missing_cases = sorted(expected_cases - set(result_dict.keys()))
+        if len(missing_cases) == 0:
+            print("All requested (seqlen, batch) cases already exist. Exit.")
+            exit(0)
+        print(f"Existing complete cases: {len(result_dict)}/{len(expected_cases)}")
+        print(f"Will continue running missing cases: {missing_cases}")
+    else:
+        print(f"No existing csv found. Will run all cases: {sorted(expected_cases)}")
 
     if 'llama' in model.lower():
         model_type = 'llama3'
@@ -105,28 +134,26 @@ if __name__ == "__main__":
         swap_space=0
     )
 
-    result_dict = {}
-
-    seqlen_list = [int(seqlen) for seqlen in args.seqlen_list.split(',')]
-    batch_list = [int(batch) for batch in args.batch_list.split(',')]
-    print(f"seqlen_list: {seqlen_list}, batch_list: {batch_list}")
-
     # warmup 
     _ = run(1, 4096)
     print("Warmup done")
 
     for seqlen in seqlen_list:
         for batch in batch_list:
+            if (seqlen, batch) in result_dict:
+                print(f"Skip existing result for seqlen={seqlen}, batch={batch}")
+                continue
             print(f"Running with seqlen={seqlen}, batch={batch}")
             throughput = run(batch, seqlen)
             result_dict[(seqlen, batch)] = throughput
             print(f"Throughput: {throughput:.2f} tokens/sec for seqlen={seqlen}, batch={batch}")
 
     # save results to csv
-    with open(output_csv, 'w') as f:
+    with open(output_csv, 'w', newline='') as f:
         writer = csv.writer(f)
         writer.writerow(['seqlen', 'batch', 'throughput'])
-        for (seqlen, batch), throughput in result_dict.items():
+        for seqlen, batch in sorted(result_dict.keys()):
+            throughput = result_dict[(seqlen, batch)]
             writer.writerow([seqlen, batch, throughput])
             
     print(f"Results saved to {output_csv}")
