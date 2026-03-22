@@ -130,6 +130,7 @@ bash ./scripts/tab-3-right.sh
 ##### Accuracy results in Figure 11 (1 hour)
 
 **This figure reuses part of the Table 2 results. Please run Table 2 before running this script.**
+Here only covers accuracy. For the throughput part of Figure 11, see the throughput evaluations in the repository's `engine/` directory.
 
 ```bash
 # Use GPU 0
