@@ -1,5 +1,4 @@
 #!/bin/bash
-set -e
 
 run_mode=${1:-quick}
 

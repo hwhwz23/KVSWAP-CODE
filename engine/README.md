@@ -51,9 +51,13 @@ After confirming that your device meets the hardware and software requirements a
 
 uv
 
+download wheel_pkgs
 
+sparse clone 
 git clone this-repo/engine
+
 TODO...
+setup ...
 
 
 ### 2.3 How to Run

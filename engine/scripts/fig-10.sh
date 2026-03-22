@@ -1,5 +1,4 @@
 #!/bin/bash
-set -e
 
 run_mode=${1:-quick}
 
@@ -100,14 +99,14 @@ run_model_run(){
           echo "Running with sequence length: $TOTAL_LEN and seed: $seed"
           SEED=$seed
           #########################################################
-          export MAX_ALLOC_KV_SIZE=$((1024*1024*2048))
-          BATCH_LIST="1 8"
+          export MAX_ALLOC_KV_SIZE=$NVME_ALLOC_KV_SIZE
+          BATCH_LIST="$NVME_BATCH_LIST"
           DISK_TYPE=nvme
           KVSWAP_TG=4
           run_kvswap
           #########################################################
-          export MAX_ALLOC_KV_SIZE=$((1024*1024*768))
-          BATCH_LIST="1"
+          export MAX_ALLOC_KV_SIZE=$EMMC_ALLOC_KV_SIZE
+          BATCH_LIST="$EMMC_BATCH_LIST"
           DISK_TYPE=emmc
           KVSWAP_TG=8
           run_kvswap
@@ -130,13 +129,13 @@ run_model_run(){
           echo "Running with sequence length: $TOTAL_LEN and seed: $seed"
           SEED=$seed
           #########################################################
-          export MAX_ALLOC_KV_SIZE=$((1024*1024*2048))
-          BATCH_LIST="1 8"
+          export MAX_ALLOC_KV_SIZE=$NVME_ALLOC_KV_SIZE
+          BATCH_LIST="$NVME_BATCH_LIST"
           DISK_TYPE=nvme
           run_shadowkv
           #########################################################
-          export MAX_ALLOC_KV_SIZE=$((1024*1024*768))
-          BATCH_LIST="1 8"
+          export MAX_ALLOC_KV_SIZE=$EMMC_ALLOC_KV_SIZE
+          BATCH_LIST="$EMMC_BATCH_LIST"
           DISK_TYPE=emmc
           run_shadowkv
           #########################################################
@@ -157,13 +156,27 @@ run_model_run(){
 
 }
 
-
+NVME_ALLOC_KV_SIZE=$((1024*1024*2048))
+EMMC_ALLOC_KV_SIZE=$((1024*1024*1024))
+NVME_BATCH_LIST="1 8"
+EMMC_BATCH_LIST="1 8"
 TEST_MODEL=Llama-3.2-3B-Instruct
 run_model_run
 
+
+
+NVME_ALLOC_KV_SIZE=$((1024*1024*2048))
+EMMC_ALLOC_KV_SIZE=$((1024*1024*1024))
+NVME_BATCH_LIST="1 8"
+EMMC_BATCH_LIST="1 8"
 TEST_MODEL=Llama-3.1-8B-Instruct 
 run_model_run
 
+
+NVME_ALLOC_KV_SIZE=$((1024*1024*2048))
+EMMC_ALLOC_KV_SIZE=$((1024*1024*768))
+NVME_BATCH_LIST="1 8"
+EMMC_BATCH_LIST="1"
 TEST_MODEL=Qwen3-14B
 run_model_run
 

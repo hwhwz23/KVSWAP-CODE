@@ -344,6 +344,388 @@ def summarize_fig10(records_by_method_disk_model):
     return _to_regular_dict(out)
 
 
+def summarize_fig11_tp(records_by_method_disk_model):
+    """
+    Fig-11 throughput extraction for Llama-3.1-8B-Instruct, total context 24576
+    (seqlen+genlen for engine logs; vLLM uses seqlen=24576 in CSV).
+
+    Named series:
+      InfiGen*        — infinigen, ratio=0.5, tg=1, budget=400, ru=0,   batch 1,3
+      InfiGen*+reuse  — infinigen, ratio=0.5, tg=1, budget=400, ru=400, batch 1,3
+      ShadowKV        — shadowkv, chunk=8, rank=160, budget=400, batch 2,4
+      KVSwap          — kvswap, ratio=1,   tg nvme=4/emmc=8, budget=400, ru=400, batch 8
+      KVSwap-t        — kvswap, ratio=0.25, tg nvme=4/emmc=8, budget=400, ru=400, batch 8
+      vLLM            — batch=8, seqlen=24576 (from vllm_results CSV)
+    """
+    target_model = "Llama-3.1-8B-Instruct"
+    target_disks = {"nvme", "emmc"}
+    target_total_len = 24576
+
+    # (display_name, disk, batch_str) -> list of {throughput, seed, path}
+    grouped = defaultdict(list)
+
+    def add_row(name, disk, batch, throughput, seed, path):
+        if throughput is None:
+            return
+        grouped[(name, disk, str(batch))].append(
+            {"throughput": throughput, "seed": seed, "path": path}
+        )
+
+    for method, disk_dict in records_by_method_disk_model.items():
+        if method == "__meta__":
+            continue
+        if method not in {"infinigen", "shadowkv", "kvswap"}:
+            continue
+        for disk, model_dict in disk_dict.items():
+            if disk not in target_disks:
+                continue
+            for model, records in model_dict.items():
+                if model != target_model:
+                    continue
+                for rec in records:
+                    params = rec.get("params", {})
+                    common = rec.get("common", {})
+                    metrics = rec.get("metrics", {})
+                    batch = common.get("batch")
+                    seqlen = common.get("seqlen")
+                    genlen = common.get("genlen")
+                    if seqlen is None or genlen is None:
+                        continue
+                    if seqlen + genlen != target_total_len:
+                        continue
+                    tp = metrics.get("throughput")
+                    seed = common.get("seed")
+
+                    if method == "infinigen":
+                        if params.get("mode") != "base":
+                            continue
+                        ratio = params.get("ratio")
+                        if ratio is None or abs(ratio - 0.5) > 1e-6:
+                            continue
+                        if params.get("tg") != 1 or params.get("budget") != 400:
+                            continue
+                        ru = params.get("ru")
+                        if batch not in (1, 3):
+                            continue
+                        if ru == 0:
+                            add_row("InfiGen*", disk, batch, tp, seed, rec.get("path"))
+                        elif ru == 400:
+                            add_row("InfiGen*+reuse", disk, batch, tp, seed, rec.get("path"))
+
+                    elif method == "shadowkv":
+                        if params.get("budget") != 400:
+                            continue
+                        if params.get("chunk") != 8 or params.get("r") != 160:
+                            continue
+                        if batch not in (2, 4):
+                            continue
+                        add_row("ShadowKV", disk, batch, tp, seed, rec.get("path"))
+
+                    elif method == "kvswap":
+                        if params.get("budget") != 400 or params.get("ru") != 400:
+                            continue
+                        if batch != 8:
+                            continue
+                        expected_tg = 4 if disk == "nvme" else 8
+                        if params.get("tg") != expected_tg:
+                            continue
+                        ratio = params.get("ratio")
+                        if ratio is None:
+                            continue
+                        if abs(ratio - 1.0) < 1e-9:
+                            add_row("KVSwap", disk, batch, tp, seed, rec.get("path"))
+                        elif abs(ratio - 0.25) < 1e-9:
+                            add_row("KVSwap-t", disk, batch, tp, seed, rec.get("path"))
+
+    # vLLM: {search_path}/vllm_results/Llama-3.1-8B-Instruct_results.csv
+    search_path = records_by_method_disk_model.get("__meta__", {}).get("search_path")
+    vllm_tp = None
+    vllm_path = None
+    if search_path:
+        csv_path = os.path.join(
+            search_path, "vllm_results", f"{target_model}_results.csv"
+        )
+        if os.path.isfile(csv_path):
+            try:
+                with open(csv_path, "r", encoding="utf-8", errors="ignore") as f:
+                    reader = csv.DictReader(f)
+                    for row in reader:
+                        try:
+                            seqlen = int(row.get("seqlen", "").strip())
+                            batch = int(row.get("batch", "").strip())
+                            throughput = float(row.get("throughput", "").strip())
+                        except Exception:
+                            continue
+                        if seqlen == target_total_len and batch == 8:
+                            vllm_tp = throughput
+                            vllm_path = csv_path
+                            break
+            except Exception:
+                pass
+
+    # Build output: name -> disk -> batch -> {mean, std, num_samples, seeds, paths}
+    display_order = [
+        "InfiGen*",
+        "InfiGen*+reuse",
+        "ShadowKV",
+        "KVSwap",
+        "KVSwap-t",
+        "vLLM",
+    ]
+    out = {}
+
+    for name in display_order:
+        if name == "vLLM":
+            if vllm_tp is not None:
+                out[name] = {
+                    "disk": "N/A",
+                    "batch": "8",
+                    "decode_throughput": vllm_tp,
+                    "seqlen": target_total_len,
+                    "path": vllm_path,
+                }
+            else:
+                out[name] = {
+                    "disk": "N/A",
+                    "batch": "8",
+                    "decode_throughput": "N/A",
+                    "seqlen": target_total_len,
+                    "path": "N/A",
+                }
+            continue
+
+        out[name] = {"nvme": {}, "emmc": {}}
+        for disk in ("nvme", "emmc"):
+            for batch in (
+                [1, 3] if name in ("InfiGen*", "InfiGen*+reuse") else [2, 4]
+                if name == "ShadowKV"
+                else [8]
+            ):
+                key = (name, disk, str(batch))
+                rows = grouped.get(key, [])
+                if not rows:
+                    out[name][disk][str(batch)] = {
+                        "decode_throughput_mean": "N/A",
+                        "decode_throughput_std": "N/A",
+                        "num_samples": 0,
+                        "seeds": "N/A",
+                        "paths": "N/A",
+                    }
+                    continue
+                values = [r["throughput"] for r in rows]
+                seeds = sorted({r["seed"] for r in rows if r.get("seed") is not None})
+                mean, std = _mean_std(values)
+                out[name][disk][str(batch)] = {
+                    "decode_throughput_mean": mean,
+                    "decode_throughput_std": std,
+                    "num_samples": len(values),
+                    "seeds": seeds if seeds else "N/A",
+                    "paths": [r["path"] for r in rows],
+                }
+
+    return out
+
+
+def _fig11_tp_mean(result, series_name, disk, batch_str):
+    """decode_throughput_mean from result[series_name][disk][batch]; vLLM uses top-level decode_throughput.
+    Missing / N/A -> 0.0."""
+    if series_name == "vLLM":
+        v = result.get("vLLM", {}).get("decode_throughput")
+        if v in (None, "N/A"):
+            return 0.0
+        return float(v)
+    st = result.get(series_name, {}).get(disk, {}).get(batch_str, {})
+    m = st.get("decode_throughput_mean")
+    if m in (None, "N/A"):
+        return 0.0
+    return float(m)
+
+
+def build_fig11_tp_throughput_data(result):
+    """
+    Structure matches the reference fig-11 script: two panels NVMe / eMMC,
+    labels with 2000MiB / 800MiB bars (batch + thr).
+    """
+    panels = {}
+
+    def panel_for_disk(disk):
+        return {
+            "InfiGen*": {
+                "2000MiB": {
+                    "batch": 3,
+                    "thr": _fig11_tp_mean(result, "InfiGen*", disk, "3"),
+                },
+                "800MiB": {
+                    "batch": 1,
+                    "thr": _fig11_tp_mean(result, "InfiGen*", disk, "1"),
+                },
+            },
+            "InfiGen*\n+reuse": {
+                "2000MiB": {
+                    "batch": 3,
+                    "thr": _fig11_tp_mean(result, "InfiGen*+reuse", disk, "3"),
+                },
+                "800MiB": {
+                    "batch": 1,
+                    "thr": _fig11_tp_mean(result, "InfiGen*+reuse", disk, "1"),
+                },
+            },
+            "Loki": {
+                "2000MiB": {
+                    "batch": 3,
+                    "thr": _fig11_tp_mean(result, "Loki", disk, "3"),
+                },
+                "800MiB": {
+                    "batch": 1,
+                    "thr": _fig11_tp_mean(result, "Loki", disk, "1"),
+                },
+            },
+            "ShadowKV": {
+                "2000MiB": {
+                    "batch": 4,
+                    "thr": _fig11_tp_mean(result, "ShadowKV", disk, "4"),
+                },
+                "800MiB": {
+                    "batch": 2,
+                    "thr": _fig11_tp_mean(result, "ShadowKV", disk, "2"),
+                },
+            },
+            "KVSwap": {
+                "2000MiB": {
+                    "batch": 8,
+                    "thr": _fig11_tp_mean(result, "KVSwap", disk, "8"),
+                },
+                "800MiB": {
+                    "batch": 8,
+                    "thr": _fig11_tp_mean(result, "KVSwap-t", disk, "8"),
+                },
+            },
+        }
+
+    panels["(a) NVMe"] = panel_for_disk("nvme")
+    panels["(b) eMMC"] = panel_for_disk("emmc")
+    return panels
+
+
+def save_fig11_tp_figure(result, output_file):
+    """
+    Bar chart layout from Untitled-1 reference; thr / vLLM from summarize_fig11_tp.
+    """
+    import matplotlib
+
+    matplotlib.use("Agg")
+    from matplotlib import pyplot as plt
+    import numpy as np
+    from matplotlib.patches import Patch
+
+    throughput_data = build_fig11_tp_throughput_data(result)
+    vllm_throughput = _fig11_tp_mean(result, "vLLM", None, None)
+
+    labels = ["InfiGen*", "InfiGen*\n+reuse", "Loki", "ShadowKV", "KVSwap", "vLLM"]
+    sizes = ["2000MiB", "800MiB"]
+
+    colors = {"800MiB": "#345B8C", "2000MiB": "#F28E2B"}
+    vllm_color = "#9FD6D0"
+
+    fig, axes = plt.subplots(2, 1, figsize=(4.5, 2.5), sharex=True)
+    bar_width = 0.4
+    x = np.arange(len(labels))
+
+    for idx, (device, ax) in enumerate(zip(throughput_data.keys(), axes)):
+        data = throughput_data[device]
+
+        # Fixed y-axis: (a) NVMe 0–40, (b) eMMC 0–20
+        if idx == 0:
+            ax.set_ylim(0, 40)
+            ax.set_yticks([0, 10, 20, 30, 40])
+            y_top_for_label = 40
+        else:
+            ax.set_ylim(0, 20)
+            ax.set_yticks([0, 5, 10, 15, 20])
+            y_top_for_label = 20
+
+        for i, label in enumerate(labels):
+            if label == "vLLM":
+                ax.bar(x[i], vllm_throughput, bar_width, color=vllm_color)
+                if device == "(b) eMMC":
+                    ax.text(
+                        x[i],
+                        y_top_for_label,
+                        f"TP={vllm_throughput:.3g}",
+                        ha="center",
+                        va="top",
+                        fontsize=9.5,
+                    )
+            else:
+                entry_2200 = data[label]["2000MiB"]
+                entry_900 = data[label]["800MiB"]
+                batch_2200 = entry_2200.get("batch", 0)
+                batch_900 = entry_900.get("batch", 0)
+
+                ax.bar(
+                    x[i] - bar_width / 2,
+                    entry_2200["thr"],
+                    bar_width,
+                    color=colors["2000MiB"],
+                )
+                ax.bar(
+                    x[i] + bar_width / 2,
+                    entry_900["thr"],
+                    bar_width,
+                    color=colors["800MiB"],
+                )
+
+                ax.text(
+                    x[i] - bar_width / 2,
+                    entry_2200["thr"] - 0.2,
+                    f"b={batch_2200}",
+                    ha="center",
+                    va="bottom",
+                    fontsize=9,
+                )
+                ax.text(
+                    x[i] + bar_width / 2 + 0.05,
+                    entry_900["thr"] - 0.2,
+                    f"b={batch_900}",
+                    ha="center",
+                    va="bottom",
+                    fontsize=9,
+                )
+
+        ax.set_ylabel("TP (tokens/s)", fontsize=10)
+        ax.set_title(device, fontsize=10, pad=0)
+        ax.grid(axis="y", linestyle="--", alpha=0.6)
+
+    axes[1].set_xticks(x)
+    axes[1].tick_params(axis="x", pad=0)
+    axes[0].tick_params(axis="x", pad=0)
+    axes[0].tick_params(axis="y", pad=0)
+    axes[1].tick_params(axis="y", pad=0)
+    xtick_labels = [
+        label.replace("KVSwap", "KVSwap/\nKVSwap-t").replace("ShadowKV", "ShadKV")
+        for label in labels
+    ]
+    axes[1].set_xticklabels(xtick_labels, rotation=0, ha="center", fontsize=9.5)
+
+    legend_elements = [Patch(facecolor=colors[s], label=s) for s in sizes]
+    # Do not call plt.legend() with no args (warns when no labeled artists exist).
+    fig.legend(
+        handles=legend_elements,
+        loc="upper center",
+        bbox_to_anchor=(0.5, 1.1),
+        ncol=3,
+        fontsize=9.5,
+        frameon=False,
+        labelspacing=0.0,
+        columnspacing=2,
+        handletextpad=0,
+    )
+
+    plt.tight_layout(pad=0)
+    plt.savefig(output_file, bbox_inches="tight", pad_inches=0.0)
+    plt.close(fig)
+
+
 def _fig10_throughput_for_bar(stats):
     """Numeric bar height; N/A -> 0.0 for plotting."""
     m = stats.get("decode_throughput_mean")
@@ -519,7 +901,6 @@ def save_fig10_pdf(data_b1, data_b8, output_file):
         ax.set_yticks(np.arange(0, 14, step=4))
         ax.set_yticklabels([0, 4, 8, 12], fontsize=9)
 
-        # Batch=1 panel: annotate vLLM decode TP on 3B model (first group).
         model_3b = "Llama-3.2-3B-Instruct"
         vllm_tp_3b_b1 = float(data.get(model_3b, {}).get("vLLM", 0.0) or 0.0)
         tp_label = f"{vllm_tp_3b_b1:.1f}" if vllm_tp_3b_b1 > 0 else "N/A"
@@ -601,8 +982,12 @@ def main():
 
     if args.mode == "fig10":
         result = summarize_fig10(all_logs)
+    elif args.mode in ("fig-11-tp", "fig11_tp"):
+        result = summarize_fig11_tp(all_logs)
     else:
-        raise ValueError(f"Unsupported mode: {args.mode}. Supported modes: fig10")
+        raise ValueError(
+            f"Unsupported mode: {args.mode}. Supported: fig10, fig-11-tp"
+        )
 
     text = json.dumps(result, indent=2, ensure_ascii=False)
     print(text)
@@ -612,9 +997,12 @@ def main():
         out_dir = os.path.dirname(out_path)
         if out_dir:
             os.makedirs(out_dir, exist_ok=True)
-        if args.mode == "fig10" and args.output_file.lower().endswith(".pdf") or args.output_file.lower().endswith(".png"):
+        is_plot = args.output_file.lower().endswith((".pdf", ".png"))
+        if args.mode == "fig10" and is_plot:
             data_b1, data_b8 = build_fig10_plot_data(result)
             save_fig10_pdf(data_b1, data_b8, out_path)
+        elif args.mode in ("fig-11-tp", "fig11_tp") and is_plot:
+            save_fig11_tp_figure(result, out_path)
         else:
             with open(out_path, "w", encoding="utf-8") as f:
                 f.write(text + "\n")

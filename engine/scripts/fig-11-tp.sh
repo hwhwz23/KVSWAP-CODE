@@ -1,5 +1,4 @@
 #!/bin/bash
-set -e
 
 run_mode=${1:-quick}
 
@@ -56,7 +55,6 @@ clear_offload_dir(){
 
 ################Infinigen/Infinigen*(+reuse)################
 run_infinigen(){
-    return 0
     RUN_ARGS=L4 
     USE_TOKEN_CACHE=0
     START_LAYER=0-curr-emb
@@ -183,6 +181,33 @@ BATCH_LIST="8"
 ./scripts/run_vllm.sh $TEST_MODEL $SEQ_LIST $BATCH_LIST
 
 #############################################
+
+
+#############################################
+# Output Results
+mkdir -p ./RESULTS
+
+if [ -z "$EVAL_USER" ]; then
+    echo "EVAL_USER is not set. Exit."
+    exit 1
+fi
+
+mkdir -p ./RESULTS/$EVAL_USER
+
+if [ "$run_mode" = "full" ]; then
+    output_file=./RESULTS/$EVAL_USER/fig-11-tp-full.png
+else
+    output_file=./RESULTS/$EVAL_USER/fig-11-tp.png
+fi
+
+echo "Generating figure 11 (Throughput)..."
+
+source .venv/bin/activate
+python scripts/utils.py $EVAL_LOG_DIR/$EVAL_USER fig-11-tp $output_file > $output_file.log 
+
+echo "Figure 11 (Throughput) generated and saved to $output_file"
+
+##############################################
 
 
 
