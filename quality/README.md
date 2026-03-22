@@ -18,6 +18,9 @@ We run accuracy experiments on a high-end server. Recommended configuration:
 - **CUDA**: 12.6
 - **Python**: 3.10
 
+
+## 2. Setup
+
 And make sure the following tools are installed:
 - `uv`
 - `git-lfs`
@@ -40,8 +43,7 @@ sudo apt-get install -y git git-lfs
 git lfs install
 ```
 
-
-## 2. Setup
+### Setup Environment 
 
 ```bash
 # Clone only the `quality` directory and skip LFS objects initially.

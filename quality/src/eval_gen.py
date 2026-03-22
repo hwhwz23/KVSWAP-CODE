@@ -171,7 +171,7 @@ def get_pred(args, model, data, tokenizer, mode, fout, task, gen_configs, out_fi
             prompt = prompt_format.format(**item)
             max_new_tokens = kwargs['max_gen']
             if mode == 'cot':
-                max_new_tokens += 1000
+                max_new_tokens += 2500
             # ["trec", "triviaqa", "samsum", "lsht", "lcc", "repobench-p"]
             if 'trec' in out_file or 'triviaqa' in out_file or 'samsum' in out_file or 'lsht' in out_file or 'lcc' in out_file or 'repobench-p' in out_file:
                 assert mode != 'cot', f"mode {mode} not supported for task {task}"

@@ -12,8 +12,6 @@ def get_dataset(dataset, **kwargs):
 		data_list = load_dataset('allenai/c4', 
                            	data_files={'validation': 'en/c4-validation.00000-of-00008.json.gz'}, 
                             split='validation', num_proc=8)['text'] 	
-	# elif 'arc' in dataset:
-	# 	data_list = load_dataset("allenai/ai2_arc", "ARC-Easy", num_proc=8)['train']['question']
 	elif 'math500' in dataset:
 		sys_prompt = "You are a helpful AI bot that answers questions for a user. Keep your response short and direct."
 		prompt_format = """
@@ -53,9 +51,6 @@ Remember to put your answer on its own line after "Answer:", and you do not need
 	return data_list
 
 
-
-
-
 def get_testenc(tokenizer, dataset, seqlen, model_name, save=True, cant_find_error=False, save_dir='./tmp'):
 	testenc_fname = f'{save_dir}/{dataset}-{model_name}-{seqlen}.dataset'
 	if os.path.exists(testenc_fname):
@@ -80,19 +75,19 @@ def get_testenc(tokenizer, dataset, seqlen, model_name, save=True, cant_find_err
 	return testenc
 
 
-def get_mask_rate(decoder_model):
-	mask_non_zero_rate = []
-	kv_groups = decoder_model.layers[0].self_attn.num_key_value_groups if hasattr(decoder_model.layers[0].self_attn, 'num_key_value_groups') else 1
-	head_dim = decoder_model.layers[0].self_attn.head_dim
-	print("kv_groups: ", kv_groups)
-	for layer_i in range(len(decoder_model.layers)):
-		skewing_mask = decoder_model.layers[layer_i].self_attn.skewing_mask
-		skewing_mask_group = skewing_mask.view(-1, kv_groups, head_dim).sum(dim=1)
-		r = (skewing_mask_group != 0).float().sum().item() / skewing_mask_group.numel()
-		mask_non_zero_rate.append(r)
-	print("mask_non_zero_rate: ", mask_non_zero_rate)
-	avg_mask_non_zero_rate = sum(mask_non_zero_rate) / len(mask_non_zero_rate)
-	print("avg_mask_non_zero_rate: ", avg_mask_non_zero_rate)
-	print("normed_avg_mask_non_zero_rate: ", avg_mask_non_zero_rate/kv_groups)
-	return avg_mask_non_zero_rate, avg_mask_non_zero_rate/kv_groups
+# def get_mask_rate(decoder_model):
+# 	mask_non_zero_rate = []
+# 	kv_groups = decoder_model.layers[0].self_attn.num_key_value_groups if hasattr(decoder_model.layers[0].self_attn, 'num_key_value_groups') else 1
+# 	head_dim = decoder_model.layers[0].self_attn.head_dim
+# 	print("kv_groups: ", kv_groups)
+# 	for layer_i in range(len(decoder_model.layers)):
+# 		skewing_mask = decoder_model.layers[layer_i].self_attn.skewing_mask
+# 		skewing_mask_group = skewing_mask.view(-1, kv_groups, head_dim).sum(dim=1)
+# 		r = (skewing_mask_group != 0).float().sum().item() / skewing_mask_group.numel()
+# 		mask_non_zero_rate.append(r)
+# 	print("mask_non_zero_rate: ", mask_non_zero_rate)
+# 	avg_mask_non_zero_rate = sum(mask_non_zero_rate) / len(mask_non_zero_rate)
+# 	print("avg_mask_non_zero_rate: ", avg_mask_non_zero_rate)
+# 	print("normed_avg_mask_non_zero_rate: ", avg_mask_non_zero_rate/kv_groups)
+# 	return avg_mask_non_zero_rate, avg_mask_non_zero_rate/kv_groups
 
