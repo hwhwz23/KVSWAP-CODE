@@ -1,6 +1,6 @@
 exps/
 RESULTS/
-.venv/
+.venv
 *.pyc
 frpc
 jupyter.log
