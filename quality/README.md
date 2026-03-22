@@ -72,13 +72,13 @@ If you are an artifact-evaluation reviewer, we can provide an API key upon reque
 
 ### 3.2 Quick Evaluation
 
-To quickly obtain evaluation results, we provide a **quick mode** that randomly samples a subset of the benchmark data (about **30%** by default) and skips 14B models. This significantly reduces runtime while preserving overall result trends. On our machine, a complete quick run takes approximately **XXX hours**.
+To quickly obtain evaluation results, we provide a **quick mode** that randomly samples a subset of the benchmark data (about **30%** by default) and skips 14B models. This significantly reduces runtime while preserving overall result trends. On our machine, a complete quick run takes approximately **34 hours**.
 
 **All generated results will be stored under the `RESULTS/` directory.**
 
-#### 3.2.1 Data preparation (XX hours)
+#### 3.2.1 Data preparation
 
-First, download adapter weights, a subset of benchmark data and model weights. This process typically takes around **XXX hours**, depending on your network and disk.
+First, download adapter weights, a subset of benchmark data and model weights. This process typically takes around **1-2 hours**, depending on your network and disk.
 
 ```bash
 # Download adapter weights
@@ -91,7 +91,7 @@ bash ./scripts/download_dataset.sh
 
 #### 3.2.2 Step-by-step quick run
 
-##### Figure 9 (XX hours)
+##### Figure 9 (1 hour)
 
 ```bash
 # Use GPU 0
@@ -99,7 +99,7 @@ export CUDA_VISIBLE_DEVICES="0"
 bash ./scripts/fig-9.sh
 ```
 
-##### Table 2 (XX hours)
+##### Table 2 (2-3 hours)
 
 ```bash
 # Use GPU 0
@@ -107,7 +107,7 @@ export CUDA_VISIBLE_DEVICES="0"
 bash ./scripts/tab-2.sh
 ```
 
-##### Table 3 Left (XX hours)
+##### Table 3 Left (24 hours)
 
 **In quick mode, we do not evaluate Qwen3-14B because it is very time-consuming.**
 
@@ -117,7 +117,7 @@ export CUDA_VISIBLE_DEVICES="0"
 bash ./scripts/tab-3-left.sh
 ```
  
-##### Table 3 Right (XX hours)
+##### Table 3 Right (4-5 hours)
 
 **In quick mode, we do not evaluate InternVL3-14B because it is very time-consuming.**
 
@@ -127,7 +127,7 @@ export CUDA_VISIBLE_DEVICES="0"
 bash ./scripts/tab-3-right.sh
 ```
 
-##### Accuracy results in Figure 11 (XX hours)
+##### Accuracy results in Figure 11 (1 hour)
 
 **This figure reuses part of the Table 2 results. Please run Table 2 before running this script.**
 
@@ -138,7 +138,7 @@ bash ./scripts/fig-11-acc.sh
 ```
 
 
-#### 3.2.3 Alternative: Single-step quick run (XX hours)
+#### 3.2.3 Alternative: Single-step quick run (34 hours)
 
 To run all quick evaluations at once, execute the following script. It runs all step-by-step scripts in sequence. If you have already completed the step-by-step runs above, you do not need to run this again.
 
@@ -151,12 +151,11 @@ bash ./scripts/quick_run.sh
 
 ### 3.3 Optional: Full Evaluation
 
-This mode evaluates the **full benchmark dataset** and can take a long time to complete. On our machine, a full run takes approximately **XXX hours**.
+This mode evaluates the **full benchmark dataset and all models** and can take a long time to complete. 
 
+#### 3.3.1 Data preparation
 
-#### 3.3.1 Data preparation (XX hours)
-
-First, download adapter weights, full benchmark data and model weights. This process typically takes around **XXX hours**, depending on your network and disk.
+First, download adapter weights, full benchmark data and model weights. 
 
 ```bash
 # Download adapter weights
@@ -168,9 +167,9 @@ bash ./scripts/download_dataset.sh full
 ```
 
 
-#### 3.3.2 Run (XX hours)
+#### 3.3.2 Run
 
-To evaluate on the full benchmark dataset and models, run:
+To evaluate on the full benchmark dataset and all models, run:
 
 ```bash
 # Use GPU 0
@@ -183,6 +182,5 @@ bash ./scripts/full_run.sh
 
 We provide pre-built adapter weights under the `adapters/` directory, and the evaluation scripts will automatically load and use them when applicable.
 
-Optionally, you can also build your own adapters. Please refer to the instructions below.
+To build adapters yourself, refer to `scripts/prepare_adapters.sh` as an example.
 
-**TODO**: 
