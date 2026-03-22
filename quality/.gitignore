@@ -4,6 +4,7 @@ __pycache__/
 MODELS/
 exps/
 RESULTS/
+tmp
 
 # filter out videos bigger than 2GB
 bench/MLVU/MVLU_DATA/MLVU/video/8_sub_scene/subPlot_new_all_8.mp4

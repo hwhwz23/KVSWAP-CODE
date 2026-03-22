@@ -68,7 +68,6 @@ def merge_heads_gqa(ind, kv_groups):
 		return ind
 
 def get_skewing_mask(query_states, key_states, ratio, skewing_matrix, head_dim, head_num, kv_groups, q_proj_weight, merge_heads):
-	# weight_mask = torch.zeros_like(self.q_proj.weight.data.t())
 	weight_mask = torch.zeros_like(q_proj_weight.t())
 	n = int(head_dim * ratio)
 	# Speculate major columns in Wq and Wk
@@ -215,14 +214,6 @@ def main(args):
 		decoder_model.layers[layer_i].self_attn.record_kv_post_rope = args.record_kv_post_rope
 		decoder_model.layers[layer_i].self_attn.record_kv_pre_rope = args.record_kv_pre_rope
 	
-	# file_path = "./tmp/pg19_firstbook.txt"
-	# with open(file_path, 'r') as file:
-		# prompt = file.read()
-
-	# input_ids = tokenizer(prompt, return_tensors="pt").input_ids.cuda(0)[:, :args.seq_len]
-	# print("Input Shape:", input_ids.shape)
-	# generated_ids = model.generate(input_ids, max_new_tokens=1, min_new_tokens=1)
- 
 	head_dim = decoder_model.layers[0].self_attn.head_dim  
 	kv_groups = decoder_model.layers[0].self_attn.num_key_value_groups if hasattr(decoder_model.layers[0].self_attn, 'num_key_value_groups') else 1
 	num_heads = decoder_model.layers[0].self_attn.config.num_attention_heads 
@@ -291,7 +282,6 @@ def main(args):
 		del dataset, example, video_path, sys_ins
 	else:
 		testenc = get_testenc(tokenizer, args.task, args.seq_len, args.model_name, save=True)      
-		# assert args.eval_samples == 0 or args.eval_samples > 1, f"args.eval_samples={args.eval_samples}"
 		assert args.eval_samples >= 0, f"args.eval_samples={args.eval_samples}"
 		args.eval_samples = int(args.eval_samples)
 		if args.eval_samples > 0:
@@ -307,22 +297,11 @@ def main(args):
 				if pad_token_id is None:
 					pad_token_id = tokenizer.eos_token_id
 				attention_mask = (input_ids != pad_token_id)
-				# print(attention_mask.float().sum())
 				generated_ids = model.generate(input_ids, attention_mask=attention_mask, max_new_tokens=1, min_new_tokens=1)
-				# loss = model(input_ids, use_cache=False, 
-				#             return_dict=False, output_attentions=False, output_hidden_states=False)[0].float().cpu()
-				# nlls.append(loss)
 				query_key_dict = collect_kv(decoder_model, query_key_dict)
 
-			# nlls = torch.stack(nlls)
-		# ppl = nlls.mean().exp().item()
-		# print(f"ppl={ppl:.2f}")
 		del testenc, input_ids, generated_ids
-  
-
-	
-
- 
+   
 	n_layer = len(decoder_model.layers)
  
 	if args.modes[0] == 'infinigen':
@@ -331,8 +310,6 @@ def main(args):
 	model = model.cpu()
 	del model, decoder_model
 	
-	# del attention_mask
-
 	gc.collect()
 	torch.cuda.empty_cache()
  
@@ -343,17 +320,13 @@ def main(args):
 		for mode in args.modes:
 			for layer_i in query_keys.keys():
 				if args.task == 'mlvu' or mode == 'infinigen':
-					# 1, H, S0-S1-S2, D
 					k = torch.concat(query_keys[layer_i]['k'], dim=-2)
 					if args.concat_q:
 						q = torch.concat(query_keys[layer_i]['q'], dim=-2)
 				else:
-					# B, 1, H, S, D
 					k = torch.stack(query_keys[layer_i]['k'], dim=0)
 					if args.concat_q:
 						q = torch.stack(query_keys[layer_i]['q'], dim=0)
-				# B, 1, H, S, D
-				# print(f"stacked_k.shape={stacked_k.shape}")
 				if mode == 'infinigen':
 					for head in range(num_heads):
 						in_q = q[0, head].cuda().float() # s, d
@@ -397,18 +370,15 @@ def main(args):
 				elif mode == 'loki':
 					pca_components = []
 					assert torch.isfinite(k).all(), f"stacked_k has inf or nan, {torch.sum(torch.isnan(k))}, {torch.sum(torch.isinf(k))}"
-					# print(f"stacked_k.shape={k.shape}")
 					for head in range(kv_heads):
 						if args.task == 'mlvu':
 							in_k = k[:, head].reshape(-1, head_dim).float().cpu().numpy()
 						else:	
 							in_k = k[:, 0, head].reshape(-1, head_dim).float().cpu().numpy()
-						# print(f"in_k.shape={in_k.shape}")
 						pca = PCA()
 						pca.fit(in_k)
 						pca_components.append(torch.tensor(pca.components_))
 					pca_components = torch.stack(pca_components, dim=0).transpose(1, 2)
-					# print(f"pca_components.shape={pca_components.shape}")
 					for ratio in args.ratios:
 						save_dir = f'{args.save_dir}/loki_proj_{key_mode}_{args.task}_{args.eval_samples}/'+args.model_name+'_'+mode+'_'+str(ratio)
 						if not os.path.exists(save_dir):
@@ -419,50 +389,21 @@ def main(args):
 					torch.cuda.empty_cache()  
 					continue
 				elif mode == 'sh':
-					# B, 1, S, D -> B*S, D
-					# k = k.cuda().float().mean(dim=-3).cpu()
 					k = k.cuda().float().mean(dim=-3)
 					k = k.view(-1, k.shape[-1])
 				elif mode == 'mh':
-					# B, 1, S, H, D -> B*S, H*D
 					k = k.transpose(-2, -3).cuda().float().contiguous()
 					k = k.view(-1, k.shape[-2]*k.shape[-1])
-				# if args.concat_q:
-				# 	pass
 				gc.collect()
 				torch.cuda.empty_cache()
-				# assert torch.isfinite(k).all(), f"stacked_k has inf or nan, {torch.sum(torch.isnan(k))}, {torch.sum(torch.isinf(k))}"
-				# u, _, _ = torch.svd(k.t())
-				# torch.backends.cuda.preferred_linalg_library("magma")
 				u, _, _ = torch.linalg.svd(k.t(), full_matrices=False)
 				del k
 				for ratio in args.ratios:
 					save_dir = f'{args.save_dir}/lowrank_proj_{key_mode}_{args.task}_{args.eval_samples}/'+args.model_name+'_'+mode+'_'+str(ratio)
 					if not os.path.exists(save_dir):
 						os.makedirs(save_dir)
-					# -1, r
 					u_save = u[:, :int(head_dim * ratio)]
 					torch.save(u_save.cpu().half(), f"{save_dir}/lr_kproj_{layer_i}.pt")
-					# B*S, D   @ D, r -> B*S, r
-					# B*S, H*D @ H*D, r -> B*S, r
-					# k_r = k @ u_save
-					# B*S//G, G*r
-					# k_r = k_r.view(-1, args.token_group*k_r.shape[-1])
-					# if args.concat_q:
-					#     if mode == 'sh':
-					#         q = stacked_q.mean(dim=-3) 
-					#         q = q.view(-1, q.shape[-1]) # B*S, D
-					#         q_r = q @ u_save # B*S, D @ D, r -> B*S, r
-					#         q_r = q_r.repeat(1, args.token_group)
-					#         k_r = torch.cat([k_r, 10*q_r], dim=0) 
-					#         del q, q_r
-					#     else:
-					#         pass
-					# u_kr, _, _ = torch.svd(k_r.t())
-					# u_kr_save = u_kr[:, :k_r.shape[-1]//args.token_group]
-					# print(f"u_kr_save.shape={u_kr_save.shape}")
-					# torch.save(u_kr_save.cpu().half(), f"{save_dir}/group_fuse_{layer_i}.pt")
-				# del k, k_r, u, u_kr, u_save, u_kr_save
 				del u, u_save
 				gc.collect()
 				torch.cuda.empty_cache()
@@ -474,37 +415,9 @@ if __name__ == "__main__":
 
 	args = argparse.Namespace()
 	args.torch_dtype = torch.bfloat16
-	# args.model_path = '/home/schz/research/models/Llama-3.1-8B'
-	# args.model_path = '/home/schz/research/models/Llama-3.1-8B-Instruct'
-	# args.model_path = '/home/schz/research/models/Qwen2.5-3B'
-	# args.model_path = '/home/schz/research/models/Qwen3-8B-Base'
-	# args.model_path = '/home/schz/research/models/Qwen3-14B'
-	# args.model_path = os.path.dirname(os.path.abspath(__file__)) + '/../../models/Qwen3-14B'
-	# args.model_path = os.path.dirname(os.path.abspath(__file__)) + '/../../models/Qwen3-8B'
-	# args.model_path = os.path.dirname(os.path.abspath(__file__)) + '/../../models/Llama-3.1-8B-Instruct'
-	# args.model_path = os.path.dirname(os.path.abspath(__file__)) + '/../../models/Llama-3.1-8B-Instruct'
-	# args.model_path = os.path.dirname(os.path.abspath(__file__)) + '/../../models/Llama-3.2-3B-Instruct'
-	# args.model_path = os.path.dirname(os.path.abspath(__file__)) + '/../../models/DeepSeek-R1-0528-Qwen3-8B'
-	# args.model_path = os.path.dirname(os.path.abspath(__file__)) + '/../../models/DeepSeek-R1-Distill-Llama-8B'
-	# args.model_path = '/home/schz/research/models/Qwen3-0.6B'
-	args.model_path = '/home/schz/research/models/Qwen3-1.7B'
-	# args.model_path = '/home/schz/research/models/Qwen3-8B'
-	# args.model_path = '/home/schz/research/models/Qwen2.5-VL-3B-Instruct'
-	# args.model_path = '/home/schz/research/models/VideoLLaMA3-7B'
-	# args.model_path = os.path.dirname(os.path.abspath(__file__)) + '/../../models/InternVL3-14B'
-	# args.model_path = '/home/schz/research/models/Qwen2.5-VL-3B-Instruct'
-	# args.model_path = os.path.dirname(os.path.abspath(__file__)) + '/../../models/InternVL3-14B'
-	# args.model_path = '/home/schz/research/models/Qwen2.5-VL-3B-Instruct'
-	# args.model_path = '/home/schz/research/models/Qwen2.5-VL-7B-Instruct'
-	# args.model_path = '/home/schz/research/models/VideoLLaMA3-7B'
-
-	# args.model_path = '/home/schz/research/models/Qwen2.5-VL-7B-Instruct'
-	# args.model_path = '/home/schz/research/models/Qwen3-1.7B'
-	# args.model_path = '/home/schz/research/models/Qwen3-1.7B'
-	# args.model_path = '/home/schz/research/models/DeepSeek-R1-0528-Qwen3-8B'
-	# args.seq_len = 8192
+	args.model_path = './MODELS/Qwen3-1.7B'
 	args.seq_len = 32768
-	# args.token_group = 4
+
 	# args.ratios = [0.5/4, 0.5/4/4]
 	# args.ratios = [1/8, 0.25/8]
 	# args.ratios = [1/2, 0.25/2]
@@ -526,21 +439,16 @@ if __name__ == "__main__":
 	# args.modes = ['loki']
 	args.modes = ['infinigen']
 	#############################################################
-	# args.merge_heads = False # set false for infinigen2
-	args.merge_heads = True # set false for infinigen2
+	args.merge_heads = True
 	args.task = 'c4'
-	# args.task = 'livecodebench'
-	# args.task = 'math500'
 	# args.task = 'mlvu'
 	args.eval_samples = 20
-	# args.eval_samples = 2
 	args.bsz = 1
 	args.record_kv_post_rope = True
 	args.record_kv_pre_rope = False
 	# args.record_kv_post_rope = False
 	# args.record_kv_pre_rope = True
 	args.concat_q = False
-	# TODO: pre_norm for qwen3
 	HOSTNAME = os.uname()[1]
 	if args.modes[0] == 'infinigen':
 		args.record_kv_post_rope = True
@@ -554,7 +462,5 @@ if __name__ == "__main__":
 		args.save_dir = f'./exps/{HOSTNAME}/loki_proj'
 	else:
 		args.save_dir = f'./exps/{HOSTNAME}/lowrank_proj'
-	# if args.concat_q:
-	# 	args.save_dir += '_cq'
 	main(args)
 
