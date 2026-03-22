@@ -3,12 +3,12 @@
 run_mode=${1:-quick}
 
 if [ "$run_mode" = "full" ]; then
-    MAX_COUNT=40
+    MAX_COUNT=5
     BATCH_TO_EVAL="1 2 4 8 16"
     BATCH_TO_EVAL_VLLM="1,2,4,8,16"
     echo "=============== Running full evaluation ==============="
 else
-    MAX_COUNT=1
+    MAX_COUNT=2
     BATCH_TO_EVAL="1 4 16"
     BATCH_TO_EVAL_VLLM="1,4,16"
     echo "=============== Running quick evaluation ==============="
@@ -150,7 +150,7 @@ while IFS= read -r seed; do
         export MAX_ALLOC_KV_SIZE=$((1024*1024*2048))
         DISK_TYPE=nvme
         KVSWAP_TG=4
-        BATCH_LIST="1"
+        BATCH_LIST="1 4"
         run_flexgen
         run_infinigen
         BATCH_LIST="$BATCH_TO_EVAL"
@@ -160,7 +160,7 @@ while IFS= read -r seed; do
         # BATCH_LIST="$BATCH_TO_EVAL"
         DISK_TYPE=emmc
         KVSWAP_TG=8
-        BATCH_LIST="1"
+        BATCH_LIST="1 4"
         run_flexgen
         run_infinigen
         BATCH_LIST="1 4"

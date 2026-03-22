@@ -57,13 +57,20 @@ if [ ! -d .venv ]; then
         echo "Please refer to wheel_pkgs/readme.txt"
         exit 1
     fi
+    if [ ! -f ./wheel_pkgs/vllm-0.10.1.dev271+g60523a731.cu126-cp310-cp310-linux_aarch64.whl ]; then
+        echo "Error: vllm-0.10.1.dev271+g60523a731.cu126-cp310-cp310-linux_aarch64.whl not found"
+        echo "Please refer to wheel_pkgs/readme.txt"
+        exit 1
+    fi
+
     uv pip install ./wheel_pkgs/torch-2.7.0-cp310-cp310-linux_aarch64.whl
     uv pip install ./wheel_pkgs/flash_attn-2.7.4.post1-cp310-cp310-linux_aarch64.whl --no-build-isolation
     uv pip install ./wheel_pkgs/triton-3.2.0-cp310-cp310-linux_aarch64.whl --no-deps
+    uv pip install ./wheel_pkgs/vllm-0.10.1.dev271+g60523a731.cu126-cp310-cp310-linux_aarch64.whl --no-build-isolation
     uv pip install notebook jupyterlab
     # transformers==4.51.0
     # tokenizers==0.21
-
+    
     echo "Building shadowkv..."
     pushd src/shadowkv
     python setup.py build_ext --inplace
@@ -73,10 +80,6 @@ if [ ! -d .venv ]; then
     pushd src/Liburing
     pip install -e .
     popd
-
-    ###########TODO 
-    # uv pip install vllm4kvswap
-
 
     echo "Done: Installing dependencies"
 else
@@ -162,7 +165,6 @@ mount_dev_if_needed() {
 
     echo "Mounting ${_label} to ${_mnt_dir}"
     # sudo mount "${_dev_path}" "${_mnt_dir}"
-    # add noatime,nodiratime to the mount options
     sudo mount -o noatime,nodiratime,data=ordered,nodelalloc,nolazytime "${_dev_path}" "${_mnt_dir}"
     # give permission to the mount directory
     sudo chmod -R 777 "${_mnt_dir}"
@@ -210,9 +212,9 @@ echo "--------------------------------"
 
 echo "Checking remaining disk space..."
 
-_GIB=$((1024 * 1024 * 1024))
-_EMMC_MIN_FREE=$((64 * _GIB))
-_NVME_MIN_FREE=$((200 * _GIB))
+_GB=$((1000 * 1000 * 1000))
+_EMMC_MIN_FREE=$((64 * 1000 * 1000 * 1000))
+_NVME_MIN_FREE=$((200 * 1000 * 1000 * 1000))
 
 # Returns 0 if / is on the given device name (e.g. mmcblk0p1), same logic as mount_dev_if_needed.
 root_fs_on_device() {
@@ -277,14 +279,14 @@ check_disk_free_space() {
         exit 1
     fi
 
-    local _avail_gib _need_gib
-    _avail_gib=$(awk "BEGIN {printf \"%.2f\", ${_avail} / ${_GIB}}")
+    local _avail_gb _need_gb
+    _avail_gb=$(awk "BEGIN {printf \"%.2f\", ${_avail} / ${_GB}}")
     if [[ "${_label}" == "eMMC" ]]; then
-        _need_gib="64"
+        _need_gb="64"
     else
-        _need_gib="256"
+        _need_gb="200"
     fi
-    echo "  ${_label} OK: ${_dev_path} @ ${_mount_dir} — ${_avail_gib} GiB free (>= ${_need_gib} GiB free)"
+    echo "  ${_label} OK: ${_dev_path} @ ${_mount_dir} — ${_avail_gb} GB free (>= ${_need_gb} GB)"
 }
 
 check_disk_free_space "eMMC" "${EMMC_DEV_NAME}" "${EMMC_OFFLOAD_DIR}" "${_EMMC_MIN_FREE}"

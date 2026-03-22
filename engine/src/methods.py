@@ -114,8 +114,8 @@ def speculate_attention(lr_proj_mode, hidden, next_partial_wq, next_skew_matrix,
 	assert tail_len == 0, f"{token_group} {attn.shape} != 0"
 	attn = attn.view(b, out_heads, -1, token_group)
 	if out_heads > 1:
-		attn = attn.mean(dim=1) # TODO decide: b, -1, token_group OR exp().mean()
-	attn = attn.amax(-1) # OR exp().mean()
+		attn = attn.mean(dim=1) 
+	attn = attn.amax(-1) 
 	# b, 1, n / b, n
 	ind = attn.topk(fetch_num // token_group, dim=-1, largest=True, sorted=False).indices # b, n
 	return ind.view(b, -1) # b, n

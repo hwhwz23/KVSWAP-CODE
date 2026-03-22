@@ -1,6 +1,6 @@
 ## Remote access setup
 
-This guide configures Jupyter on the device and exposes it through **frpc** so reviewers can connect remotely.
+This guide configures Jupyter on the device and exposes it through **frpc** so one can connect remotely.
 
 ### 1. Jupyter configuration
 
@@ -38,7 +38,7 @@ You can then open the UI in a browser on the machine itself.
 
 ### 3. Expose via frpc (remote access)
 
-To allow access from outside the LAN, run **frpc** with your own `frpc.toml` (download the matching **frpc** binary for your platform first).
+To allow access from outside the LAN, run **frpc** with your own `frpc.toml` (download the matching **frpc** binary first).
 
 Example (paths may differ):
 
@@ -46,4 +46,6 @@ Example (paths may differ):
 nohup ./frpc/frp_0.61.1_linux_arm64/frpc -c ./frpc/frp_0.61.1_linux_arm64/frpc.toml > frpc.log 2>&1 &
 ```
 
-After the tunnel is up, use the URL and credentials you configured on the frp server side (not published in this repo).
+After the tunnel is up, use the URL and credentials you configured on the frp server side.
+
+

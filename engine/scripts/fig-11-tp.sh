@@ -3,7 +3,7 @@
 run_mode=${1:-quick}
 
 if [ "$run_mode" = "full" ]; then
-    MAX_COUNT=40
+    MAX_COUNT=5
     echo "=============== Running full evaluation ==============="
 else
     MAX_COUNT=2
