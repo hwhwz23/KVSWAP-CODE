@@ -1,4 +1,3 @@
-
 # Throughput Evaluation
 
 We use **NVIDIA Jetson Orin AGX** as the target platform and provide two ways to run the throughput evaluation:
@@ -20,48 +19,85 @@ For security reasons, we do not publish the remote access IP address or password
 Please contact us via HotCRP, and we will share the credentials promptly.
 
 
-
-## 2. Run on Your Own Device
+## 2. Run on your own device
 
 ### 2.1 Requirements
 
 #### Hardware
 
-The **NVIDIA Jetson Orin AGX** has built-in **eMMC** storage; please additionally attach an **NVMe SSD** via the onboard PCIe interface.
+The **NVIDIA Jetson Orin AGX** includes **eMMC**; attach an **NVMe SSD** over the onboard PCIe slot.
 
-Since KV cache data will be offloaded to eMMC and NVMe, please ensure:
+KV-cache data is offloaded to eMMC and NVMe. Ensure:
 
-- **eMMC**: >= 64GB
-- **NVMe**: >= 256GB
+- **eMMC**: ≥ 64 GB  
+- **NVMe**: ≥ 256 GB  
 
-To save eMMC space, please install the system image on the NVMe SSD.
+To reduce pressure on eMMC, we recommend **installing the system image on the NVMe SSD**.
 
 #### Software
 
-- **JetPack**: 6.2
-- **Linux Kernel**: 5.15.148-tegra
-- **CUDA**: 12.6
-- **Python**: 3.10
-- **PyTorch**: 2.7 (with CUDA)
+- **JetPack**: 6.2  
+- **Linux kernel**: 5.15.148-tegra  
+- **CUDA**: 12.6  
+- **Python**: 3.10  
+- **PyTorch**: 2.7  
 
 
 ### 2.2 Setup
 
-After confirming that your device meets the hardware and software requirements above, proceed with the setup steps below.
+Confirm your hardware and software match the requirements above, then follow the steps below.
 
-uv
+#### Install `uv`
 
-download wheel_pkgs
+Install [uv](https://docs.astral.sh/uv/getting-started/installation/) (or use the one-liner):
 
-sparse clone 
-git clone this-repo/engine
+```bash
+curl -LsSf https://astral.sh/uv/install.sh | sh
+```
 
-TODO...
-setup ...
+#### Clone the repository (sparse checkout: `engine` only)
+
+```bash
+git clone --filter=blob:none --no-checkout https://github.com/hwhwz23/KVSWAP-CODE.git
+cd KVSWAP-CODE
+git sparse-checkout init --cone
+git sparse-checkout set engine
+GIT_LFS_SKIP_SMUDGE=1 git checkout main
+cd engine
+```
+
+#### Download wheel packages
+
+Download the required `.whl` files and place them under `wheel_pkgs/`.  
+See [`wheel_pkgs/readme.txt`](wheel_pkgs/readme.txt) for details.
+
+#### User configuration
+
+Set paths and evaluation options to match your machine (block device names, mount points, model locations, log root, and a short **user id** for result folders):
+
+```bash
+# Replace with your own settings
+export EMMC_DEV_NAME='mmcblk0p1'
+export EMMC_OFFLOAD_DIR='/mnt/emmc/offload'
+export NVME_DEV_NAME='nvme0n1'
+export NVME_OFFLOAD_DIR='/mnt/nvme/offload'
+export MODEL_PATH_BASE_HF='../../ext_disk/model_weights_hf'
+export MODEL_PATH_BASE='../../ext_disk/model_weights'
+export EVAL_LOG_DIR='../../ext_disk/kvswap_logs'
+
+export EVAL_USER='XXX'   # **Change this** identifier for storing results
+export EVAL_MODE='quick' # or 'full'
+```
+
+#### Set up the environment
+
+This installs dependencies and performs hardware checks:
+
+```bash
+bash ./scripts/setup.sh
+```
 
 
-### 2.3 How to Run
+### 2.3 How to run
 
-All instructions and scripts are provided in `run_evaluation.ipynb`.
-Please open this notebook on your device and execute the cells in order.
-
+Open `run_evaluation.ipynb` on the device and execute the cells **in order**. All evaluation steps and commands are documented there.

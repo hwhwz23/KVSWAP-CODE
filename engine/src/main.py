@@ -12,7 +12,7 @@ import gc
 from tqdm import tqdm
 # from datasets import load_dataset
 import random
-torch.cuda.set_per_process_memory_fraction(0.8, device=0)
+torch.cuda.set_per_process_memory_fraction(0.85, device=0)
 random.seed(1234)
 torch.manual_seed(1234)
 np.random.seed(1234)

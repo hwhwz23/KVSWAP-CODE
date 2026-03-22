@@ -4,9 +4,13 @@ run_mode=${1:-quick}
 
 if [ "$run_mode" = "full" ]; then
     MAX_COUNT=40
+    BATCH_TO_EVAL="1 2 4 8 16"
+    BATCH_TO_EVAL_VLLM="1,2,4,8,16"
     echo "=============== Running full evaluation ==============="
 else
-    MAX_COUNT=2
+    MAX_COUNT=1
+    BATCH_TO_EVAL="1 4 16"
+    BATCH_TO_EVAL_VLLM="1,4,16"
     echo "=============== Running quick evaluation ==============="
 fi
 
@@ -144,19 +148,22 @@ while IFS= read -r seed; do
         SEED=$seed
         #########################################################
         export MAX_ALLOC_KV_SIZE=$((1024*1024*2048))
-        BATCH_LIST="1 2 4 8 16"
         DISK_TYPE=nvme
         KVSWAP_TG=4
+        BATCH_LIST="1"
         run_flexgen
         run_infinigen
+        BATCH_LIST="$BATCH_TO_EVAL"
         run_kvswap
         #########################################################
         export MAX_ALLOC_KV_SIZE=$((1024*1024*1024))
-        BATCH_LIST="1 2 4 8"
+        # BATCH_LIST="$BATCH_TO_EVAL"
         DISK_TYPE=emmc
         KVSWAP_TG=8
+        BATCH_LIST="1"
         run_flexgen
         run_infinigen
+        BATCH_LIST="1 4"
         run_kvswap
         #########################################################
     done
@@ -178,12 +185,12 @@ while IFS= read -r seed; do
         SEED=$seed
         #########################################################
         export MAX_ALLOC_KV_SIZE=$((1024*1024*2048))
-        BATCH_LIST="1 2 4 8 16"
+        BATCH_LIST="$BATCH_TO_EVAL"
         DISK_TYPE=nvme
         run_shadowkv
         #########################################################
         export MAX_ALLOC_KV_SIZE=$((1024*1024*1024))
-        BATCH_LIST="1 2 4 8 16"
+        BATCH_LIST="$BATCH_TO_EVAL"
         DISK_TYPE=emmc
         run_shadowkv
         #########################################################
@@ -194,9 +201,12 @@ while IFS= read -r seed; do
 done < "./data/seeds.txt"
 
 #############################################
+clear_offload_dir nvme
+clear_offload_dir emmc
+
 # run vLLM
 SEQ_LIST="16384,32768"
-BATCH_LIST="1,2,4,8,16"
+BATCH_LIST="$BATCH_TO_EVAL_VLLM"
 
 echo "Running vLLM..."
 ./scripts/run_vllm.sh $TEST_MODEL $DISK_TYPE $SEQ_LIST $BATCH_LIST
@@ -204,8 +214,27 @@ echo "vLLM done."
 
 #############################################
 # Output Results
+mkdir -p ./RESULTS
 
+if [ -z "$EVAL_USER" ]; then
+    echo "EVAL_USER is not set. Exit."
+    exit 1
+fi
 
+mkdir -p ./RESULTS/$EVAL_USER
+
+if [ "$run_mode" = "full" ]; then
+    output_file=./RESULTS/$EVAL_USER/tab-4-full.txt
+else
+    output_file=./RESULTS/$EVAL_USER/tab-4.txt
+fi
+
+echo "Generating table 4..."
+
+source .venv/bin/activate
+python scripts/utils.py $EVAL_LOG_DIR/$EVAL_USER tab-4 $output_file > $output_file.log 
+
+echo "Table 4 generated and saved to $output_file"
 
 
 ##############################################

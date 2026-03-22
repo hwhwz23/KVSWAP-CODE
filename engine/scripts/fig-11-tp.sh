@@ -173,6 +173,8 @@ while IFS= read -r seed; do
     fi
 done < "./data/seeds.txt"
 
+clear_offload_dir nvme
+clear_offload_dir emmc
 #############################################
 # run vLLM
 SEQ_LIST="24576"
