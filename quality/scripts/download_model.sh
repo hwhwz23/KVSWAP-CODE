@@ -13,20 +13,19 @@ INTERACTIVE_PROMPT="${INTERACTIVE_PROMPT:-1}"
 has_weight_files() {
   local dir="$1"
   shopt -s nullglob
-  # Common Hugging Face weight file patterns (supports sharded weights).
   local candidates=(
-    "${dir}/model*.safetensors"
-    "${dir}/pytorch_model*.bin"
-    "${dir}/*.bin"
-    "${dir}/model*.pt"
-    "${dir}/*.pt"
-    "${dir}/model*.pth"
-    "${dir}/*.pth"
-    "${dir}/model*.safetensors.index.json"
-    "${dir}/pytorch_model*.bin.index.json"
+    "${dir}"/model*.safetensors
+    "${dir}"/pytorch_model*.bin
+    "${dir}"/*.bin
+    "${dir}"/model*.pt
+    "${dir}"/*.pt
+    "${dir}"/model*.pth
+    "${dir}"/*.pth
+    "${dir}"/model*.safetensors.index.json
+    "${dir}"/pytorch_model*.bin.index.json
   )
-  for c in "${candidates[@]}"; do
-    if [ -e $c ]; then
+  for f in "${candidates[@]}"; do
+    if [ -e "$f" ]; then
       return 0
     fi
   done
