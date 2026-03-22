@@ -1,6 +1,7 @@
 *.pyc
 .venv/
 __pycache__/
+new_adapters
 MODELS/
 exps/
 RESULTS/

@@ -10,9 +10,9 @@ from models.modeling_llama import eager_attention_forward as llama_eager_attenti
 from models.modeling_llama import att_forward as llama_att_forward
 from models.modeling_llama import model_forward as llama_model_forward
 
-from models.modeling_qwen2 import eager_attention_forward as qwen2_eager_attention_forward
-from models.modeling_qwen2 import att_forward as qwen2_att_forward
-from models.modeling_qwen2 import model_forward as qwen2_model_forward
+# from models.modeling_qwen2 import eager_attention_forward as qwen2_eager_attention_forward
+# from models.modeling_qwen2 import att_forward as qwen2_att_forward
+# from models.modeling_qwen2 import model_forward as qwen2_model_forward
 
 from models.modeling_qwen2_5_vl import att_forward as qwen2_5_vl_att_forward
 from models.modeling_qwen2_5_vl import model_forward as qwen2_5_vl_model_forward
@@ -36,9 +36,9 @@ transformers.models.llama.modeling_llama.eager_attention_forward = llama_eager_a
 transformers.models.llama.modeling_llama.LlamaAttention.forward = llama_att_forward
 transformers.models.llama.modeling_llama.LlamaModel.forward = llama_model_forward
 
-transformers.models.qwen2.modeling_qwen2.eager_attention_forward = qwen2_eager_attention_forward
-transformers.models.qwen2.modeling_qwen2.Qwen2Attention.forward = qwen2_att_forward
-transformers.models.qwen2.modeling_qwen2.Qwen2Model.forward = qwen2_model_forward
+# transformers.models.qwen2.modeling_qwen2.eager_attention_forward = qwen2_eager_attention_forward
+# transformers.models.qwen2.modeling_qwen2.Qwen2Attention.forward = qwen2_att_forward
+# transformers.models.qwen2.modeling_qwen2.Qwen2Model.forward = qwen2_model_forward
 
 transformers.models.qwen2_5_vl.modeling_qwen2_5_vl.Qwen2_5_VLFlashAttention2.forward = qwen2_5_vl_att_forward
 transformers.models.qwen2_5_vl.modeling_qwen2_5_vl.Qwen2_5_VLModel.forward = qwen2_5_vl_model_forward
@@ -413,54 +413,42 @@ def main(args):
 
 if __name__ == "__main__":
 
-	args = argparse.Namespace()
+	parser = argparse.ArgumentParser()
+	parser.add_argument('--model_path', type=str, required=True)
+	parser.add_argument('--seq_len', type=int, default=32768)
+	parser.add_argument('--ratios', type=str, required=True)
+	parser.add_argument('--mode', type=str, required=True, choices=['infinigen', 'loki', 'kvswap'])
+	parser.add_argument('--save_dir', type=str, required=True)
+	parser.add_argument('--eval_samples', type=int, default=20)
+	parser.add_argument('--task', type=str, required=True, choices=['wikitext', 'ptb', 'c4', 'mlvu'])
+	
+	args = parser.parse_args()
+
+	args.ratios = [float(ratio) for ratio in args.ratios.split(',')]
+	print(f"args.ratios={args.ratios}")
+	print(f"args.save_dir={args.save_dir}")
+	print(f"args.task={args.task}")
+	print(f"args.mode={args.mode}")
 	args.torch_dtype = torch.bfloat16
-	args.model_path = './MODELS/Qwen3-1.7B'
-	args.seq_len = 32768
-
-	# args.ratios = [0.5/4, 0.5/4/4]
-	# args.ratios = [1/8, 0.25/8]
-	# args.ratios = [1/2, 0.25/2]
-
-	# args.ratios = [1/8, 0.25/8]
-	# args.ratios = [0.25/2, 0.25/4/2]
-
-	# args.ratios = [1/8, 0.25/8]
-	# args.ratios = [1/4, 0.25/4]
-	# args.ratios = [1/2, 0.25/2]
-	# args.ratios = [1/8, 1/32]
-	# args.ratios = [1/2]
-	# args.ratios = [1, 1/4]
-	args.ratios = [1/32, 0.125]
-	# args.ratios = [0.125/4]
-	# args.ratios = [0.5]
-	# args.modes = ['mh', 'sh']
-	# args.modes = ['mh']
-	# args.modes = ['loki']
-	args.modes = ['infinigen']
-	#############################################################
-	args.merge_heads = True
-	args.task = 'c4'
-	# args.task = 'mlvu'
-	args.eval_samples = 20
 	args.bsz = 1
 	args.record_kv_post_rope = True
 	args.record_kv_pre_rope = False
-	# args.record_kv_post_rope = False
-	# args.record_kv_pre_rope = True
 	args.concat_q = False
-	HOSTNAME = os.uname()[1]
-	if args.modes[0] == 'infinigen':
-		args.record_kv_post_rope = True
-		args.record_kv_pre_rope = False
+
+	if args.mode == 'infinigen':
+		args.merge_heads = True
 		args.concat_q = True
-		if args.merge_heads:
-			args.save_dir = f'./exps/{HOSTNAME}/infinigen_skew'
-		else:
-			args.save_dir = f'./exps/{HOSTNAME}/infinigen2_skew'
-	elif args.modes[0] == 'loki':
-		args.save_dir = f'./exps/{HOSTNAME}/loki_proj'
+		args.save_dir = f'{args.save_dir}/infinigen_skew'
+		args.modes = ['infinigen']
+	elif args.mode == 'loki':
+		args.save_dir = f'{args.save_dir}'
+		args.modes = ['loki']
+	elif args.mode == 'kvswap':
+		args.save_dir = f'{args.save_dir}'
+		args.modes = ['mh']
 	else:
-		args.save_dir = f'./exps/{HOSTNAME}/lowrank_proj'
+		raise ValueError(f"Invalid mode: {args.mode}")
+
 	main(args)
+
 
