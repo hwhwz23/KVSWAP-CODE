@@ -151,8 +151,8 @@ while IFS= read -r seed; do
         run_infinigen
         run_kvswap
         #########################################################
-        export MAX_ALLOC_KV_SIZE=$((1024*1024*768))
-        BATCH_LIST="1 2 4"
+        export MAX_ALLOC_KV_SIZE=$((1024*1024*1024))
+        BATCH_LIST="1 2 4 8"
         DISK_TYPE=emmc
         KVSWAP_TG=8
         run_flexgen
@@ -182,8 +182,8 @@ while IFS= read -r seed; do
         DISK_TYPE=nvme
         run_shadowkv
         #########################################################
-        export MAX_ALLOC_KV_SIZE=$((1024*1024*768))
-        BATCH_LIST="1 2 4 8"
+        export MAX_ALLOC_KV_SIZE=$((1024*1024*1024))
+        BATCH_LIST="1 2 4 8 16"
         DISK_TYPE=emmc
         run_shadowkv
         #########################################################
