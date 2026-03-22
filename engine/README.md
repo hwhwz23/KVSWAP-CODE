@@ -85,7 +85,7 @@ export MODEL_PATH_BASE_HF='../../ext_disk/model_weights_hf'
 export MODEL_PATH_BASE='../../ext_disk/model_weights'
 export EVAL_LOG_DIR='../../ext_disk/kvswap_logs'
 
-export EVAL_USER='XXX'   # **Change this** identifier for storing results
+export EVAL_USER='test0'   # **Change this** identifier for storing results
 export EVAL_MODE='quick' # or 'full'
 ```
 

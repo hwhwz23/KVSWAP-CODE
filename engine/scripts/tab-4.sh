@@ -209,7 +209,7 @@ SEQ_LIST="16384,32768"
 BATCH_LIST="$BATCH_TO_EVAL_VLLM"
 
 echo "Running vLLM..."
-./scripts/run_vllm.sh $TEST_MODEL $DISK_TYPE $SEQ_LIST $BATCH_LIST
+./scripts/run_vllm.sh $TEST_MODEL $SEQ_LIST $BATCH_LIST
 echo "vLLM done."
 
 #############################################

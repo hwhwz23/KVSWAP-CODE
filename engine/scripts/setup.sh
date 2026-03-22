@@ -160,7 +160,6 @@ mount_dev_if_needed() {
         return 0
     fi
 
-    mkdir -p "${_mnt_dir}"
     echo "Mounting ${_label} to ${_mnt_dir}"
     # sudo mount "${_dev_path}" "${_mnt_dir}"
     # add noatime,nodiratime to the mount options
@@ -168,6 +167,9 @@ mount_dev_if_needed() {
     # give permission to the mount directory
     sudo chmod -R 777 "${_mnt_dir}"
 }
+
+mkdir -p "${EMMC_OFFLOAD_DIR}"
+mkdir -p "${NVME_OFFLOAD_DIR}"
 
 mount_dev_if_needed "eMMC" "${EMMC_DEV_NAME}" "${EMMC_OFFLOAD_DIR}"
 mount_dev_if_needed "NVMe" "${NVME_DEV_NAME}" "${NVME_OFFLOAD_DIR}"
