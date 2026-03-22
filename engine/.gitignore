@@ -1,8 +1,9 @@
 exps/
 RESULTS/
-.venv/
+.venv
+.venv2
 *.pyc
 frpc
 jupyter.log
 wheel_pkgs/*
-
+__pycache__

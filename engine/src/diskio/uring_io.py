@@ -41,18 +41,12 @@ class DiskIO(DiskIO_Base):
 		else:
 			self.max_rd_req = b_size
 		self.batch_offset = self.seq_len * self.hd_bytes
-		# self.max_rd_req = min(self.max_rd_req, MAX_ENTRIES)
 		assert self.max_rd_req <= MAX_ENTRIES, f"Number of requests {self.max_rd_req} is larger than {MAX_ENTRIES}" 
-		# if need to use timeout read, set entries to twice of max_rd_req
-		# ret = io_uring_queue_init(self.max_rd_req*2, self.rd_ring, IORING_SETUP_SQPOLL)
 		ret = io_uring_queue_init_sqpoll(self.max_rd_req*2, self.rd_ring, 4)
-		# ret = io_uring_queue_init(self.max_rd_req*2, self.rd_ring, 0)
 		assert ret == 0, f"io_uring_queue_init failed: {ret}"
 		self.max_wr_req = b_size
 		assert self.max_wr_req <= MAX_ENTRIES, f"Number of requests {self.max_wr_req} is larger than {MAX_ENTRIES}"
-		# ret = io_uring_queue_init(self.max_wr_req, self.wr_ring, IORING_SETUP_SQPOLL)
 		ret = io_uring_queue_init_sqpoll(self.max_wr_req, self.wr_ring, 4)
-		# ret = io_uring_queue_init(self.max_wr_req, self.wr_ring, 0)
 		assert ret == 0, f"io_uring_queue_init failed: {ret}"
 		self.fd_dict = {}
 		self.reg_buffer = False
@@ -62,14 +56,14 @@ class DiskIO(DiskIO_Base):
 		self.real_req_num_array = np.array([0], dtype=np.uint32)
 		self.timeout_array = np.array([0 for _ in range(self.max_rd_req)], dtype=np.uint32)
 		self.timeout_num_array = np.array([0], dtype=np.uint32)
-		self.min_read_timeout_ns = 5 * 1000000 # 5ms
+		# self.min_read_timeout_ns = 5 * 1000000 # 5ms
 		##########################################################################
 		if hasattr(self, "read_tensor"):            
 			buffer_size = token_group * self.hd_bytes
-			if 'nvme' in name.lower():
-				self.read_timeout_ns = round(b_size * max_kv_num * self.hd_bytes / 1024 / 1024 / 400 * 1000 * 1000000)
-				self.read_timeout_ns = max(self.read_timeout_ns, self.min_read_timeout_ns)
-				print(f"Setting read_timeout_ms={self.read_timeout_ns/1e6:.1f}", flush=True)
+			# if 'nvme' in name.lower():
+			# 	self.read_timeout_ns = round(b_size * max_kv_num * self.hd_bytes / 1024 / 1024 / 400 * 1000 * 1000000)
+			# 	self.read_timeout_ns = max(self.read_timeout_ns, self.min_read_timeout_ns)
+			# 	print(f"Setting read_timeout_ms={self.read_timeout_ns/1e6:.1f}", flush=True)
 			assert buffer_size % BLOCK_DEV_SIZE == 0, f"Buffer size {buffer_size} is not aligned to block size {BLOCK_DEV_SIZE}"
 			assert buffer_size >= BLOCK_DEV_SIZE, f"Buffer size {buffer_size} is smaller than block device size {BLOCK_DEV_SIZE}"
 			self.buffer_size = buffer_size
@@ -262,8 +256,8 @@ class DiskIO(DiskIO_Base):
 			file_offsets = indices.view(-1).numpy()
 			group_offset = self.buffer_size
 			bytes_per_read = self.buffer_size
-			
 			timeout_ns = self.read_timeout_ns
+			# timeout_ns = 0
 		elif type(indices) == np.ndarray:
 			raise NotImplementedError
 		else:
@@ -298,15 +292,6 @@ class DiskIO(DiskIO_Base):
 			timeout_ns = 0
 		
 		assert read_req_n <= self.max_rd_req, f"Number of requests {read_req_n} is larger than {self.max_rd_req}"
-		# print("indices=", indices, flush=True)
-		# print("file_offsets=", file_offsets, flush=True)
-		# max_len = self.seq_len * self.hd_bytes * self.b_size
-		# for i in range(read_req_n):
-		#     offset = file_offsets[i] * group_offset + (i//n_group) * self.batch_offset
-		#     assert offset + bytes_per_read <= max_len, f"i={i}, file_offsets[i]={file_offsets[i]}, group_offset={group_offset}, \
-		#         n_group={n_group}, read_req_n={read_req_n}, batch_offset={self.batch_offset}, bytes_per_read={bytes_per_read}, max_len={max_len}"
-		
-		# dur0 = time.time() - start_time
 		if timeout_ns == 0:
 			ret = prepare_sqe_batch_submit_wait_advance(self.rd_ring, read_req_n, read_addrs, fd_, bytes_per_read, 
 														file_offsets, n_group, group_offset, self.batch_offset, 
@@ -338,8 +323,6 @@ class DiskIO(DiskIO_Base):
 				timeout_ns_ = timeout_ns					
 			if en_reuse:
 				out_tensor = self.read_tensor[:real_req_num].view(real_req_num, 2, -1)
-				# print(f"Read {real_req_num} requests, out_tensor.shape={out_tensor.shape}", flush=True)
-				# print(f"indices={indices}", flush=True)
 			else:
 				out_tensor = self.read_tensor[:read_req_n].view(self.b_size, n_group, 2, -1)
 		
