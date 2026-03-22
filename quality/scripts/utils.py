@@ -223,6 +223,8 @@ if __name__ == "__main__":
           { method_in_paper -> path_to_tasks_results_json }
         """
         out = {}
+        if not os.path.isdir(base_dir):
+            return out
         for method in os.listdir(base_dir):
             method_dir = os.path.join(base_dir, method)
             if not os.path.isdir(method_dir):

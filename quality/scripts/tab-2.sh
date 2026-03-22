@@ -10,7 +10,7 @@ if [ "$mode" = "full" ]; then
     echo "=============== Running full data evaluation ==============="
 else
     eval_samples_longbench=50
-    eval_samples_ruler=25
+    eval_samples_ruler=50
     echo "=============== Running quick evaluation ==============="
 fi
 
