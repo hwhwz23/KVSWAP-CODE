@@ -2,4 +2,7 @@ exps/
 RESULTS/
 .venv/
 *.pyc
+frpc
+jupyter.log
+wheel_pkgs/*
 

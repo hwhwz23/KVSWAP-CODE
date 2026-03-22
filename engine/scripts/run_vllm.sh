@@ -125,11 +125,11 @@ fi
 
 
 # check if OUTPUT_PATH/$TEST_MODEL_results.csv exists
-if [ -f "$OUTPUT_PATH/${TEST_MODEL}_results.csv" ]; then
-  echo "Results already exist in $OUTPUT_PATH/${TEST_MODEL}_results.csv"
-  echo "Skipping model run"
-  exit 0
-fi
+# if [ -f "$OUTPUT_PATH/${TEST_MODEL}_results.csv" ]; then
+#   echo "Results already exist in $OUTPUT_PATH/${TEST_MODEL}_results.csv"
+#   echo "Skipping model run"
+#   exit 0
+# fi
 
 echo "Running vLLM with model: $TEST_MODEL"
 
@@ -139,7 +139,7 @@ echo 3 | sudo tee /proc/sys/vm/drop_caches
 # exit if no permission
 if [ $? -ne 0 ]; then
   echo "Error: No permission to clear system cache."
-  echo "We enforce clearing system cache to avoid OOM errors when running vLLM."
+  echo "We enforce clearing system cache to avoid possible OOM errors when running vLLM."
   echo "Add '<user> ALL=(ALL) NOPASSWD: /usr/bin/tee' to /etc/sudoers to grant permission."
   exit 1  
 fi
