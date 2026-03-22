@@ -970,6 +970,221 @@ def save_fig10_pdf(data_b1, data_b8, output_file):
     plt.close(fig)
 
 
+def summarize_tab4(records_by_method_disk_model):
+    model = "Llama-3.1-8B-Instruct"
+    batches = [1, 2, 4, 8, 16]
+    cls = [16384, 32768]
+    grouped = defaultdict(list)
+
+    for method, disk_dict in records_by_method_disk_model.items():
+        if method == "__meta__":
+            continue
+        if method not in {"infinigen", "shadowkv", "kvswap"}:
+            continue
+        for disk, model_dict in disk_dict.items():
+            if disk not in ("nvme", "emmc"):
+                continue
+            for mname, records in model_dict.items():
+                if mname != model:
+                    continue
+                for rec in records:
+                    params = rec.get("params", {})
+                    common = rec.get("common", {})
+                    metrics = rec.get("metrics", {})
+                    batch = common.get("batch")
+                    seqlen = common.get("seqlen")
+                    genlen = common.get("genlen")
+                    if batch not in batches:
+                        continue
+                    if seqlen is None or genlen is None:
+                        continue
+                    total = seqlen + genlen
+                    if total not in cls:
+                        continue
+                    tp = metrics.get("throughput")
+                    if tp is None:
+                        continue
+
+                    name = None
+                    if method == "infinigen":
+                        if params.get("mode") != "base":
+                            continue
+                        if params.get("tg") != 1 or params.get("budget") != 400:
+                            continue
+                        r = params.get("ratio")
+                        if r is None or abs(r - 0.125) > 1e-9:
+                            continue
+                        ru = params.get("ru")
+                        if ru == 0:
+                            name = "InfiGen*"
+                        elif ru == 400:
+                            name = "InfiGen*+ru"
+                    elif method == "shadowkv":
+                        if params.get("budget") != 400:
+                            continue
+                        if params.get("chunk") != 16 or params.get("r") != 40:
+                            continue
+                        name = "ShadowKV"
+                    elif method == "kvswap":
+                        if params.get("mode") != "lr_proj_mh":
+                            continue
+                        if params.get("budget") != 400 or params.get("ru") != 400:
+                            continue
+                        ra = params.get("ratio")
+                        if ra is None or abs(ra - 1.0) > 1e-9:
+                            continue
+                        if params.get("tg") != (4 if disk == "nvme" else 8):
+                            continue
+                        name = "KVSwap"
+                    if name is None:
+                        continue
+                    grouped[(name, disk, total, batch)].append(float(tp))
+
+    search_path = records_by_method_disk_model.get("__meta__", {}).get("search_path")
+    vllm_flat = {}
+    if search_path:
+        csv_path = os.path.join(search_path, "vllm_results", f"{model}_results.csv")
+        if os.path.isfile(csv_path):
+            try:
+                with open(csv_path, "r", encoding="utf-8", errors="ignore") as f:
+                    reader = csv.DictReader(f)
+                    for row in reader:
+                        try:
+                            seqlen = int(row.get("seqlen", "").strip())
+                            batch = int(row.get("batch", "").strip())
+                            throughput = float(row.get("throughput", "").strip())
+                        except Exception:
+                            continue
+                        if seqlen in cls and batch in batches:
+                            vllm_flat[(seqlen, batch)] = throughput
+            except Exception:
+                pass
+
+    def mean_or_na(vals):
+        if not vals:
+            return "N/A"
+        return round(sum(vals) / len(vals), 1)
+
+    out = {"emmc": {}, "nvme": {}, "vllm": {}}
+    for disk in ("emmc", "nvme"):
+        for name in ("InfiGen*", "InfiGen*+ru", "ShadowKV", "KVSwap"):
+            out[disk][name] = {}
+            for total in cls:
+                out[disk][name][str(total)] = {}
+                for b in batches:
+                    key = (name, disk, total, b)
+                    out[disk][name][str(total)][str(b)] = mean_or_na(grouped.get(key, []))
+
+    out["vllm"] = {}
+    for seqlen in cls:
+        out["vllm"][str(seqlen)] = {}
+        for b in batches:
+            tp = vllm_flat.get((seqlen, b))
+            out["vllm"][str(seqlen)][str(b)] = round(tp, 1) if tp is not None else "N/A"
+
+    return out
+
+
+def format_tab4_table(result):
+    """ASCII table with fixed-width columns for aligned cells."""
+    batches = [1, 2, 4, 8, 16]
+    cls = [16384, 32768]
+    disk_method_rows = ["InfiGen*", "InfiGen*+ru", "ShadowKV", "KVSwap"]
+    # Include vLLM in label width so the footer row aligns with disk tables
+    all_labels = disk_method_rows + ["vLLM"]
+    label_w = max(len(m) for m in all_labels)
+    # Throughput / N/A column width (one decimal; N/A right-aligned)
+    cell_w = 6
+
+    def fmt_cell(v):
+        if v == "N/A" or v is None:
+            return f"{'N/A':>{cell_w}}"
+        return f"{float(v):>{cell_w}.1f}"
+
+    def data_row_disk(m, disk_key):
+        parts = []
+        src = result.get(disk_key, {}).get(m, {})
+        for total in cls:
+            for b in batches:
+                v = src.get(str(total), {}).get(str(b), "N/A")
+                parts.append(fmt_cell(v))
+        return f"  {m:<{label_w}} | " + " | ".join(parts)
+
+    def data_row_vllm():
+        parts = []
+        src = result.get("vllm", {})
+        for total in cls:
+            for b in batches:
+                v = src.get(str(total), {}).get(str(b), "N/A")
+                parts.append(fmt_cell(v))
+        return f"  {'vLLM':<{label_w}} | " + " | ".join(parts)
+
+    # Width of one CL block: 5 cells + 4 inner " | "
+    w_block = 5 * cell_w + 4 * 3
+
+    # Display names for Disk=... banner (eMMC / NVMe)
+    disk_title = {"emmc": "eMMC", "nvme": "NVMe"}
+
+    def disk_banner_line(width, disk_key):
+        """e.g. =======Disk=eMMC======= padded to table width with '='."""
+        label = f"Disk={disk_title[disk_key]}"
+        if width <= len(label):
+            return label[:width]
+        pad = width - len(label)
+        left = pad // 2
+        right = pad - left
+        return "=" * left + label + "=" * right
+
+    def disk_block(disk_key, first_block=False):
+        hdr_cells = [f"b={b}".center(cell_w) for b in batches]
+        hdr_line = (
+            f"  {'Method':<{label_w}} | "
+            + " | ".join(hdr_cells)
+            + " | "
+            + " | ".join(hdr_cells)
+        )
+        cl_line = (
+            f"  {'':<{label_w}} | "
+            + f"{'CL=16K':^{w_block}} | "
+            + f"{'CL=32K':^{w_block}}"
+        )
+        sep = "-" * max(
+            len(hdr_line),
+            len(cl_line),
+            len(data_row_disk("InfiGen*", disk_key)),
+        )
+        out = []
+        if first_block:
+            out.extend([sep, sep])
+        out.extend(
+            [
+                disk_banner_line(len(sep), disk_key),
+                cl_line,
+                hdr_line,
+                sep,
+            ]
+        )
+        for m in disk_method_rows:
+            out.append(data_row_disk(m, disk_key))
+        out.extend([sep, sep])
+        return out, sep
+
+    lines = []
+    lines_emmc, sep = disk_block("emmc", first_block=True)
+    lines.extend(lines_emmc)
+    lines_nvme, _ = disk_block("nvme", first_block=False)
+    lines.extend(lines_nvme)
+    # Line directly above vLLM: use '=' instead of '-'
+    if lines:
+        lines[-1] = "=" * len(lines[-1])
+    # vLLM: single row at end (not tied to a disk)
+    vllm_line = data_row_vllm()
+    sep = "-" * max(len(sep), len(vllm_line))
+    lines.append(vllm_line)
+    lines.extend([sep, sep])
+    return "\n".join(lines) + "\n"
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("search_path")
@@ -984,9 +1199,11 @@ def main():
         result = summarize_fig10(all_logs)
     elif args.mode in ("fig-11-tp", "fig11_tp"):
         result = summarize_fig11_tp(all_logs)
+    elif args.mode in ("tab-4", "tab4"):
+        result = summarize_tab4(all_logs)
     else:
         raise ValueError(
-            f"Unsupported mode: {args.mode}. Supported: fig10, fig-11-tp"
+            f"Unsupported mode: {args.mode}. Supported: fig10, fig-11-tp, tab-4"
         )
 
     text = json.dumps(result, indent=2, ensure_ascii=False)
@@ -1003,9 +1220,15 @@ def main():
             save_fig10_pdf(data_b1, data_b8, out_path)
         elif args.mode in ("fig-11-tp", "fig11_tp") and is_plot:
             save_fig11_tp_figure(result, out_path)
+        elif args.mode in ("tab-4", "tab4"):
+            table_txt = format_tab4_table(result)
+            with open(out_path, "w", encoding="utf-8") as f:
+                f.write(table_txt)
         else:
             with open(out_path, "w", encoding="utf-8") as f:
                 f.write(text + "\n")
+    elif args.mode in ("tab-4", "tab4"):
+        print(format_tab4_table(result), end="")
 
 
 if __name__ == "__main__":

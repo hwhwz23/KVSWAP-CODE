@@ -615,15 +615,14 @@ class TorchDevice:
 	def llama_mlp(self, inputs, w_gate, w_up, w_down, w_norm, donate, act, chunk_size=-1):
 		# assert act == 'silu', f"Unsupported activation: {act}"
 		dtype = inputs.data.dtype
-		out = rms_norm(inputs.data, w_norm.data.to(dtype))
-		s = out.shape[1]
+		s = inputs.data.shape[1]
 		eff_chunk = chunk_size if 0 < chunk_size < s else s
 		for start in range(0, s, eff_chunk):
 			end = min(start + eff_chunk, s)
-			out[:, start:end] = llama_mlp_func(out[:, start:end], w_gate.data, w_up.data, w_down.data)
-		out.add_(inputs.data)
-		if donate[0]: inputs.delete()
-		return TorchTensor.create_from_torch(out, self)
+			inputs.data[:, start:end] = llama_mlp_func(rms_norm(inputs.data[:, start:end], w_norm.data.to(dtype)), 
+											w_gate.data, w_up.data, w_down.data) + inputs.data[:, start:end]
+		# if donate[0]: inputs.delete()
+		return TorchTensor.create_from_torch(inputs.data, self)
 
 	def synchronize(self):
 		torch.cuda.synchronize()
