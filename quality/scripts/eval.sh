@@ -87,9 +87,13 @@ run_once(){
   fi
 }
 
+if [ -z "${EVAL_USER:-}" ] || [ "${EVAL_USER}" = '$EVAL_USER' ]; then
+  echo "EVAL_USER is not correctly set, EVAL_USER=$EVAL_USER. Exit."
+  exit 1
+fi
 
-log_dir=./exps/logs
-save_dir=./exps/results
+log_dir=./exps/${EVAL_USER}/logs
+save_dir=./exps/${EVAL_USER}/results
 mkdir -p $log_dir
 
 

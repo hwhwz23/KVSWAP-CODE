@@ -116,47 +116,55 @@ kvswap_t_ratio=0.0625
 func
 
 
-####################################################################
-model_name=Qwen2.5-VL-7B-Instruct
-shadowkv_mode=shadowkv-32-48
-shadowkv_t_mode=shadowkv-80-10
-loki_ratio=0.125
-loki_t_ratio=0.03125
-kvswap_ratio=0.5
-kvswap_t_ratio=0.125
-# prepare_mlvu
-./scripts/eval.sh prepare_mlvu $model_name none none none none none $eval_samples $seq_len
-# run 
-func
-
-
-####################################################################
-# Only evaluate InternVL3-14B on full mode
-if [ "$mode" = "full" ]; then
-    model_name=InternVL3-14B
-    shadowkv_mode=shadowkv-16-40-48-4
-    shadowkv_t_mode=shadowkv-60-16
+# check MINI_EVAL != 1 ?
+if [ "${MINI_EVAL:-}" != "1" ]; then
+    ####################################################################
+    model_name=Qwen2.5-VL-7B-Instruct
+    shadowkv_mode=shadowkv-32-48
+    shadowkv_t_mode=shadowkv-80-10
     loki_ratio=0.125
     loki_t_ratio=0.03125
-    kvswap_ratio=1
-    kvswap_t_ratio=0.25
+    kvswap_ratio=0.5
+    kvswap_t_ratio=0.125
+    # prepare_mlvu
+    ./scripts/eval.sh prepare_mlvu $model_name none none none none none $eval_samples $seq_len
+    # run 
     func
+    ####################################################################
+    # Only evaluate InternVL3-14B on full mode
+    if [ "$mode" = "full" ]; then
+        model_name=InternVL3-14B
+        shadowkv_mode=shadowkv-16-40-48-4
+        shadowkv_t_mode=shadowkv-60-16
+        loki_ratio=0.125
+        loki_t_ratio=0.03125
+        kvswap_ratio=1
+        kvswap_t_ratio=0.25
+        func
+    fi
+else
+    echo "MINI_EVAL is 1, only evaluate Qwen2.5-VL-3B-Instruct."
 fi
+
 ####################################################################
 
+if [ -z "${EVAL_USER:-}" ] || [ "${EVAL_USER}" = '$EVAL_USER' ]; then
+  echo "EVAL_USER is not correctly set, EVAL_USER=$EVAL_USER. Exit."
+  exit 1
+fi
 
-mkdir -p ./RESULTS
+mkdir -p ./RESULTS/${EVAL_USER}
 
 if [ "$mode" = "full" ]; then
-    output_file=./RESULTS/tab-3-right-full.txt
+    output_file=./RESULTS/${EVAL_USER}/tab-3-right-full.txt
 else
-    output_file=./RESULTS/tab-3-right.txt
+    output_file=./RESULTS/${EVAL_USER}/tab-3-right.txt
 fi
 
 echo "Generating table 3 right results..."
 source .venv/bin/activate
 
-python ./scripts/utils.py ./exps/results/mlvu/{model_name}_${seq_len} table3-right | tee $output_file
+python ./scripts/utils.py ./exps/${EVAL_USER}/results/mlvu/{model_name}_${seq_len} table3-right > $output_file 2>&1
 
 echo "Table 3 right results have been saved to $output_file"
 

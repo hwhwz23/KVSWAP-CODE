@@ -399,42 +399,56 @@ if __name__ == "__main__":
         }
 
     if mode == "fig-11-acc":
-        # Main table:
-        # Accuracy := average of LongBench MQA and SUM (or precomputed AVG in longbench_mqa+sum).
-        # All values are absolute (no deltas).
+        # Main table: LongBench MQA, SUM, and AVG (AVG := (MQA+SUM)/2 when both exist).
+        # Detail table: same plus NUM. All values are absolute (no deltas).
         base_dir = sys.argv[1]
-        tab2_path = (Path(__file__).resolve().parent.parent / "RESULTS" / "tab-2.txt").as_posix()
+        EVAL_USER = os.environ.get("EVAL_USER")
+        if EVAL_USER is None or EVAL_USER == "" or EVAL_USER == "${EVAL_USER}":
+            raise ValueError("EVAL_USER is not set")
+        tab2_path = (Path(__file__).resolve().parent.parent / "RESULTS" / EVAL_USER / "tab-2.txt").as_posix()
         raw = _parse_tab2_longbench_raw(tab2_path)
 
-        def acc_from_tab2(method: str) -> tuple[float | None, int | None]:
+        def _avg_from_mqa_sum(
+            mqa: float | None, summ: float | None, fallback_avg: float | None
+        ) -> float | None:
+            if isinstance(mqa, (int, float)) and isinstance(summ, (int, float)):
+                return (float(mqa) + float(summ)) / 2.0
+            return fallback_avg if isinstance(fallback_avg, (int, float)) else None
+
+        def metrics_from_tab2(method: str) -> tuple[float | None, float | None, float | None, int | None]:
             row = raw.get(method)
             if not row:
-                return None, None
-            mqa = row.get("MQA")
-            summ = row.get("SUM")
-            num = row.get("NUM")
-            if isinstance(mqa, (int, float)) and isinstance(summ, (int, float)):
-                return (float(mqa) + float(summ)) / 2.0, int(num) if isinstance(num, int) else None
-            return None, int(num) if isinstance(num, int) else None
+                return None, None, None, None
+            mqa_v = row.get("MQA")
+            summ_v = row.get("SUM")
+            num_v = row.get("NUM")
+            mqa_f = float(mqa_v) if isinstance(mqa_v, (int, float)) else None
+            summ_f = float(summ_v) if isinstance(summ_v, (int, float)) else None
+            avg_f = _avg_from_mqa_sum(mqa_f, summ_f, None)
+            num_i = int(num_v) if isinstance(num_v, int) else None
+            return mqa_f, summ_f, avg_f, num_i
 
-        def acc_from_dir(method_subdir: str) -> tuple[float | None, int | None]:
+        def metrics_from_dir(method_subdir: str) -> tuple[float | None, float | None, float | None, int | None]:
             p = _find_tasks_results_json(os.path.join(base_dir, method_subdir))
             if not p:
-                return None, None
+                return None, None, None, None
+            mqa_f = _read_longbench_task_value(p, "MQA")
+            summ_f = _read_longbench_task_value(p, "SUM")
             score, num = _read_avg_score_and_num(p)
-            return score, num
+            avg_f = _avg_from_mqa_sum(mqa_f, summ_f, score)
+            return mqa_f, summ_f, avg_f, num
 
-        rows: list[tuple[str, float | None, int | None]] = []
+        rows: list[tuple[str, float | None, float | None, float | None, int | None]] = []
 
-        # From longbench_mqa+sum folders (use AVG.score and AVG.num directly)
-        score, num = acc_from_dir("infinigen_mergeh")
-        rows.append(("InfiniGen*(+reuse)", score, num))
-        score, num = acc_from_dir("loki")
-        rows.append(("Loki", score, num))
-        score, num = acc_from_dir("shadowkv-8-160-48-4")
-        rows.append(("ShadowKV", score, num))
+        # From longbench_mqa+sum folders (MQA/SUM from JSON; NUM from AVG.num)
+        mqa, summ, avg, num = metrics_from_dir("infinigen_mergeh")
+        rows.append(("InfiniGen*(+reuse)", mqa, summ, avg, num))
+        mqa, summ, avg, num = metrics_from_dir("loki")
+        rows.append(("Loki", mqa, summ, avg, num))
+        mqa, summ, avg, num = metrics_from_dir("shadowkv-8-160-48-4")
+        rows.append(("ShadowKV", mqa, summ, avg, num))
 
-        # From tab-2.txt raw per-method LongBench results (MQA and SUM columns)
+        # From tab-2.txt raw per-method LongBench results
         for name, method_key in [
             ("KVSwap(NVMe)", "KVSwap-NVMe"),
             ("KVSwap-t(NVMe)", "KVSwap-t-NVMe"),
@@ -442,33 +456,42 @@ if __name__ == "__main__":
             ("KVSwap-t(eMMC)", "KVSwap-t-eMMC"),
             ("vLLM", "Full-KV"),
         ]:
-            score, num = acc_from_tab2(method_key)
-            rows.append((name, score, num))
+            mqa, summ, avg, num = metrics_from_tab2(method_key)
+            rows.append((name, mqa, summ, avg, num))
 
-        # Print main table (absolute values, no NUM)
+        name_w, col_w, num_w = 18, 10, 8
+        sep_main = name_w + 3 * col_w
+        sep_detail = sep_main + num_w
+
+        def _cell(v: float | None) -> str:
+            return (fmt(v) if isinstance(v, (int, float)) else "N/A").rjust(col_w)
+
+        # Main table (no NUM)
         print("================================================")
-        print("Method".ljust(18) + "Accuracy(MQA+SUM)".rjust(18))
-        print("-" * 40)
-        for method, score, num in rows:
+        hdr_main = f"{'Method'.ljust(name_w)}{'MQA':>{col_w}}{'SUM':>{col_w}}{'AVG':>{col_w}}"
+        print(hdr_main)
+        print("-" * sep_main)
+        for method, mqa, summ, avg, _num in rows:
             if method in {"KVSwap(eMMC)", "vLLM"}:
-                print("-" * 40)
-            s = fmt(score) if isinstance(score, (int, float)) else "N/A"
-            print(method.ljust(18) + s.rjust(12))
-        print("-" * 40)
+                print("-" * sep_main)
+            line = method.ljust(name_w) + _cell(mqa) + _cell(summ) + _cell(avg)
+            print(line)
+        print("-" * sep_main)
 
         # Between main table and detail results
         for _ in range(20):
-            print("----"*80)
+            print("----" * 80)
         print("Below are detail results:")
 
-        # Detail table (includes NUM)
-        print("Method".ljust(18) + "Accuracy(MQA+SUM)".rjust(18) + "  " + "NUM".rjust(6))
-        print("-" * 40)
-        for method, score, num in rows:
-            s = fmt(score) if isinstance(score, (int, float)) else "N/A"
+        # Detail table (MQA, SUM, AVG, NUM)
+        hdr_detail = hdr_main + f"{'NUM':>{num_w}}"
+        print(hdr_detail)
+        print("-" * sep_detail)
+        for method, mqa, summ, avg, num in rows:
             n = str(num) if isinstance(num, int) else "N/A"
-            print(method.ljust(18) + s.rjust(12) + "  " + n.rjust(6))
-        print("-" * 40)
+            line = method.ljust(name_w) + _cell(mqa) + _cell(summ) + _cell(avg) + n.rjust(num_w)
+            print(line)
+        print("-" * sep_detail)
 
         sys.exit(0)
 

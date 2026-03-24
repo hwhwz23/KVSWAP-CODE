@@ -102,28 +102,37 @@ func(){
 model_name=Qwen3-4B
 func
 
-model_name=Qwen3-8B
-func
-
-
-# Only evaluate Qwen3-14B on full mode
-if [ "$mode" = "full" ]; then
-    model_name=Qwen3-14B
+# check MINI_EVAL != 1 ?
+if [ "${MINI_EVAL:-}" != "1" ]; then
+    model_name=Qwen3-8B
     func
+    # Only evaluate Qwen3-14B on full mode
+    if [ "$mode" = "full" ]; then
+        model_name=Qwen3-14B
+        func
+    fi
+else
+    echo "MINI_EVAL is 1, only evaluate Qwen3-4B."
 fi
 
 
-mkdir -p ./RESULTS
+
+if [ -z "${EVAL_USER:-}" ] || [ "${EVAL_USER}" = '$EVAL_USER' ]; then
+  echo "EVAL_USER is not correctly set, EVAL_USER=$EVAL_USER. Exit."
+  exit 1
+fi
+
+mkdir -p ./RESULTS/${EVAL_USER}
 
 if [ "$mode" = "full" ]; then
-    output_file=./RESULTS/tab-3-left-full.txt
+    output_file=./RESULTS/${EVAL_USER}/tab-3-left-full.txt
 else
-    output_file=./RESULTS/tab-3-left.txt
+    output_file=./RESULTS/${EVAL_USER}/tab-3-left.txt
 fi
 
 echo "Generating table 3 left results..."
 source .venv/bin/activate
 
-python ./scripts/utils.py ./exps/results/longbench_cot_only/{model_name}_${seq_len} table3-left | tee $output_file
+python ./scripts/utils.py ./exps/${EVAL_USER}/results/longbench_cot_only/{model_name}_${seq_len} table3-left > $output_file 2>&1
 
 echo "Table 3 left results have been saved to $output_file"

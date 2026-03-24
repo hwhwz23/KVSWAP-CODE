@@ -38,6 +38,8 @@ pushd src/shadowkv
 python setup.py build_ext --inplace
 popd
 
+uv pip install notebook jupyterlab
+
 echo "Installation completed!"
 echo "--------------------------------"
 

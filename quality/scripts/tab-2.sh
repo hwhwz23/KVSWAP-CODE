@@ -117,8 +117,6 @@ func(){
 
 }
 
-mkdir -p ./RESULTS
-
 tasks=longbench
 eval_samples=$eval_samples_longbench
 func
@@ -127,16 +125,24 @@ tasks=ruler
 eval_samples=$eval_samples_ruler
 func
 
+
+if [ -z "${EVAL_USER:-}" ] || [ "${EVAL_USER}" = '$EVAL_USER' ]; then
+  echo "EVAL_USER is not correctly set, EVAL_USER=$EVAL_USER. Exit."
+  exit 1
+fi
+
+mkdir -p ./RESULTS/${EVAL_USER}
+
 if [ "$mode" = "full" ]; then
-    output_file=./RESULTS/tab-2-full.txt
+    output_file=./RESULTS/${EVAL_USER}/tab-2-full.txt
 else
-    output_file=./RESULTS/tab-2.txt
+    output_file=./RESULTS/${EVAL_USER}/tab-2.txt
 fi
 
 echo "Generating table 2 results..."
 source .venv/bin/activate
 
-python ./scripts/utils.py ./exps/results/{task}/${model_name}_${seq_len} table2 | tee $output_file
+python ./scripts/utils.py ./exps/${EVAL_USER}/results/{task}/${model_name}_${seq_len} table2 > $output_file 2>&1
 
 echo "Table 2 results have been saved to $output_file"
 

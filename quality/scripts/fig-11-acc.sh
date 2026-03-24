@@ -99,19 +99,24 @@ func(){
 tasks=longbench_mqa+sum
 func
 
+if [ -z "${EVAL_USER:-}" ] || [ "${EVAL_USER}" = '$EVAL_USER' ]; then
+  echo "EVAL_USER is not correctly set, EVAL_USER=$EVAL_USER. Exit."
+  exit 1
+fi
 
-mkdir -p ./RESULTS
+mkdir -p ./RESULTS/${EVAL_USER}
 
 if [ "$mode" = "full" ]; then
-    output_file=./RESULTS/fig-11-acc-full.txt
+    output_file=./RESULTS/${EVAL_USER}/fig-11-acc-full.txt
 else
-    output_file=./RESULTS/fig-11-acc.txt
+    output_file=./RESULTS/${EVAL_USER}/fig-11-acc.txt
 fi
+
 
 echo "Generating figure 11 accuracy results..."
 
 source .venv/bin/activate
-python ./scripts/utils.py ./exps/results/${tasks}/${model_name}_${seq_len} fig-11-acc | tee $output_file
+python ./scripts/utils.py ./exps/${EVAL_USER}/results/${tasks}/${model_name}_${seq_len} fig-11-acc > $output_file 2>&1
 
 echo "Figure 11 accuracy results have been saved to $output_file"
 
