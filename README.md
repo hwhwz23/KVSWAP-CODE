@@ -1,5 +1,15 @@
 # KVSWAP-CODE
 
+**Note:** This repository contains a large amount of Git LFS data. Please do not clone it directly.  
+To download the code, use:
+
+```bash
+GIT_LFS_SKIP_SMUDGE=1 git clone https://github.com/hwhwz23/KVSWAP-CODE.git
+```
+
+Alternatively, please refer to the `README.md` files within the respective subdirectories for detailed instructions.
+We are currently in the process of migrating LFS data out of this repository.
+
 ## 1. Overview
 
 This repository contains the code for the artifact evaluation of our paper **“KVSwap: Disk-aware KV Cache Offloading for Long-Context On-device Inference”**.
