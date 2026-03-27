@@ -86,19 +86,20 @@ ensure_model() {
     read -r ans || true
     ans="$(echo "${ans}" | tr '[:upper:]' '[:lower:]')"
     if [ "${ans}" == "y" ] || [ "${ans}" == "yes" ]; then
-      echo "Enter local path to the ${model_name} folder:"
-      read -r local_path || true
-      if [ -n "${local_path}" ]; then
+      while true; do
+        echo "Enter local path to the ${model_name} folder (or press Enter to download):"
+        read -r local_path || true
+        if [ -z "${local_path}" ]; then
+          echo "No local path provided. Will download instead."
+          break
+        fi
         if validate_local_path "${model_name}" "${local_path}"; then
           ln -sfn "${local_path}" "${full_dest}"
           echo "Symlink created: ${full_dest} -> ${local_path}"
           return 0
-        else
-          echo "Local path does not look like a valid model. Will download instead."
         fi
-      else
-        echo "Empty local path. Will download instead."
-      fi
+        echo "Local path is invalid. Please re-enter a valid path."
+      done
     fi
   fi
 

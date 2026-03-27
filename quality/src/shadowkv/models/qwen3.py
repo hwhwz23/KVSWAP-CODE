@@ -89,6 +89,7 @@ class Qwen3Layer:
         self.k_norm_variance_epsilon = hf_layer.self_attn.k_norm.variance_epsilon
     
     def init_gpu(self, device:str = 'cuda:0'):
+        self.device = device
 
         self.input_layernorm_weight = self.input_layernorm_weight.to(device, non_blocking=True)
         self.post_attention_layernorm_weight = self.post_attention_layernorm_weight.to(device, non_blocking=True)
@@ -126,10 +127,9 @@ class Qwen3(LLM):
         
         assert batch_size == 1, "Batch size must be 1"
         self.batch_size = batch_size
-        # self.device = device
-        self.device = 'cuda:0'
         self.dtype = dtype
         self.config = Qwen3Config.from_pretrained(model_name)
+        self._setup_devices(self.config.num_hidden_layers)
         self.model_name = model_name
         self.tokenizer = AutoTokenizer.from_pretrained(model_name, use_fast=True, legacy=False)
         self.max_length = max_length
@@ -170,7 +170,7 @@ class Qwen3(LLM):
         for idx, hf_layer in enumerate(hf_model.model.layers):
             layer = Qwen3Layer(idx)
             layer.init_parameters(hf_layer=hf_layer)
-            layer.init_gpu(self.device)
+            layer.init_gpu(self.layer_devices[idx])
             self.layers.append(layer)
             hf_model.model.layers[idx] = None
             gc.collect()

@@ -347,10 +347,10 @@ def main(args):
 								q, repeat_k, 
 								ratio, A[layer_i].to(torch_dtype), head_dim, num_heads, kv_groups, q_proj_weight, 
 																							merge_heads=args.merge_heads)
-						save_dir = f'{args.save_dir}/skewing_mask_{args.task}_{args.eval_samples}/'+args.model_name+'_'+str(ratio)
-						if not os.path.exists(save_dir):
-							os.makedirs(save_dir)
-						torch.save(skewing_mask.cpu(), f"{save_dir}/{layer_i}.pt")	
+						# save_dir = f'{args.save_dir}/skewing_mask_{args.task}_{args.eval_samples}/'+args.model_name+'_'+str(ratio)
+						# if not os.path.exists(save_dir):
+							# os.makedirs(save_dir)
+						# torch.save(skewing_mask.cpu(), f"{save_dir}/{layer_i}.pt")	
 						partial_index = skewing_mask.nonzero().view(skewing_mask.shape[0], -1, 2)[:,:, 1]
 						save_dir = f'{args.save_dir}/skewing_idx_{args.task}_{args.eval_samples}/'+args.model_name+'_'+str(ratio)
 						if not os.path.exists(save_dir):

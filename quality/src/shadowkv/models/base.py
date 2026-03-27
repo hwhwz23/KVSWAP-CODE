@@ -34,6 +34,17 @@ class LLM:
         gpu_mem = f"{round(torch.cuda.memory_allocated(self.device) / 1024**3, 2)} GB / {round(torch.cuda.get_device_properties(self.device).total_memory / 1024**3, 2)} GB"
         return f"LLM: {self.model_name}, attn_mode: {self.attn_mode}, max_length: {self.max_length}, batch_size: {self.batch_size}, device: {self.device}, dtype: {self.dtype}, GPU mem: {gpu_mem}"
 
+    def _setup_devices(self, num_layers: int):
+        if torch.cuda.is_available():
+            cuda_count = torch.cuda.device_count()
+            self.device = "cuda:0"
+            self.layer_devices = [f"cuda:{idx % cuda_count}" for idx in range(num_layers)]
+            self.num_cuda_devices = cuda_count
+        else:
+            self.device = "cpu"
+            self.layer_devices = ["cpu"] * num_layers
+            self.num_cuda_devices = 0
+
     def init_kv_cache(self, sparse_budget: int, rank: int, chunk_size: int, config, **kwargs):
         device = 'cuda:0'
         if self.attn_mode == 'full':
@@ -79,10 +90,14 @@ class LLM:
             for idx in range(self.num_layers):
                 hidden_states = self.layer_compute(self.layers[idx], idx, hidden_states, position_ids_emb=position_ids)
                 
+        if hidden_states.device != self.norm_weight.device:
+            hidden_states = hidden_states.to(self.norm_weight.device, non_blocking=True)
         hidden_states = layer_norm(hidden_states, w=self.norm_weight, eps=self.norm_variance_epsilon)
         
         if hidden_states.shape[1] > 16: # prefill
             hidden_states = hidden_states[:, -1:, :]
+        if hidden_states.device != self.lm_head.device:
+            hidden_states = hidden_states.to(self.lm_head.device, non_blocking=True)
         logits = F.linear(hidden_states, self.lm_head).float()
         
         return logits
@@ -130,6 +145,9 @@ class LLM:
             hidden_states: torch.FloatTensor, 
             position_ids_emb):
 
+        layer_device = getattr(buffer, "device", self.device)
+        if hidden_states.device != torch.device(layer_device):
+            hidden_states = hidden_states.to(layer_device, non_blocking=True)
         residual = hidden_states
         bsz, q_len, _ = hidden_states.size()
         query_states, key_states, value_states = self.pre_attention_compute(
@@ -139,6 +157,12 @@ class LLM:
             self.num_key_value_heads,
             self.head_dim
         )
+
+        # KV cache and rotary cache currently live on self.device.
+        if query_states.device != torch.device(self.device):
+            query_states = query_states.to(self.device, non_blocking=True)
+            key_states = key_states.to(self.device, non_blocking=True)
+            value_states = value_states.to(self.device, non_blocking=True)
         
         if isinstance(self.kv_cache, KV_Cache):
             query_states, key_states = self.apply_rotary_pos_emb(query_states, key_states, position_ids_emb)
@@ -194,6 +218,8 @@ class LLM:
 
         # print(f"Layer {layer_idx} hidden_states shape: {hidden_states.shape}")
         hidden_states = hidden_states.reshape(bsz, q_len, -1)
+        if hidden_states.device != residual.device:
+            hidden_states = hidden_states.to(residual.device, non_blocking=True)
         
         if bsz*q_len > 64*1024: # [bsz, seq, 128]
             output = torch.empty_like(hidden_states)
