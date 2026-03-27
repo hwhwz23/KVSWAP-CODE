@@ -92,11 +92,11 @@ export EVAL_MODE='quick' # or 'full'
 #### Prepare model weights and adapter weights
 
 Checks that Hugging Face checkpoints exist under `MODEL_PATH_BASE_HF` and downloads any that are missing.
-Then, downloads adapter weights into `MODEL_PATH_BASE`.
+Then, links adapter weights into `MODEL_PATH_BASE`.
 
 ```bash
 bash ./scripts/download_models.sh
-bash ./scripts/download_adapters.sh
+bash ./scripts/link_adapters.sh
 ```
 
 
