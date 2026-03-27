@@ -180,7 +180,7 @@ class DiskIO(DiskIO_Base):
             timeout_ns_ = timeout_ns
             for retry_i in range(self.timeout_max_retries):
                 ret = prepare_sqe_batch_submit_wait_advance_timeout(self.rd_ring, read_req_n, read_addrs, fd_, bytes_per_read, 
-                                                            file_offsets, n_group, group_offset, self.batch_offset, 
+                                                            file_offsets, n_group, group_offset, self.batch_offset, 0,
                                                             len(self.fd_dict) > 0, set_fixed_buffer, timeout_ns_,
                                                             self.timeout_array, self.timeout_num_array, self.real_req_num_array)
                 if ret < 0:
