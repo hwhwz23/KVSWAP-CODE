@@ -6,7 +6,7 @@ if [ "$run_mode" = "full" ]; then
     MAX_COUNT=5
     echo "=============== Running full evaluation ==============="
 else
-    MAX_COUNT=2
+    MAX_COUNT=3
     echo "=============== Running quick evaluation ==============="
 fi
 
@@ -159,7 +159,7 @@ run_model_run(){
 
 }
 
-NVME_ALLOC_KV_SIZE=$((1024*1024*2048))
+NVME_ALLOC_KV_SIZE=$((1024*1024*1024))
 EMMC_ALLOC_KV_SIZE=$((1024*1024*1024))
 NVME_BATCH_LIST="1 8"
 EMMC_BATCH_LIST="1 8"
@@ -168,7 +168,7 @@ run_model_run
 
 
 
-NVME_ALLOC_KV_SIZE=$((1024*1024*2048))
+NVME_ALLOC_KV_SIZE=$((1024*1024*1024))
 EMMC_ALLOC_KV_SIZE=$((1024*1024*1024))
 NVME_BATCH_LIST="1 8"
 EMMC_BATCH_LIST="1 8"
@@ -176,10 +176,10 @@ TEST_MODEL=Llama-3.1-8B-Instruct
 run_model_run
 
 
-NVME_ALLOC_KV_SIZE=$((1024*1024*2048))
-EMMC_ALLOC_KV_SIZE=$((1024*1024*768))
+NVME_ALLOC_KV_SIZE=$((1024*1024*1024))
+EMMC_ALLOC_KV_SIZE=$((1024*1024*1024))
 NVME_BATCH_LIST="1 8"
-EMMC_BATCH_LIST="1"
+EMMC_BATCH_LIST="1 8"
 TEST_MODEL=Qwen3-14B
 run_model_run
 
@@ -187,9 +187,9 @@ run_model_run
 # Output Results
 mkdir -p ./RESULTS
 
-if [ -z "$EVAL_USER" ]; then
-    echo "EVAL_USER is not set. Exit."
-    exit 1
+if [ -z "${EVAL_USER:-}" ] || [ "${EVAL_USER}" = '$EVAL_USER' ]; then
+  echo "EVAL_USER is not correctly set, EVAL_USER=$EVAL_USER. Exit."
+  exit 1
 fi
 
 mkdir -p ./RESULTS/$EVAL_USER

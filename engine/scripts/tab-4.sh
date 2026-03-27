@@ -150,20 +150,17 @@ while IFS= read -r seed; do
         export MAX_ALLOC_KV_SIZE=$((1024*1024*2048))
         DISK_TYPE=nvme
         KVSWAP_TG=4
-        BATCH_LIST="1 4"
+        BATCH_LIST="$BATCH_TO_EVAL"
         run_flexgen
         run_infinigen
-        BATCH_LIST="$BATCH_TO_EVAL"
         run_kvswap
         #########################################################
-        export MAX_ALLOC_KV_SIZE=$((1024*1024*1024))
-        # BATCH_LIST="$BATCH_TO_EVAL"
+        export MAX_ALLOC_KV_SIZE=$((1024*1024*1750))
         DISK_TYPE=emmc
         KVSWAP_TG=8
-        BATCH_LIST="1 4"
+        BATCH_LIST="$BATCH_TO_EVAL"
         run_flexgen
         run_infinigen
-        BATCH_LIST="1 4"
         run_kvswap
         #########################################################
     done
@@ -184,12 +181,12 @@ while IFS= read -r seed; do
         echo "Running with sequence length: $TOTAL_LEN and seed: $seed"
         SEED=$seed
         #########################################################
-        export MAX_ALLOC_KV_SIZE=$((1024*1024*2048))
+        export MAX_ALLOC_KV_SIZE=$((1024*512*2048))
         BATCH_LIST="$BATCH_TO_EVAL"
         DISK_TYPE=nvme
         run_shadowkv
         #########################################################
-        export MAX_ALLOC_KV_SIZE=$((1024*1024*1024))
+        export MAX_ALLOC_KV_SIZE=$((1024*512*1750))
         BATCH_LIST="$BATCH_TO_EVAL"
         DISK_TYPE=emmc
         run_shadowkv
@@ -216,9 +213,9 @@ echo "vLLM done."
 # Output Results
 mkdir -p ./RESULTS
 
-if [ -z "$EVAL_USER" ]; then
-    echo "EVAL_USER is not set. Exit."
-    exit 1
+if [ -z "${EVAL_USER:-}" ] || [ "${EVAL_USER}" = '$EVAL_USER' ]; then
+  echo "EVAL_USER is not correctly set, EVAL_USER=$EVAL_USER. Exit."
+  exit 1
 fi
 
 mkdir -p ./RESULTS/$EVAL_USER

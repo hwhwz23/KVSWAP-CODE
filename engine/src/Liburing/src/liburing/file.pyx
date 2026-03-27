@@ -274,6 +274,7 @@ cpdef inline int prepare_sqe_batch_submit_wait_advance_timeout(
             unsigned int n_group,
             unsigned int group_offset,
             unsigned int batch_offset,
+            unsigned int initial_offset,
             bint set_fixed_file,
             bint set_fixed_buffer,
             unsigned int timeout_ns,
@@ -308,7 +309,7 @@ cpdef inline int prepare_sqe_batch_submit_wait_advance_timeout(
                 continue
             if timed_out[ii] == 0:
                 continue
-            offsets = file_offsets[i]*group_offset + (i//n_group)*batch_offset
+            offsets = file_offsets[i]*group_offset + (i//n_group)*batch_offset + initial_offset
             sqe = __io_uring_get_sqe(&ring.ptr)
             if set_fixed_buffer:
                 __io_uring_prep_read_fixed(

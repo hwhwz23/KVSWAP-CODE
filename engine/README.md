@@ -79,22 +79,24 @@ Set paths and evaluation options to match your machine (block device names, moun
 # Replace with your own settings
 export EMMC_DEV_NAME='mmcblk0p1'
 export EMMC_OFFLOAD_DIR='/mnt/emmc/offload'
-export NVME_DEV_NAME='nvme0n1'
+export NVME_DEV_NAME='nvme0n1p1'
 export NVME_OFFLOAD_DIR='/mnt/nvme/offload'
-export MODEL_PATH_BASE_HF='../../ext_disk/model_weights_hf'
-export MODEL_PATH_BASE='../../ext_disk/model_weights'
-export EVAL_LOG_DIR='../../ext_disk/kvswap_logs'
+export MODEL_PATH_BASE_HF='../../data/model_weights_hf'
+export MODEL_PATH_BASE='../../data/model_weights'
+export EVAL_LOG_DIR='../../data/kvswap_logs'
 
 export EVAL_USER='test0'   # **Change this** identifier for storing your results
 export EVAL_MODE='quick' # or 'full'
 ```
 
-#### Prepare model weights
+#### Prepare model weights and adapter weights
 
 Checks that Hugging Face checkpoints exist under `MODEL_PATH_BASE_HF` and downloads any that are missing.
+Then, downloads adapter weights into `MODEL_PATH_BASE`.
 
 ```bash
 bash ./scripts/download_models.sh
+bash ./scripts/download_adapters.sh
 ```
 
 
@@ -105,6 +107,9 @@ This installs dependencies and performs hardware checks:
 ```bash
 bash ./scripts/setup.sh
 ```
+
+
+Recommended: Add `'<yourname> ALL=(ALL) NOPASSWD: /usr/bin/tee'` as the last line of `/etc/sudoers` to avoid password prompts for `echo 3 | sudo tee /proc/sys/vm/drop_caches` when running the vLLM baseline. See `scripts/run_vllm.sh`.
 
 
 ### 2.3 How to run

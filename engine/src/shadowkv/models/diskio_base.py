@@ -17,7 +17,7 @@ libc.posix_memalign.argtypes = [
     ctypes.c_size_t,                  # alignment
     ctypes.c_size_t,                  # size
 ]
-libc.posix_memalign.restype = ctypes.c_int  # 返回错误码，0 为成功
+libc.posix_memalign.restype = ctypes.c_int 
 
 libcudart = ctypes.CDLL("libcudart.so")
 cudaHostRegisterDefault = 0
@@ -25,14 +25,12 @@ cudaHostRegisterDefault = 0
 libcudart.cudaHostRegister.argtypes = [ctypes.c_void_p, ctypes.c_size_t, ctypes.c_uint]
 libcudart.cudaHostRegister.restype  = ctypes.c_int
 
-# const char* cudaGetErrorString(cudaError_t error);
 libcudart.cudaGetErrorString.argtypes = [ctypes.c_int]
 libcudart.cudaGetErrorString.restype  = ctypes.c_char_p
 
 def check_cuda(status: int):
     if status != 0:
         msg = libcudart.cudaGetErrorString(status)
-        # msg 可能为 NULL（极少见），加个兜底
         raise RuntimeError(f"CUDA Error {status}: {msg.decode() if msg else 'Unknown error'}")
 
 
@@ -43,7 +41,6 @@ class DiskIO_Base():
         if max_kv_num > 0:
             self.read_tensor, _, self.tensor_buf, self.tensor_mv = self.allocate_tensor(max_kv_num*batch_size*self.hd_bytes)
         self.wr_blk_size = None
-        # allocate a big buffer for prefill write 
         self.prefill_buffer = None
         self.wr_buf = None
 
@@ -57,23 +54,9 @@ class DiskIO_Base():
         return tensor, aligned_array, buffer, mv
     
     def allocate_tensor(self, size):
-        # if pin_memory:
-            # tensor = torch.empty(size, dtype=torch.uint8, pin_memory=True)
-            # assert tensor.data_ptr() % PAGE_SIZE == 0, f"{tensor.data_ptr()}"
-            # buffer = ctypes.c_void_p(tensor.data_ptr())
-            # aligned_array = (ctypes.c_uint8 * size).from_address(buffer.value)
-            # mv = memoryview(aligned_array)
-            # return tensor, aligned_array, buffer, mv
-        # else:
         buf, _ = self.allocate_buffer(size)
         return self.buffer_to_tensor(buf, size)
         
-    # def set_wr_buffer(self, wr_blk_size):
-    #     self.free_prefill_buffer()
-    #     self.wr_blk_size = wr_blk_size
-    #     assert self.wr_blk_size % BLOCK_DEV_SIZE == 0, f"Write block size {self.wr_blk_size} not aligned to {BLOCK_DEV_SIZE}"        
-    #     self.wr_buf, self.mv_wr = self.allocate_buffer(self.wr_blk_size)
-    
     def allocate_buffer(self, size):
         buffer = ctypes.c_void_p()
         ret = libc.posix_memalign(ctypes.byref(buffer), PAGE_SIZE, size)

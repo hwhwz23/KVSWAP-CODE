@@ -131,7 +131,7 @@ class Llama(LLM):
 
 
     def _set_cos_sin_cache(self, inv_freq: torch.Tensor):
-        t = torch.arange(self.max_length + 1024, device=self.device, dtype=inv_freq.dtype)
+        t = torch.arange(self.max_length, device=self.device, dtype=inv_freq.dtype)
         freqs = torch.outer(t, inv_freq)
         emb = torch.cat((freqs, freqs), dim=-1)
         return emb.cos().to(self.dtype), emb.sin().to(self.dtype)
@@ -158,8 +158,8 @@ class Llama(LLM):
         self.norm_weight = hf_model.model.norm.weight.detach().to(self.device)
         self.norm_variance_epsilon = hf_model.model.norm.variance_epsilon
         try:
-            cos_cache = hf_model.model.layers[0].self_attn.rotary_emb.cos_cached[:self.max_length+1024].to(self.device).to(self.dtype)
-            sin_cache = hf_model.model.layers[0].self_attn.rotary_emb.sin_cached[:self.max_length+1024].to(self.device).to(self.dtype)
+            cos_cache = hf_model.model.layers[0].self_attn.rotary_emb.cos_cached[:self.max_length].to(self.device).to(self.dtype)
+            sin_cache = hf_model.model.layers[0].self_attn.rotary_emb.sin_cached[:self.max_length].to(self.device).to(self.dtype)
         except:
             # cos_cache, sin_cache = self._set_cos_sin_cache(hf_model.model.layers[0].self_attn.rotary_emb.inv_freq.to(self.device))
             cos_cache, sin_cache = self._set_cos_sin_cache(hf_model.model.rotary_emb.inv_freq.to(self.device))

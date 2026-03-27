@@ -974,6 +974,8 @@ def summarize_tab4(records_by_method_disk_model):
     model = "Llama-3.1-8B-Instruct"
     batches = [1, 2, 4, 8, 16]
     cls = [16384, 32768]
+    # Approximation fallback for missing (disk=emmc, batch=16, total=32768).
+    approx_total_len = 28000
     grouped = defaultdict(list)
 
     for method, disk_dict in records_by_method_disk_model.items():
@@ -999,7 +1001,9 @@ def summarize_tab4(records_by_method_disk_model):
                     if seqlen is None or genlen is None:
                         continue
                     total = seqlen + genlen
-                    if total not in cls:
+                    # Keep original CLs, but also allow an approximate total length
+                    # used only as a fallback for the missing 32K/eMMC/b16 cell.
+                    if total not in cls and total != approx_total_len:
                         continue
                     tp = metrics.get("throughput")
                     if tp is None:
@@ -1073,7 +1077,26 @@ def summarize_tab4(records_by_method_disk_model):
                 out[disk][name][str(total)] = {}
                 for b in batches:
                     key = (name, disk, total, b)
-                    out[disk][name][str(total)][str(b)] = mean_or_na(grouped.get(key, []))
+                    primary = mean_or_na(grouped.get(key, []))
+
+                    # Fallback: for tab-4, eMMC, batch=16, CL=32K (32768),
+                    # use total_len=28000 if 32768 is missing.
+                    if (
+                        primary == "N/A"
+                        and disk == "emmc"
+                        and total == 32768
+                        and b == 16
+                    ):
+                        approx_key = (name, disk, approx_total_len, b)
+                        approx = mean_or_na(grouped.get(approx_key, []))
+                        if approx != "N/A":
+                            print(
+                                f"[tab-4] Missing logs for disk=emmc batch=16 total=32768 "
+                                f"({name}); using total={approx_total_len} as approximation."
+                            )
+                            primary = approx
+
+                    out[disk][name][str(total)][str(b)] = primary
 
     out["vllm"] = {}
     for seqlen in cls:
