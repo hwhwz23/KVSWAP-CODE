@@ -161,7 +161,7 @@ def extract_answer(response):
         else:
             return None
 
-def get_pred(args, model, data, tokenizer, mode, fout, task, gen_configs, out_file, **kwargs):
+def get_pred(args, model, data, tokenizer, mode, fout, task, gen_configs, out_file, eval_samples, **kwargs):
     print(f"Processing {len(data)} samples in {mode} mode")
     
     processed_samples = 0
@@ -171,7 +171,7 @@ def get_pred(args, model, data, tokenizer, mode, fout, task, gen_configs, out_fi
             prompt = prompt_format.format(**item)
             max_new_tokens = kwargs['max_gen']
             if mode == 'cot':
-                max_new_tokens += 2500
+                max_new_tokens += 5000
             # ["trec", "triviaqa", "samsum", "lsht", "lcc", "repobench-p"]
             if 'trec' in out_file or 'triviaqa' in out_file or 'samsum' in out_file or 'lsht' in out_file or 'lcc' in out_file or 'repobench-p' in out_file:
                 assert mode != 'cot', f"mode {mode} not supported for task {task}"
@@ -234,8 +234,8 @@ def get_pred(args, model, data, tokenizer, mode, fout, task, gen_configs, out_fi
         fout.flush()
 
         processed_samples += 1
-        if args.eval_samples > 0 and processed_samples >= args.eval_samples:
-            print(f"Processed {processed_samples} samples, reached eval_samples={args.eval_samples}", flush=True)
+        if eval_samples > 0 and processed_samples >= eval_samples:
+            print(f"Processed {processed_samples} samples, reached eval_samples={eval_samples}", flush=True)
             break
 
 
@@ -247,18 +247,18 @@ def process_out_file_list(args, model, decoder_model, out_file_list, data_all, t
     for out_file in out_file_list:
         has_data = {}
         print(f"Loading {out_file}...")
-        args.eval_samples = int(args.eval_samples)
-        assert args.eval_samples == 0 or args.eval_samples > 1, f"args.eval_samples={args.eval_samples}"
+        eval_samples = int(args.eval_samples)
+        assert eval_samples == 0 or eval_samples > 1, f"eval_samples={eval_samples}"
 
         if os.path.exists(out_file):
             with open(out_file, encoding='utf-8') as f:
                 has_data = {json.loads(line)["_id"]: 0 for line in f}
         
-        if args.eval_samples > 0 and len(has_data) >= args.eval_samples:
-            print(f"All samples in {out_file} are already processed, reached eval_samples={args.eval_samples}, skipping")
+        if eval_samples > 0 and len(has_data) >= eval_samples:
+            print(f"All samples in {out_file} are already processed, reached eval_samples={eval_samples}, skipping")
             continue
-        elif args.eval_samples > 0:
-            args.eval_samples = args.eval_samples - len(has_data)
+        elif eval_samples > 0:
+            eval_samples = eval_samples - len(has_data)
 
         fout = open(out_file, 'a', encoding='utf-8')
         data = []
@@ -272,7 +272,8 @@ def process_out_file_list(args, model, decoder_model, out_file_list, data_all, t
         else:
             print(f"Processing {len(data)} samples in {out_file}")
         clear_layer_stats(decoder_model)
-        get_pred(args, model, data, tokenizer, 'cot' if '_cot.jsonl' in out_file else 'gen', fout, task, gen_configs, out_file, **kwargs)
+        get_pred(args, model, data, tokenizer, 'cot' if '_cot.jsonl' in out_file else 'gen', 
+                fout, task, gen_configs, out_file, eval_samples, **kwargs)
         fout.close()
         print(f"Saved to {out_file}")
         print_layer_stats(decoder_model, model)

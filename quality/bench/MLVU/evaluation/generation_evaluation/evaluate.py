@@ -221,8 +221,8 @@ def main():
 
     num_tasks = args.num_tasks
 
-    # While loop to ensure that all captions are processed.
-    while True:
+    # Retry loop: at most 10 rounds to process all captions.
+    for _ in range(10):
         try:
             # Files that have not been processed yet.
             completed_files = os.listdir(output_dir)
@@ -232,7 +232,6 @@ def main():
             incomplete_files = [f for f in caption_files if f not in completed_files]
             print(f"incomplete_files: {len(incomplete_files)}")
 
-            # Break the loop when there are no incomplete files
             if len(incomplete_files) == 0:
                 break
             if len(incomplete_files) <= num_tasks:
@@ -253,6 +252,10 @@ def main():
         except Exception as e:
             print(f"Error: {e}")
 
+
+    if len(incomplete_files) > 0:
+        print(f"Failed to process {len(incomplete_files)} files after 10 retries.")
+        print(f"Incomplete files: {incomplete_files}")
 
     # Combine all the processed files into one
     combined_contents = {}

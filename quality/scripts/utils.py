@@ -332,15 +332,26 @@ if __name__ == "__main__":
             i += 1
         return out
 
-    def _find_latest_file(dir_path: str, suffix: str, must_contain: str | None = None) -> str | None:
-        """Find the latest-modified file in dir_path that ends with suffix."""
+    def _find_latest_file(
+        dir_path: str, suffix: str, must_contain: str | tuple[str, ...] | None = None
+    ) -> str | None:
+        """Find the latest-modified file in dir_path that ends with suffix.
+        If must_contain is a str, the basename must contain it.
+        If it is a tuple, every substring must appear (logical AND)."""
         if not os.path.isdir(dir_path):
             return None
+        subs: tuple[str, ...] | None
+        if must_contain is None:
+            subs = None
+        elif isinstance(must_contain, str):
+            subs = (must_contain,)
+        else:
+            subs = must_contain
         candidates: list[str] = []
         for fn in os.listdir(dir_path):
             if not fn.endswith(suffix):
                 continue
-            if must_contain is not None and must_contain not in fn:
+            if subs is not None and not all(s in fn for s in subs):
                 continue
             candidates.append(os.path.join(dir_path, fn))
         if not candidates:
@@ -373,10 +384,13 @@ if __name__ == "__main__":
                     pass
         return score, num
 
-    def _read_mlvu_method_scores(method_dir: str, tg_filter: str | None = None) -> dict[str, float | int | None]:
+    def _read_mlvu_method_scores(
+        method_dir: str, tg_filter: str | tuple[str, ...] | None = None
+    ) -> dict[str, float | int | None]:
         """
         Read both *_subplot_all_eval.log and *_summary_all_eval.log under method_dir.
-        If tg_filter is provided (e.g., 'tg4' or 'tg8'), only consider filenames containing it.
+        If tg_filter is a str, only consider filenames containing it.
+        If tg_filter is a tuple of strs, the filename must contain every substring (e.g. ('tg4', 'p0.25_')).
         Returns dict with keys: subplot, summary, avg, num where
         avg = (subplot + summary) / 2.
         """
@@ -515,34 +529,40 @@ if __name__ == "__main__":
             if model == "Qwen2.5-VL-3B-Instruct":
                 shadow_dir = "shadowkv-32-24"
                 shadow_t_dir = "shadowkv-80-6"
-                kvswap_nvme_tg = "p0.25_"
-                kvswap_t_nvme_tg = "p0.0625_"
+                kvswap_nvme_tg = ("tg4", "p0.25_")
+                kvswap_t_nvme_tg = ("tg4", "p0.0625_")
+                kvswap_emmc_tg = ("tg8", "p0.25_")
+                kvswap_t_emmc_tg = ("tg8", "p0.0625_")
             elif model == "Qwen2.5-VL-7B-Instruct":
                 shadow_dir = "shadowkv-32-48"
                 shadow_t_dir = "shadowkv-80-10"
-                kvswap_nvme_tg = "p0.5_"
-                kvswap_t_nvme_tg = "p0.125_"
+                kvswap_nvme_tg = ("tg4", "p0.5_")
+                kvswap_t_nvme_tg = ("tg4", "p0.125_")
+                kvswap_emmc_tg = ("tg8", "p0.5_")
+                kvswap_t_emmc_tg = ("tg8", "p0.125_")
             else:  # InternVL3-14B: keep previous defaults
                 shadow_dir = "shadowkv-8-160-48-4"
                 shadow_t_dir = "shadowkv-60-16"
-                kvswap_nvme_tg = "tg4"
-                kvswap_t_nvme_tg = "tg4"
+                kvswap_nvme_tg = ("tg4", "p1_")
+                kvswap_t_nvme_tg = ("tg4", "p0.25_")
+                kvswap_emmc_tg = ("tg8", "p1_")
+                kvswap_t_emmc_tg = ("tg8", "p0.25_")
 
             # Full-KV and Loki do not depend on model-specific subnames.
             per_model[model]["Full-KV"] = _read_mlvu_method_scores(os.path.join(base_dir, "none"))
-            per_model[model]["Loki"] = _read_mlvu_method_scores(os.path.join(base_dir, "loki"))
+            per_model[model]["Loki"] = _read_mlvu_method_scores(os.path.join(base_dir, "loki"), tg_filter='p0.125_')
             per_model[model]["ShadowKV"] = _read_mlvu_method_scores(os.path.join(base_dir, shadow_dir))
 
             # KVSwap NVMe / eMMC (and their -t variants) all live in lr_proj_mh, but
             # we disambiguate via filename filters.
             lr_dir = os.path.join(base_dir, "lr_proj_mh")
             per_model[model]["KVSwap(NVMe)"] = _read_mlvu_method_scores(lr_dir, tg_filter=kvswap_nvme_tg)
-            per_model[model]["KVSwap(eMMC)"] = _read_mlvu_method_scores(lr_dir, tg_filter="tg8")
+            per_model[model]["KVSwap(eMMC)"] = _read_mlvu_method_scores(lr_dir, tg_filter=kvswap_emmc_tg)
 
-            per_model[model]["Loki-t"] = _read_mlvu_method_scores(os.path.join(base_dir, "loki"))
+            per_model[model]["Loki-t"] = _read_mlvu_method_scores(os.path.join(base_dir, "loki"), tg_filter='p0.03125_')
             per_model[model]["ShadowKV-t"] = _read_mlvu_method_scores(os.path.join(base_dir, shadow_t_dir))
             per_model[model]["KVSwap(NVMe)-t"] = _read_mlvu_method_scores(lr_dir, tg_filter=kvswap_t_nvme_tg)
-            per_model[model]["KVSwap(eMMC)-t"] = _read_mlvu_method_scores(lr_dir, tg_filter="tg8")
+            per_model[model]["KVSwap(eMMC)-t"] = _read_mlvu_method_scores(lr_dir, tg_filter=kvswap_t_emmc_tg)
 
         baseline_avg = {m: per_model[m].get("Full-KV", {}).get("avg") for m in ordered_models}
 
