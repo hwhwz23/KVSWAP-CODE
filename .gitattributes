@@ -1,4 +1,4 @@
-quality/adapters/**/*.pt filter=lfs diff=lfs merge=lfs -text
 quality/bench/MLVU/MVLU_DATA/MLVU/video/**/*.mp4 filter=lfs diff=lfs merge=lfs -text
 quality/bench/RULER/DATA/Llama/synthetic/32768/**/*.jsonl filter=lfs diff=lfs merge=lfs -text
 engine/data/adapters/**/*.pt !text !filter !merge !diff
+quality/adapters/**/*.pt !text !filter !merge !diff
