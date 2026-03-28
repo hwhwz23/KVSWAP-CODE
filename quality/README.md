@@ -83,14 +83,12 @@ To quickly obtain evaluation results, we provide a **quick mode** that randomly 
 
 #### 3.2.1 Data preparation
 
-First, download adapter weights, a subset of benchmark data and model weights. This process typically takes around **1-2 hours**, depending on your network and disk.
+First, download benchmark data and model weights. This process typically takes around **1-2 hours**, depending on your network and disk.
 
 ```bash
-# Download adapter weights
-git -C ../ lfs pull --include="quality/adapters/**/*.pt"
 # Download models
 bash ./scripts/download_model.sh
-# Download datasets
+# Download MLVU dataset
 bash ./scripts/download_dataset.sh
 ```
 
@@ -171,14 +169,12 @@ This mode evaluates **all models** on the **full benchmark datasets** and may ta
 
 #### 3.3.1 Data preparation
 
-First, download adapter weights, full benchmark data and model weights. 
+First, download full benchmark data and model weights. 
 
 ```bash
-# Download adapter weights
-git lfs pull --include="adapters/**/*.pt"
 # Download models
 bash ./scripts/download_model.sh full
-# Download datasets
+# Download MLVU dataset
 bash ./scripts/download_dataset.sh full
 ```
 

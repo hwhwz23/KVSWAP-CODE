@@ -11,19 +11,19 @@ MLVU_BASE_GLOB="quality/bench/MLVU/MVLU_DATA/MLVU/video"
 
 if [ "${mode}" == "full" ]; then
     echo "This will download all datasets (~130 GB), it may take a while..."
-    echo "--------------------------------"
-    echo "Downloading RULER dataset..."
-    git -C "${GIT_ROOT}" lfs pull --include="quality/bench/RULER/DATA/Llama/synthetic/32768/**/*.jsonl"
-    echo "--------------------------------"
+    # echo "--------------------------------"
+    # echo "Downloading RULER dataset..."
+    # git -C "${GIT_ROOT}" lfs pull --include="quality/bench/RULER/DATA/Llama/synthetic/32768/**/*.jsonl"
+    # echo "--------------------------------"
     echo "Downloading MLVU dataset..."
     git -C "${GIT_ROOT}" lfs pull --include="${MLVU_BASE_GLOB}/**/*.mp4"
     echo "--------------------------------"
 else
     echo "This will download a subset of datasets (~25 GB), it may take a while..."
-    echo "--------------------------------"
-    echo "Downloading RULER dataset..."
-    git -C "${GIT_ROOT}" lfs pull --include="quality/bench/RULER/DATA/Llama/synthetic/32768/**/*.jsonl"
-    echo "--------------------------------"
+    # echo "--------------------------------"
+    # echo "Downloading RULER dataset..."
+    # git -C "${GIT_ROOT}" lfs pull --include="quality/bench/RULER/DATA/Llama/synthetic/32768/**/*.jsonl"
+    # echo "--------------------------------"
     echo "Downloading a subset of MLVU dataset..."
     if [ ! -f "${MLVU_SUBSET_FILE}" ]; then
         echo "Error: MLVU subset list not found: ${MLVU_SUBSET_FILE}" >&2
