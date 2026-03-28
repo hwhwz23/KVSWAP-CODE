@@ -14,14 +14,14 @@
         ],
         "include_dirs": [
             "src/liburing/lib",
-            "/tmp/tmpric_x_qi/libs/liburing/src/include"
+            "/tmp/tmpeya7xl58/libs/liburing/src/include"
         ],
         "language": "c",
         "libraries": [
             "uring-ffi"
         ],
         "library_dirs": [
-            "/tmp/tmpric_x_qi/libs/liburing/src"
+            "/tmp/tmpeya7xl58/libs/liburing/src"
         ],
         "name": "liburing.file",
         "sources": [
@@ -2057,7 +2057,7 @@ struct __pyx_opt_args_8liburing_4file_io_uring_prep_openat2_direct;
 struct __pyx_opt_args_8liburing_4file_io_uring_prep_read;
 struct __pyx_opt_args_8liburing_4file_io_uring_prep_files_update;
 
-/* "liburing/file.pxd":138
+/* "liburing/file.pxd":139
  * 
  * 
  * cpdef enum __file_define__:             # <<<<<<<<<<<<<<
@@ -2066,7 +2066,7 @@ struct __pyx_opt_args_8liburing_4file_io_uring_prep_files_update;
 */
 enum __pyx_t_8liburing_4file___file_define__ {
 
-  /* "liburing/file.pxd":173
+  /* "liburing/file.pxd":174
  *     O_SYNC = __O_SYNC
  *     O_TMPFILE = __O_TMPFILE
  *     O_TRUNC = __O_TRUNC             # <<<<<<<<<<<<<<
@@ -3966,7 +3966,7 @@ static CYTHON_INLINE void __pyx_f_8liburing_4file_io_uring_prep_write(struct __p
 static CYTHON_INLINE void __pyx_f_8liburing_4file_io_uring_prep_files_update(struct __pyx_obj_8liburing_5queue_io_uring_sqe *, PyObject *, int __pyx_skip_dispatch, struct __pyx_opt_args_8liburing_4file_io_uring_prep_files_update *__pyx_optional_args); /*proto*/
 static CYTHON_INLINE void __pyx_f_8liburing_4file_io_uring_prep_ftruncate(struct __pyx_obj_8liburing_5queue_io_uring_sqe *, int, loff_t, int __pyx_skip_dispatch); /*proto*/
 static CYTHON_INLINE int __pyx_f_8liburing_4file_prepare_sqe_batch_submit_wait_advance(struct __pyx_obj_8liburing_5queue_io_uring *, unsigned int, __Pyx_memviewslice, int, unsigned int, __Pyx_memviewslice, unsigned int, unsigned int, unsigned int, int, int, int __pyx_skip_dispatch); /*proto*/
-static CYTHON_INLINE int __pyx_f_8liburing_4file_prepare_sqe_batch_submit_wait_advance_timeout(struct __pyx_obj_8liburing_5queue_io_uring *, unsigned int, __Pyx_memviewslice, int, unsigned int, __Pyx_memviewslice, unsigned int, unsigned int, unsigned int, int, int, unsigned int, __Pyx_memviewslice, __Pyx_memviewslice, __Pyx_memviewslice, int __pyx_skip_dispatch); /*proto*/
+static CYTHON_INLINE int __pyx_f_8liburing_4file_prepare_sqe_batch_submit_wait_advance_timeout(struct __pyx_obj_8liburing_5queue_io_uring *, unsigned int, __Pyx_memviewslice, int, unsigned int, __Pyx_memviewslice, unsigned int, unsigned int, unsigned int, unsigned int, int, int, unsigned int, __Pyx_memviewslice, __Pyx_memviewslice, __Pyx_memviewslice, int __pyx_skip_dispatch); /*proto*/
 static CYTHON_INLINE int __pyx_f_8liburing_4file_write_prepare_sqe_batch_submit_wait_advance(struct __pyx_obj_8liburing_5queue_io_uring *, unsigned int, __Pyx_memviewslice, unsigned int, unsigned int, unsigned int, unsigned int, int, int, int __pyx_skip_dispatch); /*proto*/
 static int __pyx_array_allocate_buffer(struct __pyx_array_obj *); /*proto*/
 static struct __pyx_array_obj *__pyx_array_new(PyObject *, Py_ssize_t, char *, char const *, char *); /*proto*/
@@ -4100,7 +4100,7 @@ static PyObject *__pyx_pf_8liburing_4file_30io_uring_prep_write(CYTHON_UNUSED Py
 static PyObject *__pyx_pf_8liburing_4file_32io_uring_prep_files_update(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_8liburing_5queue_io_uring_sqe *__pyx_v_sqe, PyObject *__pyx_v_fds, int __pyx_v_offset); /* proto */
 static PyObject *__pyx_pf_8liburing_4file_34io_uring_prep_ftruncate(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_8liburing_5queue_io_uring_sqe *__pyx_v_sqe, int __pyx_v_fd, loff_t __pyx_v_len); /* proto */
 static PyObject *__pyx_pf_8liburing_4file_36prepare_sqe_batch_submit_wait_advance(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_8liburing_5queue_io_uring *__pyx_v_ring, unsigned int __pyx_v_n_req, __Pyx_memviewslice __pyx_v_buffer_addrs, int __pyx_v_fd, unsigned int __pyx_v_bytes_per_read, __Pyx_memviewslice __pyx_v_file_offsets, unsigned int __pyx_v_n_group, unsigned int __pyx_v_group_offset, unsigned int __pyx_v_batch_offset, int __pyx_v_set_fixed_file, int __pyx_v_set_fixed_buffer); /* proto */
-static PyObject *__pyx_pf_8liburing_4file_38prepare_sqe_batch_submit_wait_advance_timeout(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_8liburing_5queue_io_uring *__pyx_v_ring, unsigned int __pyx_v_n_req, __Pyx_memviewslice __pyx_v_buffer_addrs, int __pyx_v_fd, unsigned int __pyx_v_bytes_per_read, __Pyx_memviewslice __pyx_v_file_offsets, unsigned int __pyx_v_n_group, unsigned int __pyx_v_group_offset, unsigned int __pyx_v_batch_offset, int __pyx_v_set_fixed_file, int __pyx_v_set_fixed_buffer, unsigned int __pyx_v_timeout_ns, __Pyx_memviewslice __pyx_v_timed_out, __Pyx_memviewslice __pyx_v_time_out_num, __Pyx_memviewslice __pyx_v_real_req_num); /* proto */
+static PyObject *__pyx_pf_8liburing_4file_38prepare_sqe_batch_submit_wait_advance_timeout(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_8liburing_5queue_io_uring *__pyx_v_ring, unsigned int __pyx_v_n_req, __Pyx_memviewslice __pyx_v_buffer_addrs, int __pyx_v_fd, unsigned int __pyx_v_bytes_per_read, __Pyx_memviewslice __pyx_v_file_offsets, unsigned int __pyx_v_n_group, unsigned int __pyx_v_group_offset, unsigned int __pyx_v_batch_offset, unsigned int __pyx_v_initial_offset, int __pyx_v_set_fixed_file, int __pyx_v_set_fixed_buffer, unsigned int __pyx_v_timeout_ns, __Pyx_memviewslice __pyx_v_timed_out, __Pyx_memviewslice __pyx_v_time_out_num, __Pyx_memviewslice __pyx_v_real_req_num); /* proto */
 static PyObject *__pyx_pf_8liburing_4file_40write_prepare_sqe_batch_submit_wait_advance(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_8liburing_5queue_io_uring *__pyx_v_ring, unsigned int __pyx_v_batch_size, __Pyx_memviewslice __pyx_v_buffer_addrs, unsigned int __pyx_v_fd, unsigned int __pyx_v_bytes_per_batch, unsigned int __pyx_v_file_offset_i, unsigned int __pyx_v_file_offset_n, int __pyx_v_set_fixed_file, int __pyx_v_fsync); /* proto */
 static PyObject *__pyx_tp_new_8liburing_4file_open_how(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static PyObject *__pyx_tp_new_array(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
@@ -4162,7 +4162,7 @@ typedef struct {
   PyObject *__pyx_slice[1];
   PyObject *__pyx_tuple[5];
   PyObject *__pyx_codeobj_tab[23];
-  PyObject *__pyx_string_tab[250];
+  PyObject *__pyx_string_tab[251];
   PyObject *__pyx_number_tab[5];
 /* #### Code section: module_state_contents ### */
 /* CommonTypesMetaclass.module_state_decls */
@@ -4340,120 +4340,121 @@ static __pyx_mstatetype * const __pyx_mstate_global = &__pyx_mstate_global_stati
 #define __pyx_n_u_id __pyx_string_tab[133]
 #define __pyx_n_u_import __pyx_string_tab[134]
 #define __pyx_n_u_index __pyx_string_tab[135]
-#define __pyx_n_u_io_uring_prep_files_update __pyx_string_tab[136]
-#define __pyx_n_u_io_uring_prep_fsync __pyx_string_tab[137]
-#define __pyx_n_u_io_uring_prep_ftruncate __pyx_string_tab[138]
-#define __pyx_n_u_io_uring_prep_openat __pyx_string_tab[139]
-#define __pyx_n_u_io_uring_prep_openat2 __pyx_string_tab[140]
-#define __pyx_n_u_io_uring_prep_openat2_direct __pyx_string_tab[141]
-#define __pyx_n_u_io_uring_prep_openat_direct __pyx_string_tab[142]
-#define __pyx_n_u_io_uring_prep_read __pyx_string_tab[143]
-#define __pyx_n_u_io_uring_prep_read_fixed __pyx_string_tab[144]
-#define __pyx_n_u_io_uring_prep_read_multishot __pyx_string_tab[145]
-#define __pyx_n_u_io_uring_prep_readv __pyx_string_tab[146]
-#define __pyx_n_u_io_uring_prep_readv2 __pyx_string_tab[147]
-#define __pyx_n_u_io_uring_prep_sync_file_range __pyx_string_tab[148]
-#define __pyx_n_u_io_uring_prep_tee __pyx_string_tab[149]
-#define __pyx_n_u_io_uring_prep_write __pyx_string_tab[150]
-#define __pyx_n_u_io_uring_prep_write_fixed __pyx_string_tab[151]
-#define __pyx_n_u_io_uring_prep_writev __pyx_string_tab[152]
-#define __pyx_n_u_io_uring_prep_writev2 __pyx_string_tab[153]
-#define __pyx_n_u_iovecs __pyx_string_tab[154]
-#define __pyx_n_u_is_coroutine __pyx_string_tab[155]
-#define __pyx_n_u_items __pyx_string_tab[156]
-#define __pyx_n_u_itemsize __pyx_string_tab[157]
-#define __pyx_n_u_len __pyx_string_tab[158]
-#define __pyx_n_u_liburing_file __pyx_string_tab[159]
-#define __pyx_n_u_main __pyx_string_tab[160]
-#define __pyx_n_u_member_names __pyx_string_tab[161]
-#define __pyx_n_u_members __pyx_string_tab[162]
-#define __pyx_n_u_memview __pyx_string_tab[163]
-#define __pyx_n_u_mode __pyx_string_tab[164]
-#define __pyx_n_u_module __pyx_string_tab[165]
-#define __pyx_n_u_module_2 __pyx_string_tab[166]
-#define __pyx_n_u_n_group __pyx_string_tab[167]
-#define __pyx_n_u_n_req __pyx_string_tab[168]
-#define __pyx_n_u_name __pyx_string_tab[169]
-#define __pyx_n_u_name_2 __pyx_string_tab[170]
-#define __pyx_n_u_nbytes __pyx_string_tab[171]
-#define __pyx_n_u_ndim __pyx_string_tab[172]
-#define __pyx_n_u_new __pyx_string_tab[173]
-#define __pyx_n_u_nr_vecs __pyx_string_tab[174]
-#define __pyx_n_u_obj __pyx_string_tab[175]
-#define __pyx_n_u_offset __pyx_string_tab[176]
-#define __pyx_n_u_open_how __pyx_string_tab[177]
-#define __pyx_n_u_open_how___reduce_cython __pyx_string_tab[178]
-#define __pyx_n_u_open_how___setstate_cython __pyx_string_tab[179]
-#define __pyx_n_u_pack __pyx_string_tab[180]
-#define __pyx_n_u_path __pyx_string_tab[181]
-#define __pyx_n_u_pop __pyx_string_tab[182]
-#define __pyx_n_u_prepare_sqe_batch_submit_wait_ad __pyx_string_tab[183]
-#define __pyx_n_u_prepare_sqe_batch_submit_wait_ad_2 __pyx_string_tab[184]
-#define __pyx_n_u_pyx_capi __pyx_string_tab[185]
-#define __pyx_n_u_pyx_checksum __pyx_string_tab[186]
-#define __pyx_n_u_pyx_state __pyx_string_tab[187]
-#define __pyx_n_u_pyx_type __pyx_string_tab[188]
-#define __pyx_n_u_pyx_unpickle_Enum __pyx_string_tab[189]
-#define __pyx_n_u_pyx_vtable __pyx_string_tab[190]
-#define __pyx_n_u_qualname __pyx_string_tab[191]
-#define __pyx_n_u_real_req_num __pyx_string_tab[192]
-#define __pyx_n_u_reduce __pyx_string_tab[193]
-#define __pyx_n_u_reduce_cython __pyx_string_tab[194]
-#define __pyx_n_u_reduce_ex __pyx_string_tab[195]
-#define __pyx_n_u_register __pyx_string_tab[196]
-#define __pyx_n_u_repr __pyx_string_tab[197]
-#define __pyx_n_u_resolve __pyx_string_tab[198]
-#define __pyx_n_u_ring __pyx_string_tab[199]
-#define __pyx_n_u_self __pyx_string_tab[200]
-#define __pyx_n_u_set_fixed_buffer __pyx_string_tab[201]
-#define __pyx_n_u_set_fixed_file __pyx_string_tab[202]
-#define __pyx_n_u_set_name __pyx_string_tab[203]
-#define __pyx_n_u_setdefault __pyx_string_tab[204]
-#define __pyx_n_u_setstate __pyx_string_tab[205]
-#define __pyx_n_u_setstate_cython __pyx_string_tab[206]
-#define __pyx_n_u_shape __pyx_string_tab[207]
-#define __pyx_n_u_size __pyx_string_tab[208]
-#define __pyx_n_u_splice_flags __pyx_string_tab[209]
-#define __pyx_n_u_sqe __pyx_string_tab[210]
-#define __pyx_n_u_start __pyx_string_tab[211]
-#define __pyx_n_u_step __pyx_string_tab[212]
-#define __pyx_n_u_stop __pyx_string_tab[213]
-#define __pyx_n_u_struct __pyx_string_tab[214]
-#define __pyx_n_u_super __pyx_string_tab[215]
-#define __pyx_n_u_test __pyx_string_tab[216]
-#define __pyx_n_u_time_out_num __pyx_string_tab[217]
-#define __pyx_n_u_timed_out __pyx_string_tab[218]
-#define __pyx_n_u_timeout_ns __pyx_string_tab[219]
-#define __pyx_n_u_unpack __pyx_string_tab[220]
-#define __pyx_n_u_update __pyx_string_tab[221]
-#define __pyx_n_u_values __pyx_string_tab[222]
-#define __pyx_n_u_write_prepare_sqe_batch_submit_w __pyx_string_tab[223]
-#define __pyx_n_u_x __pyx_string_tab[224]
-#define __pyx_kp_b_int_int_int___pyx_skip_dispatch __pyx_string_tab[225]
-#define __pyx_kp_b_int_struct___pyx_obj_8liburing_5 __pyx_string_tab[226]
-#define __pyx_kp_b_iso88591_1234_0_3fE_wa __pyx_string_tab[227]
-#define __pyx_kp_b_iso88591_12_1CvU_1 __pyx_string_tab[228]
-#define __pyx_kp_b_iso88591_1CvT_vYha __pyx_string_tab[229]
-#define __pyx_kp_b_iso88591_2_Q_k_k_q_Q_E_aq_1Ct1_y_S_l_2Qm __pyx_string_tab[230]
+#define __pyx_n_u_initial_offset __pyx_string_tab[136]
+#define __pyx_n_u_io_uring_prep_files_update __pyx_string_tab[137]
+#define __pyx_n_u_io_uring_prep_fsync __pyx_string_tab[138]
+#define __pyx_n_u_io_uring_prep_ftruncate __pyx_string_tab[139]
+#define __pyx_n_u_io_uring_prep_openat __pyx_string_tab[140]
+#define __pyx_n_u_io_uring_prep_openat2 __pyx_string_tab[141]
+#define __pyx_n_u_io_uring_prep_openat2_direct __pyx_string_tab[142]
+#define __pyx_n_u_io_uring_prep_openat_direct __pyx_string_tab[143]
+#define __pyx_n_u_io_uring_prep_read __pyx_string_tab[144]
+#define __pyx_n_u_io_uring_prep_read_fixed __pyx_string_tab[145]
+#define __pyx_n_u_io_uring_prep_read_multishot __pyx_string_tab[146]
+#define __pyx_n_u_io_uring_prep_readv __pyx_string_tab[147]
+#define __pyx_n_u_io_uring_prep_readv2 __pyx_string_tab[148]
+#define __pyx_n_u_io_uring_prep_sync_file_range __pyx_string_tab[149]
+#define __pyx_n_u_io_uring_prep_tee __pyx_string_tab[150]
+#define __pyx_n_u_io_uring_prep_write __pyx_string_tab[151]
+#define __pyx_n_u_io_uring_prep_write_fixed __pyx_string_tab[152]
+#define __pyx_n_u_io_uring_prep_writev __pyx_string_tab[153]
+#define __pyx_n_u_io_uring_prep_writev2 __pyx_string_tab[154]
+#define __pyx_n_u_iovecs __pyx_string_tab[155]
+#define __pyx_n_u_is_coroutine __pyx_string_tab[156]
+#define __pyx_n_u_items __pyx_string_tab[157]
+#define __pyx_n_u_itemsize __pyx_string_tab[158]
+#define __pyx_n_u_len __pyx_string_tab[159]
+#define __pyx_n_u_liburing_file __pyx_string_tab[160]
+#define __pyx_n_u_main __pyx_string_tab[161]
+#define __pyx_n_u_member_names __pyx_string_tab[162]
+#define __pyx_n_u_members __pyx_string_tab[163]
+#define __pyx_n_u_memview __pyx_string_tab[164]
+#define __pyx_n_u_mode __pyx_string_tab[165]
+#define __pyx_n_u_module __pyx_string_tab[166]
+#define __pyx_n_u_module_2 __pyx_string_tab[167]
+#define __pyx_n_u_n_group __pyx_string_tab[168]
+#define __pyx_n_u_n_req __pyx_string_tab[169]
+#define __pyx_n_u_name __pyx_string_tab[170]
+#define __pyx_n_u_name_2 __pyx_string_tab[171]
+#define __pyx_n_u_nbytes __pyx_string_tab[172]
+#define __pyx_n_u_ndim __pyx_string_tab[173]
+#define __pyx_n_u_new __pyx_string_tab[174]
+#define __pyx_n_u_nr_vecs __pyx_string_tab[175]
+#define __pyx_n_u_obj __pyx_string_tab[176]
+#define __pyx_n_u_offset __pyx_string_tab[177]
+#define __pyx_n_u_open_how __pyx_string_tab[178]
+#define __pyx_n_u_open_how___reduce_cython __pyx_string_tab[179]
+#define __pyx_n_u_open_how___setstate_cython __pyx_string_tab[180]
+#define __pyx_n_u_pack __pyx_string_tab[181]
+#define __pyx_n_u_path __pyx_string_tab[182]
+#define __pyx_n_u_pop __pyx_string_tab[183]
+#define __pyx_n_u_prepare_sqe_batch_submit_wait_ad __pyx_string_tab[184]
+#define __pyx_n_u_prepare_sqe_batch_submit_wait_ad_2 __pyx_string_tab[185]
+#define __pyx_n_u_pyx_capi __pyx_string_tab[186]
+#define __pyx_n_u_pyx_checksum __pyx_string_tab[187]
+#define __pyx_n_u_pyx_state __pyx_string_tab[188]
+#define __pyx_n_u_pyx_type __pyx_string_tab[189]
+#define __pyx_n_u_pyx_unpickle_Enum __pyx_string_tab[190]
+#define __pyx_n_u_pyx_vtable __pyx_string_tab[191]
+#define __pyx_n_u_qualname __pyx_string_tab[192]
+#define __pyx_n_u_real_req_num __pyx_string_tab[193]
+#define __pyx_n_u_reduce __pyx_string_tab[194]
+#define __pyx_n_u_reduce_cython __pyx_string_tab[195]
+#define __pyx_n_u_reduce_ex __pyx_string_tab[196]
+#define __pyx_n_u_register __pyx_string_tab[197]
+#define __pyx_n_u_repr __pyx_string_tab[198]
+#define __pyx_n_u_resolve __pyx_string_tab[199]
+#define __pyx_n_u_ring __pyx_string_tab[200]
+#define __pyx_n_u_self __pyx_string_tab[201]
+#define __pyx_n_u_set_fixed_buffer __pyx_string_tab[202]
+#define __pyx_n_u_set_fixed_file __pyx_string_tab[203]
+#define __pyx_n_u_set_name __pyx_string_tab[204]
+#define __pyx_n_u_setdefault __pyx_string_tab[205]
+#define __pyx_n_u_setstate __pyx_string_tab[206]
+#define __pyx_n_u_setstate_cython __pyx_string_tab[207]
+#define __pyx_n_u_shape __pyx_string_tab[208]
+#define __pyx_n_u_size __pyx_string_tab[209]
+#define __pyx_n_u_splice_flags __pyx_string_tab[210]
+#define __pyx_n_u_sqe __pyx_string_tab[211]
+#define __pyx_n_u_start __pyx_string_tab[212]
+#define __pyx_n_u_step __pyx_string_tab[213]
+#define __pyx_n_u_stop __pyx_string_tab[214]
+#define __pyx_n_u_struct __pyx_string_tab[215]
+#define __pyx_n_u_super __pyx_string_tab[216]
+#define __pyx_n_u_test __pyx_string_tab[217]
+#define __pyx_n_u_time_out_num __pyx_string_tab[218]
+#define __pyx_n_u_timed_out __pyx_string_tab[219]
+#define __pyx_n_u_timeout_ns __pyx_string_tab[220]
+#define __pyx_n_u_unpack __pyx_string_tab[221]
+#define __pyx_n_u_update __pyx_string_tab[222]
+#define __pyx_n_u_values __pyx_string_tab[223]
+#define __pyx_n_u_write_prepare_sqe_batch_submit_w __pyx_string_tab[224]
+#define __pyx_n_u_x __pyx_string_tab[225]
+#define __pyx_kp_b_int_int_int___pyx_skip_dispatch __pyx_string_tab[226]
+#define __pyx_kp_b_int_struct___pyx_obj_8liburing_5 __pyx_string_tab[227]
+#define __pyx_kp_b_iso88591_1234_0_3fE_wa __pyx_string_tab[228]
+#define __pyx_kp_b_iso88591_12_1CvU_1 __pyx_string_tab[229]
+#define __pyx_kp_b_iso88591_1CvT_vYha __pyx_string_tab[230]
 #define __pyx_kp_b_iso88591_34_F_as_4xq __pyx_string_tab[231]
 #define __pyx_kp_b_iso88591_3fD __pyx_string_tab[232]
 #define __pyx_kp_b_iso88591_3fD_fIQ __pyx_string_tab[233]
 #define __pyx_kp_b_iso88591_45_V4vV6_q __pyx_string_tab[234]
-#define __pyx_kp_b_iso88591_5612_3fD_fF __pyx_string_tab[235]
-#define __pyx_kp_b_iso88591_89FG_67_V5_gV1 __pyx_string_tab[236]
-#define __pyx_kp_b_iso88591_AB_1CvT_ha __pyx_string_tab[237]
-#define __pyx_kp_b_iso88591_E_aq_AQd_q_5_HL_M_iijjmmoo_A_A __pyx_string_tab[238]
-#define __pyx_kp_b_iso88591_E_aq_AQd_t8_q_DUUWWYYggiij_q_c __pyx_string_tab[239]
-#define __pyx_kp_b_iso88591_H_I_78_3fE_s __pyx_string_tab[240]
-#define __pyx_kp_b_iso88591_Q __pyx_string_tab[241]
-#define __pyx_kp_b_iso88591_Qc_t1 __pyx_string_tab[242]
-#define __pyx_kp_b_iso88591_V4q __pyx_string_tab[243]
-#define __pyx_kp_b_iso88591_V4q_1D __pyx_string_tab[244]
-#define __pyx_kp_b_iso88591_YYZ_5_a_F_e_S __pyx_string_tab[245]
-#define __pyx_kp_b_iso88591_as_E __pyx_string_tab[246]
-#define __pyx_kp_b_iso88591_q_6 __pyx_string_tab[247]
-#define __pyx_kp_b_iso88591_q_6_U __pyx_string_tab[248]
-#define __pyx_n_b_O __pyx_string_tab[249]
+#define __pyx_kp_b_iso88591_4_Q_k_k_q_Q_E_aq_1Ct1_y_S_l_2Qm __pyx_string_tab[235]
+#define __pyx_kp_b_iso88591_5612_3fD_fF __pyx_string_tab[236]
+#define __pyx_kp_b_iso88591_89FG_67_V5_gV1 __pyx_string_tab[237]
+#define __pyx_kp_b_iso88591_AB_1CvT_ha __pyx_string_tab[238]
+#define __pyx_kp_b_iso88591_E_aq_AQd_q_5_HL_M_iijjmmoo_A_A __pyx_string_tab[239]
+#define __pyx_kp_b_iso88591_E_aq_AQd_t8_q_DUUWWYYggiij_q_c __pyx_string_tab[240]
+#define __pyx_kp_b_iso88591_H_I_78_3fE_s __pyx_string_tab[241]
+#define __pyx_kp_b_iso88591_Q __pyx_string_tab[242]
+#define __pyx_kp_b_iso88591_Qc_t1 __pyx_string_tab[243]
+#define __pyx_kp_b_iso88591_V4q __pyx_string_tab[244]
+#define __pyx_kp_b_iso88591_V4q_1D __pyx_string_tab[245]
+#define __pyx_kp_b_iso88591_YYZ_5_a_F_e_S __pyx_string_tab[246]
+#define __pyx_kp_b_iso88591_as_E __pyx_string_tab[247]
+#define __pyx_kp_b_iso88591_q_6 __pyx_string_tab[248]
+#define __pyx_kp_b_iso88591_q_6_U __pyx_string_tab[249]
+#define __pyx_n_b_O __pyx_string_tab[250]
 #define __pyx_int_0 __pyx_number_tab[0]
 #define __pyx_int_neg_1 __pyx_number_tab[1]
 #define __pyx_int_1 __pyx_number_tab[2]
@@ -4497,7 +4498,7 @@ static CYTHON_SMALL_CODE int __pyx_m_clear(PyObject *m) {
   for (int i=0; i<1; ++i) { Py_CLEAR(clear_module_state->__pyx_slice[i]); }
   for (int i=0; i<5; ++i) { Py_CLEAR(clear_module_state->__pyx_tuple[i]); }
   for (int i=0; i<23; ++i) { Py_CLEAR(clear_module_state->__pyx_codeobj_tab[i]); }
-  for (int i=0; i<250; ++i) { Py_CLEAR(clear_module_state->__pyx_string_tab[i]); }
+  for (int i=0; i<251; ++i) { Py_CLEAR(clear_module_state->__pyx_string_tab[i]); }
   for (int i=0; i<5; ++i) { Py_CLEAR(clear_module_state->__pyx_number_tab[i]); }
 /* #### Code section: module_state_clear_contents ### */
 /* CommonTypesMetaclass.module_state_clear */
@@ -4545,7 +4546,7 @@ static CYTHON_SMALL_CODE int __pyx_m_traverse(PyObject *m, visitproc visit, void
   for (int i=0; i<1; ++i) { __Pyx_VISIT_CONST(traverse_module_state->__pyx_slice[i]); }
   for (int i=0; i<5; ++i) { __Pyx_VISIT_CONST(traverse_module_state->__pyx_tuple[i]); }
   for (int i=0; i<23; ++i) { __Pyx_VISIT_CONST(traverse_module_state->__pyx_codeobj_tab[i]); }
-  for (int i=0; i<250; ++i) { __Pyx_VISIT_CONST(traverse_module_state->__pyx_string_tab[i]); }
+  for (int i=0; i<251; ++i) { __Pyx_VISIT_CONST(traverse_module_state->__pyx_string_tab[i]); }
   for (int i=0; i<5; ++i) { __Pyx_VISIT_CONST(traverse_module_state->__pyx_number_tab[i]); }
 /* #### Code section: module_state_traverse_contents ### */
 /* CommonTypesMetaclass.module_state_traverse */
@@ -23808,7 +23809,7 @@ PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
-static CYTHON_INLINE int __pyx_f_8liburing_4file_prepare_sqe_batch_submit_wait_advance_timeout(struct __pyx_obj_8liburing_5queue_io_uring *__pyx_v_ring, unsigned int __pyx_v_n_req, __Pyx_memviewslice __pyx_v_buffer_addrs, int __pyx_v_fd, unsigned int __pyx_v_bytes_per_read, __Pyx_memviewslice __pyx_v_file_offsets, unsigned int __pyx_v_n_group, unsigned int __pyx_v_group_offset, unsigned int __pyx_v_batch_offset, int __pyx_v_set_fixed_file, int __pyx_v_set_fixed_buffer, unsigned int __pyx_v_timeout_ns, __Pyx_memviewslice __pyx_v_timed_out, __Pyx_memviewslice __pyx_v_time_out_num, __Pyx_memviewslice __pyx_v_real_req_num, CYTHON_UNUSED int __pyx_skip_dispatch) {
+static CYTHON_INLINE int __pyx_f_8liburing_4file_prepare_sqe_batch_submit_wait_advance_timeout(struct __pyx_obj_8liburing_5queue_io_uring *__pyx_v_ring, unsigned int __pyx_v_n_req, __Pyx_memviewslice __pyx_v_buffer_addrs, int __pyx_v_fd, unsigned int __pyx_v_bytes_per_read, __Pyx_memviewslice __pyx_v_file_offsets, unsigned int __pyx_v_n_group, unsigned int __pyx_v_group_offset, unsigned int __pyx_v_batch_offset, unsigned int __pyx_v_initial_offset, int __pyx_v_set_fixed_file, int __pyx_v_set_fixed_buffer, unsigned int __pyx_v_timeout_ns, __Pyx_memviewslice __pyx_v_timed_out, __Pyx_memviewslice __pyx_v_time_out_num, __Pyx_memviewslice __pyx_v_real_req_num, CYTHON_UNUSED int __pyx_skip_dispatch) {
   unsigned int __pyx_v_i;
   unsigned int __pyx_v_ii;
   unsigned int __pyx_v_iii;
@@ -23834,7 +23835,7 @@ static CYTHON_INLINE int __pyx_f_8liburing_4file_prepare_sqe_batch_submit_wait_a
   int __pyx_clineno = 0;
   PyGILState_STATE __pyx_gilstate_save;
 
-  /* "liburing/file.pyx":292
+  /* "liburing/file.pyx":293
  *     cdef __io_uring_sqe *sqe
  *     cdef __io_uring_sqe *t_sqe
  *     cdef unsigned int to_count = 0             # <<<<<<<<<<<<<<
@@ -23843,7 +23844,7 @@ static CYTHON_INLINE int __pyx_f_8liburing_4file_prepare_sqe_batch_submit_wait_a
 */
   __pyx_v_to_count = 0;
 
-  /* "liburing/file.pyx":296
+  /* "liburing/file.pyx":297
  *     cdef int ret
  *     cdef unsigned int idx
  *     cdef unsigned int submitted = 0             # <<<<<<<<<<<<<<
@@ -23852,7 +23853,7 @@ static CYTHON_INLINE int __pyx_f_8liburing_4file_prepare_sqe_batch_submit_wait_a
 */
   __pyx_v_submitted = 0;
 
-  /* "liburing/file.pyx":297
+  /* "liburing/file.pyx":298
  *     cdef unsigned int idx
  *     cdef unsigned int submitted = 0
  *     cdef unsigned int seen = 0             # <<<<<<<<<<<<<<
@@ -23861,7 +23862,7 @@ static CYTHON_INLINE int __pyx_f_8liburing_4file_prepare_sqe_batch_submit_wait_a
 */
   __pyx_v_seen = 0;
 
-  /* "liburing/file.pyx":301
+  /* "liburing/file.pyx":302
  *     # ts.tv_sec  = timeout_ms // 1000
  *     # ts.tv_nsec = (timeout_ms % 1000) * 1000000
  *     ts.tv_sec  = 0             # <<<<<<<<<<<<<<
@@ -23870,7 +23871,7 @@ static CYTHON_INLINE int __pyx_f_8liburing_4file_prepare_sqe_batch_submit_wait_a
 */
   __pyx_v_ts.tv_sec = 0;
 
-  /* "liburing/file.pyx":302
+  /* "liburing/file.pyx":303
  *     # ts.tv_nsec = (timeout_ms % 1000) * 1000000
  *     ts.tv_sec  = 0
  *     ts.tv_nsec = <long>timeout_ns             # <<<<<<<<<<<<<<
@@ -23879,7 +23880,7 @@ static CYTHON_INLINE int __pyx_f_8liburing_4file_prepare_sqe_batch_submit_wait_a
 */
   __pyx_v_ts.tv_nsec = ((long)__pyx_v_timeout_ns);
 
-  /* "liburing/file.pyx":303
+  /* "liburing/file.pyx":304
  *     ts.tv_sec  = 0
  *     ts.tv_nsec = <long>timeout_ns
  *     iii = 0             # <<<<<<<<<<<<<<
@@ -23888,7 +23889,7 @@ static CYTHON_INLINE int __pyx_f_8liburing_4file_prepare_sqe_batch_submit_wait_a
 */
   __pyx_v_iii = 0;
 
-  /* "liburing/file.pyx":304
+  /* "liburing/file.pyx":305
  *     ts.tv_nsec = <long>timeout_ns
  *     iii = 0
  *     with nogil:             # <<<<<<<<<<<<<<
@@ -23901,7 +23902,7 @@ static CYTHON_INLINE int __pyx_f_8liburing_4file_prepare_sqe_batch_submit_wait_a
       __Pyx_FastGIL_Remember();
       /*try:*/ {
 
-        /* "liburing/file.pyx":305
+        /* "liburing/file.pyx":306
  *     iii = 0
  *     with nogil:
  *         ii = 0             # <<<<<<<<<<<<<<
@@ -23910,7 +23911,7 @@ static CYTHON_INLINE int __pyx_f_8liburing_4file_prepare_sqe_batch_submit_wait_a
 */
         __pyx_v_ii = 0;
 
-        /* "liburing/file.pyx":306
+        /* "liburing/file.pyx":307
  *     with nogil:
  *         ii = 0
  *         for i in range(n_req):             # <<<<<<<<<<<<<<
@@ -23922,7 +23923,7 @@ static CYTHON_INLINE int __pyx_f_8liburing_4file_prepare_sqe_batch_submit_wait_a
         for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_2; __pyx_t_3+=1) {
           __pyx_v_i = __pyx_t_3;
 
-          /* "liburing/file.pyx":307
+          /* "liburing/file.pyx":308
  *         ii = 0
  *         for i in range(n_req):
  *             if file_offsets[i] == -1:             # <<<<<<<<<<<<<<
@@ -23933,7 +23934,7 @@ static CYTHON_INLINE int __pyx_f_8liburing_4file_prepare_sqe_batch_submit_wait_a
           __pyx_t_5 = ((*((int *) ( /* dim=0 */ (__pyx_v_file_offsets.data + __pyx_t_4 * __pyx_v_file_offsets.strides[0]) ))) == -1L);
           if (__pyx_t_5) {
 
-            /* "liburing/file.pyx":308
+            /* "liburing/file.pyx":309
  *         for i in range(n_req):
  *             if file_offsets[i] == -1:
  *                 continue             # <<<<<<<<<<<<<<
@@ -23942,7 +23943,7 @@ static CYTHON_INLINE int __pyx_f_8liburing_4file_prepare_sqe_batch_submit_wait_a
 */
             goto __pyx_L6_continue;
 
-            /* "liburing/file.pyx":307
+            /* "liburing/file.pyx":308
  *         ii = 0
  *         for i in range(n_req):
  *             if file_offsets[i] == -1:             # <<<<<<<<<<<<<<
@@ -23951,39 +23952,39 @@ static CYTHON_INLINE int __pyx_f_8liburing_4file_prepare_sqe_batch_submit_wait_a
 */
           }
 
-          /* "liburing/file.pyx":309
+          /* "liburing/file.pyx":310
  *             if file_offsets[i] == -1:
  *                 continue
  *             if timed_out[ii] == 0:             # <<<<<<<<<<<<<<
  *                 continue
- *             offsets = file_offsets[i]*group_offset + (i//n_group)*batch_offset
+ *             offsets = file_offsets[i]*group_offset + (i//n_group)*batch_offset + initial_offset
 */
           __pyx_t_4 = __pyx_v_ii;
           __pyx_t_5 = ((*((unsigned int *) ( /* dim=0 */ (__pyx_v_timed_out.data + __pyx_t_4 * __pyx_v_timed_out.strides[0]) ))) == 0);
           if (__pyx_t_5) {
 
-            /* "liburing/file.pyx":310
+            /* "liburing/file.pyx":311
  *                 continue
  *             if timed_out[ii] == 0:
  *                 continue             # <<<<<<<<<<<<<<
- *             offsets = file_offsets[i]*group_offset + (i//n_group)*batch_offset
+ *             offsets = file_offsets[i]*group_offset + (i//n_group)*batch_offset + initial_offset
  *             sqe = __io_uring_get_sqe(&ring.ptr)
 */
             goto __pyx_L6_continue;
 
-            /* "liburing/file.pyx":309
+            /* "liburing/file.pyx":310
  *             if file_offsets[i] == -1:
  *                 continue
  *             if timed_out[ii] == 0:             # <<<<<<<<<<<<<<
  *                 continue
- *             offsets = file_offsets[i]*group_offset + (i//n_group)*batch_offset
+ *             offsets = file_offsets[i]*group_offset + (i//n_group)*batch_offset + initial_offset
 */
           }
 
-          /* "liburing/file.pyx":311
+          /* "liburing/file.pyx":312
  *             if timed_out[ii] == 0:
  *                 continue
- *             offsets = file_offsets[i]*group_offset + (i//n_group)*batch_offset             # <<<<<<<<<<<<<<
+ *             offsets = file_offsets[i]*group_offset + (i//n_group)*batch_offset + initial_offset             # <<<<<<<<<<<<<<
  *             sqe = __io_uring_get_sqe(&ring.ptr)
  *             if set_fixed_buffer:
 */
@@ -23992,21 +23993,21 @@ static CYTHON_INLINE int __pyx_f_8liburing_4file_prepare_sqe_batch_submit_wait_a
             PyGILState_STATE __pyx_gilstate_save = __Pyx_PyGILState_Ensure();
             PyErr_SetString(PyExc_ZeroDivisionError, "integer division or modulo by zero");
             __Pyx_PyGILState_Release(__pyx_gilstate_save);
-            __PYX_ERR(0, 311, __pyx_L4_error)
+            __PYX_ERR(0, 312, __pyx_L4_error)
           }
-          __pyx_v_offsets = (((*((int *) ( /* dim=0 */ (__pyx_v_file_offsets.data + __pyx_t_4 * __pyx_v_file_offsets.strides[0]) ))) * __pyx_v_group_offset) + ((__pyx_v_i / __pyx_v_n_group) * __pyx_v_batch_offset));
+          __pyx_v_offsets = ((((*((int *) ( /* dim=0 */ (__pyx_v_file_offsets.data + __pyx_t_4 * __pyx_v_file_offsets.strides[0]) ))) * __pyx_v_group_offset) + ((__pyx_v_i / __pyx_v_n_group) * __pyx_v_batch_offset)) + __pyx_v_initial_offset);
 
-          /* "liburing/file.pyx":312
+          /* "liburing/file.pyx":313
  *                 continue
- *             offsets = file_offsets[i]*group_offset + (i//n_group)*batch_offset
+ *             offsets = file_offsets[i]*group_offset + (i//n_group)*batch_offset + initial_offset
  *             sqe = __io_uring_get_sqe(&ring.ptr)             # <<<<<<<<<<<<<<
  *             if set_fixed_buffer:
  *                 __io_uring_prep_read_fixed(
 */
           __pyx_v_sqe = io_uring_get_sqe((&__pyx_v_ring->ptr));
 
-          /* "liburing/file.pyx":313
- *             offsets = file_offsets[i]*group_offset + (i//n_group)*batch_offset
+          /* "liburing/file.pyx":314
+ *             offsets = file_offsets[i]*group_offset + (i//n_group)*batch_offset + initial_offset
  *             sqe = __io_uring_get_sqe(&ring.ptr)
  *             if set_fixed_buffer:             # <<<<<<<<<<<<<<
  *                 __io_uring_prep_read_fixed(
@@ -24014,7 +24015,7 @@ static CYTHON_INLINE int __pyx_f_8liburing_4file_prepare_sqe_batch_submit_wait_a
 */
           if (__pyx_v_set_fixed_buffer) {
 
-            /* "liburing/file.pyx":316
+            /* "liburing/file.pyx":317
  *                 __io_uring_prep_read_fixed(
  *                     sqe, fd,
  *                     <void *>buffer_addrs[ii],             # <<<<<<<<<<<<<<
@@ -24023,7 +24024,7 @@ static CYTHON_INLINE int __pyx_f_8liburing_4file_prepare_sqe_batch_submit_wait_a
 */
             __pyx_t_4 = __pyx_v_ii;
 
-            /* "liburing/file.pyx":314
+            /* "liburing/file.pyx":315
  *             sqe = __io_uring_get_sqe(&ring.ptr)
  *             if set_fixed_buffer:
  *                 __io_uring_prep_read_fixed(             # <<<<<<<<<<<<<<
@@ -24032,8 +24033,8 @@ static CYTHON_INLINE int __pyx_f_8liburing_4file_prepare_sqe_batch_submit_wait_a
 */
             io_uring_prep_read_fixed(__pyx_v_sqe, __pyx_v_fd, ((void *)(*((uintptr_t *) ( /* dim=0 */ (__pyx_v_buffer_addrs.data + __pyx_t_4 * __pyx_v_buffer_addrs.strides[0]) )))), __pyx_v_bytes_per_read, __pyx_v_offsets, __pyx_v_ii);
 
-            /* "liburing/file.pyx":313
- *             offsets = file_offsets[i]*group_offset + (i//n_group)*batch_offset
+            /* "liburing/file.pyx":314
+ *             offsets = file_offsets[i]*group_offset + (i//n_group)*batch_offset + initial_offset
  *             sqe = __io_uring_get_sqe(&ring.ptr)
  *             if set_fixed_buffer:             # <<<<<<<<<<<<<<
  *                 __io_uring_prep_read_fixed(
@@ -24042,7 +24043,7 @@ static CYTHON_INLINE int __pyx_f_8liburing_4file_prepare_sqe_batch_submit_wait_a
             goto __pyx_L10;
           }
 
-          /* "liburing/file.pyx":322
+          /* "liburing/file.pyx":323
  *                 )
  *             else:
  *                 __io_uring_prep_read(             # <<<<<<<<<<<<<<
@@ -24051,7 +24052,7 @@ static CYTHON_INLINE int __pyx_f_8liburing_4file_prepare_sqe_batch_submit_wait_a
 */
           /*else*/ {
 
-            /* "liburing/file.pyx":324
+            /* "liburing/file.pyx":325
  *                 __io_uring_prep_read(
  *                     sqe, fd,
  *                     <void *>buffer_addrs[ii],             # <<<<<<<<<<<<<<
@@ -24060,7 +24061,7 @@ static CYTHON_INLINE int __pyx_f_8liburing_4file_prepare_sqe_batch_submit_wait_a
 */
             __pyx_t_4 = __pyx_v_ii;
 
-            /* "liburing/file.pyx":322
+            /* "liburing/file.pyx":323
  *                 )
  *             else:
  *                 __io_uring_prep_read(             # <<<<<<<<<<<<<<
@@ -24071,7 +24072,7 @@ static CYTHON_INLINE int __pyx_f_8liburing_4file_prepare_sqe_batch_submit_wait_a
           }
           __pyx_L10:;
 
-          /* "liburing/file.pyx":328
+          /* "liburing/file.pyx":329
  *                     offsets
  *                 )
  *             submitted += 1             # <<<<<<<<<<<<<<
@@ -24080,7 +24081,7 @@ static CYTHON_INLINE int __pyx_f_8liburing_4file_prepare_sqe_batch_submit_wait_a
 */
           __pyx_v_submitted = (__pyx_v_submitted + 1);
 
-          /* "liburing/file.pyx":329
+          /* "liburing/file.pyx":330
  *                 )
  *             submitted += 1
  *             if set_fixed_file:             # <<<<<<<<<<<<<<
@@ -24089,7 +24090,7 @@ static CYTHON_INLINE int __pyx_f_8liburing_4file_prepare_sqe_batch_submit_wait_a
 */
           if (__pyx_v_set_fixed_file) {
 
-            /* "liburing/file.pyx":330
+            /* "liburing/file.pyx":331
  *             submitted += 1
  *             if set_fixed_file:
  *                 __io_uring_sqe_set_flags(sqe, sqe.flags | (1 << 0))             # <<<<<<<<<<<<<<
@@ -24098,7 +24099,7 @@ static CYTHON_INLINE int __pyx_f_8liburing_4file_prepare_sqe_batch_submit_wait_a
 */
             io_uring_sqe_set_flags(__pyx_v_sqe, (__pyx_v_sqe->flags | 0x1));
 
-            /* "liburing/file.pyx":329
+            /* "liburing/file.pyx":330
  *                 )
  *             submitted += 1
  *             if set_fixed_file:             # <<<<<<<<<<<<<<
@@ -24107,7 +24108,7 @@ static CYTHON_INLINE int __pyx_f_8liburing_4file_prepare_sqe_batch_submit_wait_a
 */
           }
 
-          /* "liburing/file.pyx":333
+          /* "liburing/file.pyx":334
  * 
  *             # printf("BEFORE LINK: flags=%#x\n", sqe.flags)
  *             __io_uring_sqe_set_flags(sqe, sqe.flags | IOSQE_IO_LINK)             # <<<<<<<<<<<<<<
@@ -24116,7 +24117,7 @@ static CYTHON_INLINE int __pyx_f_8liburing_4file_prepare_sqe_batch_submit_wait_a
 */
           io_uring_sqe_set_flags(__pyx_v_sqe, (__pyx_v_sqe->flags | IOSQE_IO_LINK));
 
-          /* "liburing/file.pyx":337
+          /* "liburing/file.pyx":338
  * 
  *             #__io_uring_sqe_set_flags(sqe, sqe.flags | IOSQE_IO_LINK)
  *             sqe.user_data = <unsigned long long>ii             # <<<<<<<<<<<<<<
@@ -24125,7 +24126,7 @@ static CYTHON_INLINE int __pyx_f_8liburing_4file_prepare_sqe_batch_submit_wait_a
 */
           __pyx_v_sqe->user_data = ((unsigned PY_LONG_LONG)__pyx_v_ii);
 
-          /* "liburing/file.pyx":338
+          /* "liburing/file.pyx":339
  *             #__io_uring_sqe_set_flags(sqe, sqe.flags | IOSQE_IO_LINK)
  *             sqe.user_data = <unsigned long long>ii
  *             t_sqe = __io_uring_get_sqe(&ring.ptr)             # <<<<<<<<<<<<<<
@@ -24134,7 +24135,7 @@ static CYTHON_INLINE int __pyx_f_8liburing_4file_prepare_sqe_batch_submit_wait_a
 */
           __pyx_v_t_sqe = io_uring_get_sqe((&__pyx_v_ring->ptr));
 
-          /* "liburing/file.pyx":339
+          /* "liburing/file.pyx":340
  *             sqe.user_data = <unsigned long long>ii
  *             t_sqe = __io_uring_get_sqe(&ring.ptr)
  *             __io_uring_prep_link_timeout(t_sqe, &ts, 0)             # <<<<<<<<<<<<<<
@@ -24143,7 +24144,7 @@ static CYTHON_INLINE int __pyx_f_8liburing_4file_prepare_sqe_batch_submit_wait_a
 */
           io_uring_prep_link_timeout(__pyx_v_t_sqe, (&__pyx_v_ts), 0);
 
-          /* "liburing/file.pyx":340
+          /* "liburing/file.pyx":341
  *             t_sqe = __io_uring_get_sqe(&ring.ptr)
  *             __io_uring_prep_link_timeout(t_sqe, &ts, 0)
  *             submitted += 1             # <<<<<<<<<<<<<<
@@ -24152,7 +24153,7 @@ static CYTHON_INLINE int __pyx_f_8liburing_4file_prepare_sqe_batch_submit_wait_a
 */
           __pyx_v_submitted = (__pyx_v_submitted + 1);
 
-          /* "liburing/file.pyx":341
+          /* "liburing/file.pyx":342
  *             __io_uring_prep_link_timeout(t_sqe, &ts, 0)
  *             submitted += 1
  *             t_sqe.user_data = <unsigned long long>(ii+n_req)             # <<<<<<<<<<<<<<
@@ -24161,7 +24162,7 @@ static CYTHON_INLINE int __pyx_f_8liburing_4file_prepare_sqe_batch_submit_wait_a
 */
           __pyx_v_t_sqe->user_data = ((unsigned PY_LONG_LONG)(__pyx_v_ii + __pyx_v_n_req));
 
-          /* "liburing/file.pyx":342
+          /* "liburing/file.pyx":343
  *             submitted += 1
  *             t_sqe.user_data = <unsigned long long>(ii+n_req)
  *             ii += 1             # <<<<<<<<<<<<<<
@@ -24172,7 +24173,7 @@ static CYTHON_INLINE int __pyx_f_8liburing_4file_prepare_sqe_batch_submit_wait_a
           __pyx_L6_continue:;
         }
 
-        /* "liburing/file.pyx":344
+        /* "liburing/file.pyx":345
  *             ii += 1
  * 
  *         if iii == 0:             # <<<<<<<<<<<<<<
@@ -24182,7 +24183,7 @@ static CYTHON_INLINE int __pyx_f_8liburing_4file_prepare_sqe_batch_submit_wait_a
         __pyx_t_5 = (__pyx_v_iii == 0);
         if (__pyx_t_5) {
 
-          /* "liburing/file.pyx":345
+          /* "liburing/file.pyx":346
  * 
  *         if iii == 0:
  *             real_req_num[0] = ii             # <<<<<<<<<<<<<<
@@ -24192,7 +24193,7 @@ static CYTHON_INLINE int __pyx_f_8liburing_4file_prepare_sqe_batch_submit_wait_a
           __pyx_t_6 = 0;
           *((unsigned int *) ( /* dim=0 */ (__pyx_v_real_req_num.data + __pyx_t_6 * __pyx_v_real_req_num.strides[0]) )) = __pyx_v_ii;
 
-          /* "liburing/file.pyx":344
+          /* "liburing/file.pyx":345
  *             ii += 1
  * 
  *         if iii == 0:             # <<<<<<<<<<<<<<
@@ -24201,7 +24202,7 @@ static CYTHON_INLINE int __pyx_f_8liburing_4file_prepare_sqe_batch_submit_wait_a
 */
         }
 
-        /* "liburing/file.pyx":347
+        /* "liburing/file.pyx":348
  *             real_req_num[0] = ii
  * 
  *         iii += 1             # <<<<<<<<<<<<<<
@@ -24210,7 +24211,7 @@ static CYTHON_INLINE int __pyx_f_8liburing_4file_prepare_sqe_batch_submit_wait_a
 */
         __pyx_v_iii = (__pyx_v_iii + 1);
 
-        /* "liburing/file.pyx":349
+        /* "liburing/file.pyx":350
  *         iii += 1
  * 
  *         ret = __io_uring_submit(&ring.ptr)             # <<<<<<<<<<<<<<
@@ -24219,7 +24220,7 @@ static CYTHON_INLINE int __pyx_f_8liburing_4file_prepare_sqe_batch_submit_wait_a
 */
         __pyx_v_ret = io_uring_submit((&__pyx_v_ring->ptr));
 
-        /* "liburing/file.pyx":350
+        /* "liburing/file.pyx":351
  * 
  *         ret = __io_uring_submit(&ring.ptr)
  *         if ret < 0:             # <<<<<<<<<<<<<<
@@ -24229,7 +24230,7 @@ static CYTHON_INLINE int __pyx_f_8liburing_4file_prepare_sqe_batch_submit_wait_a
         __pyx_t_5 = (__pyx_v_ret < 0);
         if (__pyx_t_5) {
 
-          /* "liburing/file.pyx":352
+          /* "liburing/file.pyx":353
  *         if ret < 0:
  *             # printf("SUBMIT ERROR: %d\n", ret)
  *             return ret             # <<<<<<<<<<<<<<
@@ -24239,7 +24240,7 @@ static CYTHON_INLINE int __pyx_f_8liburing_4file_prepare_sqe_batch_submit_wait_a
           __pyx_r = __pyx_v_ret;
           goto __pyx_L3_return;
 
-          /* "liburing/file.pyx":350
+          /* "liburing/file.pyx":351
  * 
  *         ret = __io_uring_submit(&ring.ptr)
  *         if ret < 0:             # <<<<<<<<<<<<<<
@@ -24248,7 +24249,7 @@ static CYTHON_INLINE int __pyx_f_8liburing_4file_prepare_sqe_batch_submit_wait_a
 */
         }
 
-        /* "liburing/file.pyx":354
+        /* "liburing/file.pyx":355
  *             return ret
  * 
  *         while seen < submitted:             # <<<<<<<<<<<<<<
@@ -24259,7 +24260,7 @@ static CYTHON_INLINE int __pyx_f_8liburing_4file_prepare_sqe_batch_submit_wait_a
           __pyx_t_5 = (__pyx_v_seen < __pyx_v_submitted);
           if (!__pyx_t_5) break;
 
-          /* "liburing/file.pyx":355
+          /* "liburing/file.pyx":356
  * 
  *         while seen < submitted:
  *             ret = __io_uring_wait_cqe(&ring.ptr, &cqe)             # <<<<<<<<<<<<<<
@@ -24268,7 +24269,7 @@ static CYTHON_INLINE int __pyx_f_8liburing_4file_prepare_sqe_batch_submit_wait_a
 */
           __pyx_v_ret = io_uring_wait_cqe((&__pyx_v_ring->ptr), (&__pyx_v_cqe));
 
-          /* "liburing/file.pyx":356
+          /* "liburing/file.pyx":357
  *         while seen < submitted:
  *             ret = __io_uring_wait_cqe(&ring.ptr, &cqe)
  *             if ret < 0:             # <<<<<<<<<<<<<<
@@ -24278,7 +24279,7 @@ static CYTHON_INLINE int __pyx_f_8liburing_4file_prepare_sqe_batch_submit_wait_a
           __pyx_t_5 = (__pyx_v_ret < 0);
           if (__pyx_t_5) {
 
-            /* "liburing/file.pyx":357
+            /* "liburing/file.pyx":358
  *             ret = __io_uring_wait_cqe(&ring.ptr, &cqe)
  *             if ret < 0:
  *                 return ret             # <<<<<<<<<<<<<<
@@ -24288,7 +24289,7 @@ static CYTHON_INLINE int __pyx_f_8liburing_4file_prepare_sqe_batch_submit_wait_a
             __pyx_r = __pyx_v_ret;
             goto __pyx_L3_return;
 
-            /* "liburing/file.pyx":356
+            /* "liburing/file.pyx":357
  *         while seen < submitted:
  *             ret = __io_uring_wait_cqe(&ring.ptr, &cqe)
  *             if ret < 0:             # <<<<<<<<<<<<<<
@@ -24297,7 +24298,7 @@ static CYTHON_INLINE int __pyx_f_8liburing_4file_prepare_sqe_batch_submit_wait_a
 */
           }
 
-          /* "liburing/file.pyx":358
+          /* "liburing/file.pyx":359
  *             if ret < 0:
  *                 return ret
  *             __io_uring_cqe_seen(&ring.ptr, cqe)             # <<<<<<<<<<<<<<
@@ -24306,7 +24307,7 @@ static CYTHON_INLINE int __pyx_f_8liburing_4file_prepare_sqe_batch_submit_wait_a
 */
           io_uring_cqe_seen((&__pyx_v_ring->ptr), __pyx_v_cqe);
 
-          /* "liburing/file.pyx":359
+          /* "liburing/file.pyx":360
  *                 return ret
  *             __io_uring_cqe_seen(&ring.ptr, cqe)
  *             idx = <unsigned int>cqe.user_data             # <<<<<<<<<<<<<<
@@ -24315,7 +24316,7 @@ static CYTHON_INLINE int __pyx_f_8liburing_4file_prepare_sqe_batch_submit_wait_a
 */
           __pyx_v_idx = ((unsigned int)__pyx_v_cqe->user_data);
 
-          /* "liburing/file.pyx":360
+          /* "liburing/file.pyx":361
  *             __io_uring_cqe_seen(&ring.ptr, cqe)
  *             idx = <unsigned int>cqe.user_data
  *             if idx < n_req:             # <<<<<<<<<<<<<<
@@ -24325,7 +24326,7 @@ static CYTHON_INLINE int __pyx_f_8liburing_4file_prepare_sqe_batch_submit_wait_a
           __pyx_t_5 = (__pyx_v_idx < __pyx_v_n_req);
           if (__pyx_t_5) {
 
-            /* "liburing/file.pyx":361
+            /* "liburing/file.pyx":362
  *             idx = <unsigned int>cqe.user_data
  *             if idx < n_req:
  *                 if cqe.res < 0:             # <<<<<<<<<<<<<<
@@ -24335,7 +24336,7 @@ static CYTHON_INLINE int __pyx_f_8liburing_4file_prepare_sqe_batch_submit_wait_a
             __pyx_t_5 = (__pyx_v_cqe->res < 0);
             if (__pyx_t_5) {
 
-              /* "liburing/file.pyx":362
+              /* "liburing/file.pyx":363
  *             if idx < n_req:
  *                 if cqe.res < 0:
  *                     printf("CQE: res=%d for req %u\n", cqe.res, idx)             # <<<<<<<<<<<<<<
@@ -24344,7 +24345,7 @@ static CYTHON_INLINE int __pyx_f_8liburing_4file_prepare_sqe_batch_submit_wait_a
 */
               (void)(printf(__pyx_k_CQE_res_d_for_req_u, __pyx_v_cqe->res, __pyx_v_idx));
 
-              /* "liburing/file.pyx":361
+              /* "liburing/file.pyx":362
  *             idx = <unsigned int>cqe.user_data
  *             if idx < n_req:
  *                 if cqe.res < 0:             # <<<<<<<<<<<<<<
@@ -24353,7 +24354,7 @@ static CYTHON_INLINE int __pyx_f_8liburing_4file_prepare_sqe_batch_submit_wait_a
 */
             }
 
-            /* "liburing/file.pyx":363
+            /* "liburing/file.pyx":364
  *                 if cqe.res < 0:
  *                     printf("CQE: res=%d for req %u\n", cqe.res, idx)
  *                 timed_out[idx] = 0             # <<<<<<<<<<<<<<
@@ -24363,7 +24364,7 @@ static CYTHON_INLINE int __pyx_f_8liburing_4file_prepare_sqe_batch_submit_wait_a
             __pyx_t_4 = __pyx_v_idx;
             *((unsigned int *) ( /* dim=0 */ (__pyx_v_timed_out.data + __pyx_t_4 * __pyx_v_timed_out.strides[0]) )) = 0;
 
-            /* "liburing/file.pyx":360
+            /* "liburing/file.pyx":361
  *             __io_uring_cqe_seen(&ring.ptr, cqe)
  *             idx = <unsigned int>cqe.user_data
  *             if idx < n_req:             # <<<<<<<<<<<<<<
@@ -24373,7 +24374,7 @@ static CYTHON_INLINE int __pyx_f_8liburing_4file_prepare_sqe_batch_submit_wait_a
             goto __pyx_L17;
           }
 
-          /* "liburing/file.pyx":365
+          /* "liburing/file.pyx":366
  *                 timed_out[idx] = 0
  *             else:
  *                 if cqe.res == -ETIME: # timeout             # <<<<<<<<<<<<<<
@@ -24384,7 +24385,7 @@ static CYTHON_INLINE int __pyx_f_8liburing_4file_prepare_sqe_batch_submit_wait_a
             __pyx_t_5 = (__pyx_v_cqe->res == (-ETIME));
             if (__pyx_t_5) {
 
-              /* "liburing/file.pyx":366
+              /* "liburing/file.pyx":367
  *             else:
  *                 if cqe.res == -ETIME: # timeout
  *                     printf("CHAIN-TIMEOUT CQE: res=%d for req %u\n", cqe.res, idx-n_req)             # <<<<<<<<<<<<<<
@@ -24393,7 +24394,7 @@ static CYTHON_INLINE int __pyx_f_8liburing_4file_prepare_sqe_batch_submit_wait_a
 */
               (void)(printf(__pyx_k_CHAIN_TIMEOUT_CQE_res_d_for_req, __pyx_v_cqe->res, (__pyx_v_idx - __pyx_v_n_req)));
 
-              /* "liburing/file.pyx":368
+              /* "liburing/file.pyx":369
  *                     printf("CHAIN-TIMEOUT CQE: res=%d for req %u\n", cqe.res, idx-n_req)
  *                     # timed_out[idx-n_req] = 1
  *                     to_count += 1             # <<<<<<<<<<<<<<
@@ -24402,7 +24403,7 @@ static CYTHON_INLINE int __pyx_f_8liburing_4file_prepare_sqe_batch_submit_wait_a
 */
               __pyx_v_to_count = (__pyx_v_to_count + 1);
 
-              /* "liburing/file.pyx":365
+              /* "liburing/file.pyx":366
  *                 timed_out[idx] = 0
  *             else:
  *                 if cqe.res == -ETIME: # timeout             # <<<<<<<<<<<<<<
@@ -24412,7 +24413,7 @@ static CYTHON_INLINE int __pyx_f_8liburing_4file_prepare_sqe_batch_submit_wait_a
               goto __pyx_L19;
             }
 
-            /* "liburing/file.pyx":369
+            /* "liburing/file.pyx":370
  *                     # timed_out[idx-n_req] = 1
  *                     to_count += 1
  *                 elif cqe.res == -ENOENT:             # <<<<<<<<<<<<<<
@@ -24422,7 +24423,7 @@ static CYTHON_INLINE int __pyx_f_8liburing_4file_prepare_sqe_batch_submit_wait_a
             __pyx_t_5 = (__pyx_v_cqe->res == (-ENOENT));
             if (__pyx_t_5) {
 
-              /* "liburing/file.pyx":371
+              /* "liburing/file.pyx":372
  *                 elif cqe.res == -ENOENT:
  *                     # printf("CHAIN-TIMEOUT CQE: res=%d for req %u\n", cqe.res, idx-n_req)
  *                     return cqe.res             # <<<<<<<<<<<<<<
@@ -24432,7 +24433,7 @@ static CYTHON_INLINE int __pyx_f_8liburing_4file_prepare_sqe_batch_submit_wait_a
               __pyx_r = __pyx_v_cqe->res;
               goto __pyx_L3_return;
 
-              /* "liburing/file.pyx":369
+              /* "liburing/file.pyx":370
  *                     # timed_out[idx-n_req] = 1
  *                     to_count += 1
  *                 elif cqe.res == -ENOENT:             # <<<<<<<<<<<<<<
@@ -24441,7 +24442,7 @@ static CYTHON_INLINE int __pyx_f_8liburing_4file_prepare_sqe_batch_submit_wait_a
 */
             }
 
-            /* "liburing/file.pyx":373
+            /* "liburing/file.pyx":374
  *                     return cqe.res
  *                     to_count += 1
  *                 elif cqe.res != -ECANCELED:             # <<<<<<<<<<<<<<
@@ -24451,7 +24452,7 @@ static CYTHON_INLINE int __pyx_f_8liburing_4file_prepare_sqe_batch_submit_wait_a
             __pyx_t_5 = (__pyx_v_cqe->res != (-ECANCELED));
             if (__pyx_t_5) {
 
-              /* "liburing/file.pyx":374
+              /* "liburing/file.pyx":375
  *                     to_count += 1
  *                 elif cqe.res != -ECANCELED:
  *                     return cqe.res             # <<<<<<<<<<<<<<
@@ -24461,7 +24462,7 @@ static CYTHON_INLINE int __pyx_f_8liburing_4file_prepare_sqe_batch_submit_wait_a
               __pyx_r = __pyx_v_cqe->res;
               goto __pyx_L3_return;
 
-              /* "liburing/file.pyx":373
+              /* "liburing/file.pyx":374
  *                     return cqe.res
  *                     to_count += 1
  *                 elif cqe.res != -ECANCELED:             # <<<<<<<<<<<<<<
@@ -24473,7 +24474,7 @@ static CYTHON_INLINE int __pyx_f_8liburing_4file_prepare_sqe_batch_submit_wait_a
           }
           __pyx_L17:;
 
-          /* "liburing/file.pyx":375
+          /* "liburing/file.pyx":376
  *                 elif cqe.res != -ECANCELED:
  *                     return cqe.res
  *             seen += 1             # <<<<<<<<<<<<<<
@@ -24483,7 +24484,7 @@ static CYTHON_INLINE int __pyx_f_8liburing_4file_prepare_sqe_batch_submit_wait_a
           __pyx_v_seen = (__pyx_v_seen + 1);
         }
 
-        /* "liburing/file.pyx":376
+        /* "liburing/file.pyx":377
  *                     return cqe.res
  *             seen += 1
  *         time_out_num[0] = to_count             # <<<<<<<<<<<<<<
@@ -24494,7 +24495,7 @@ static CYTHON_INLINE int __pyx_f_8liburing_4file_prepare_sqe_batch_submit_wait_a
         *((unsigned int *) ( /* dim=0 */ (__pyx_v_time_out_num.data + __pyx_t_6 * __pyx_v_time_out_num.strides[0]) )) = __pyx_v_to_count;
       }
 
-      /* "liburing/file.pyx":304
+      /* "liburing/file.pyx":305
  *     ts.tv_nsec = <long>timeout_ns
  *     iii = 0
  *     with nogil:             # <<<<<<<<<<<<<<
@@ -24521,7 +24522,7 @@ static CYTHON_INLINE int __pyx_f_8liburing_4file_prepare_sqe_batch_submit_wait_a
       }
   }
 
-  /* "liburing/file.pyx":377
+  /* "liburing/file.pyx":378
  *             seen += 1
  *         time_out_num[0] = to_count
  *     return ret             # <<<<<<<<<<<<<<
@@ -24557,7 +24558,7 @@ PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
-PyDoc_STRVAR(__pyx_doc_8liburing_4file_38prepare_sqe_batch_submit_wait_advance_timeout, "prepare_sqe_batch_submit_wait_advance_timeout(io_uring ring, unsigned int n_req, uintptr_t[:] buffer_addrs, int fd, unsigned int bytes_per_read, int[:] file_offsets, unsigned int n_group, unsigned int group_offset, unsigned int batch_offset, bool set_fixed_file, bool set_fixed_buffer, unsigned int timeout_ns, unsigned int[:] timed_out, unsigned int[:] time_out_num, unsigned int[:] real_req_num) -> int");
+PyDoc_STRVAR(__pyx_doc_8liburing_4file_38prepare_sqe_batch_submit_wait_advance_timeout, "prepare_sqe_batch_submit_wait_advance_timeout(io_uring ring, unsigned int n_req, uintptr_t[:] buffer_addrs, int fd, unsigned int bytes_per_read, int[:] file_offsets, unsigned int n_group, unsigned int group_offset, unsigned int batch_offset, unsigned int initial_offset, bool set_fixed_file, bool set_fixed_buffer, unsigned int timeout_ns, unsigned int[:] timed_out, unsigned int[:] time_out_num, unsigned int[:] real_req_num) -> int");
 static PyMethodDef __pyx_mdef_8liburing_4file_39prepare_sqe_batch_submit_wait_advance_timeout = {"prepare_sqe_batch_submit_wait_advance_timeout", (PyCFunction)(void(*)(void))(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_8liburing_4file_39prepare_sqe_batch_submit_wait_advance_timeout, __Pyx_METH_FASTCALL|METH_KEYWORDS, __pyx_doc_8liburing_4file_38prepare_sqe_batch_submit_wait_advance_timeout};
 static PyObject *__pyx_pw_8liburing_4file_39prepare_sqe_batch_submit_wait_advance_timeout(PyObject *__pyx_self, 
 #if CYTHON_METH_FASTCALL
@@ -24575,6 +24576,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   unsigned int __pyx_v_n_group;
   unsigned int __pyx_v_group_offset;
   unsigned int __pyx_v_batch_offset;
+  unsigned int __pyx_v_initial_offset;
   int __pyx_v_set_fixed_file;
   int __pyx_v_set_fixed_buffer;
   unsigned int __pyx_v_timeout_ns;
@@ -24585,7 +24587,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   CYTHON_UNUSED Py_ssize_t __pyx_nargs;
   #endif
   CYTHON_UNUSED PyObject *const *__pyx_kwvalues;
-  PyObject* values[15] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+  PyObject* values[16] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -24601,11 +24603,15 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   #endif
   __pyx_kwvalues = __Pyx_KwValues_FASTCALL(__pyx_args, __pyx_nargs);
   {
-    PyObject ** const __pyx_pyargnames[] = {&__pyx_mstate_global->__pyx_n_u_ring,&__pyx_mstate_global->__pyx_n_u_n_req,&__pyx_mstate_global->__pyx_n_u_buffer_addrs,&__pyx_mstate_global->__pyx_n_u_fd,&__pyx_mstate_global->__pyx_n_u_bytes_per_read,&__pyx_mstate_global->__pyx_n_u_file_offsets,&__pyx_mstate_global->__pyx_n_u_n_group,&__pyx_mstate_global->__pyx_n_u_group_offset,&__pyx_mstate_global->__pyx_n_u_batch_offset,&__pyx_mstate_global->__pyx_n_u_set_fixed_file,&__pyx_mstate_global->__pyx_n_u_set_fixed_buffer,&__pyx_mstate_global->__pyx_n_u_timeout_ns,&__pyx_mstate_global->__pyx_n_u_timed_out,&__pyx_mstate_global->__pyx_n_u_time_out_num,&__pyx_mstate_global->__pyx_n_u_real_req_num,0};
+    PyObject ** const __pyx_pyargnames[] = {&__pyx_mstate_global->__pyx_n_u_ring,&__pyx_mstate_global->__pyx_n_u_n_req,&__pyx_mstate_global->__pyx_n_u_buffer_addrs,&__pyx_mstate_global->__pyx_n_u_fd,&__pyx_mstate_global->__pyx_n_u_bytes_per_read,&__pyx_mstate_global->__pyx_n_u_file_offsets,&__pyx_mstate_global->__pyx_n_u_n_group,&__pyx_mstate_global->__pyx_n_u_group_offset,&__pyx_mstate_global->__pyx_n_u_batch_offset,&__pyx_mstate_global->__pyx_n_u_initial_offset,&__pyx_mstate_global->__pyx_n_u_set_fixed_file,&__pyx_mstate_global->__pyx_n_u_set_fixed_buffer,&__pyx_mstate_global->__pyx_n_u_timeout_ns,&__pyx_mstate_global->__pyx_n_u_timed_out,&__pyx_mstate_global->__pyx_n_u_time_out_num,&__pyx_mstate_global->__pyx_n_u_real_req_num,0};
     const Py_ssize_t __pyx_kwds_len = (__pyx_kwds) ? __Pyx_NumKwargs_FASTCALL(__pyx_kwds) : 0;
     if (unlikely(__pyx_kwds_len) < 0) __PYX_ERR(0, 267, __pyx_L3_error)
     if (__pyx_kwds_len > 0) {
       switch (__pyx_nargs) {
+        case 16:
+        values[15] = __Pyx_ArgRef_FASTCALL(__pyx_args, 15);
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[15])) __PYX_ERR(0, 267, __pyx_L3_error)
+        CYTHON_FALLTHROUGH;
         case 15:
         values[14] = __Pyx_ArgRef_FASTCALL(__pyx_args, 14);
         if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[14])) __PYX_ERR(0, 267, __pyx_L3_error)
@@ -24671,10 +24677,10 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
       }
       const Py_ssize_t kwd_pos_args = __pyx_nargs;
       if (__Pyx_ParseKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values, kwd_pos_args, __pyx_kwds_len, "prepare_sqe_batch_submit_wait_advance_timeout", 0) < (0)) __PYX_ERR(0, 267, __pyx_L3_error)
-      for (Py_ssize_t i = __pyx_nargs; i < 15; i++) {
-        if (unlikely(!values[i])) { __Pyx_RaiseArgtupleInvalid("prepare_sqe_batch_submit_wait_advance_timeout", 1, 15, 15, i); __PYX_ERR(0, 267, __pyx_L3_error) }
+      for (Py_ssize_t i = __pyx_nargs; i < 16; i++) {
+        if (unlikely(!values[i])) { __Pyx_RaiseArgtupleInvalid("prepare_sqe_batch_submit_wait_advance_timeout", 1, 16, 16, i); __PYX_ERR(0, 267, __pyx_L3_error) }
       }
-    } else if (unlikely(__pyx_nargs != 15)) {
+    } else if (unlikely(__pyx_nargs != 16)) {
       goto __pyx_L5_argtuple_error;
     } else {
       values[0] = __Pyx_ArgRef_FASTCALL(__pyx_args, 0);
@@ -24707,6 +24713,8 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
       if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[13])) __PYX_ERR(0, 267, __pyx_L3_error)
       values[14] = __Pyx_ArgRef_FASTCALL(__pyx_args, 14);
       if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[14])) __PYX_ERR(0, 267, __pyx_L3_error)
+      values[15] = __Pyx_ArgRef_FASTCALL(__pyx_args, 15);
+      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[15])) __PYX_ERR(0, 267, __pyx_L3_error)
     }
     __pyx_v_ring = ((struct __pyx_obj_8liburing_5queue_io_uring *)values[0]);
     __pyx_v_n_req = __Pyx_PyLong_As_unsigned_int(values[1]); if (unlikely((__pyx_v_n_req == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 269, __pyx_L3_error)
@@ -24717,16 +24725,17 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
     __pyx_v_n_group = __Pyx_PyLong_As_unsigned_int(values[6]); if (unlikely((__pyx_v_n_group == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 274, __pyx_L3_error)
     __pyx_v_group_offset = __Pyx_PyLong_As_unsigned_int(values[7]); if (unlikely((__pyx_v_group_offset == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 275, __pyx_L3_error)
     __pyx_v_batch_offset = __Pyx_PyLong_As_unsigned_int(values[8]); if (unlikely((__pyx_v_batch_offset == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 276, __pyx_L3_error)
-    __pyx_v_set_fixed_file = __Pyx_PyObject_IsTrue(values[9]); if (unlikely((__pyx_v_set_fixed_file == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 277, __pyx_L3_error)
-    __pyx_v_set_fixed_buffer = __Pyx_PyObject_IsTrue(values[10]); if (unlikely((__pyx_v_set_fixed_buffer == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 278, __pyx_L3_error)
-    __pyx_v_timeout_ns = __Pyx_PyLong_As_unsigned_int(values[11]); if (unlikely((__pyx_v_timeout_ns == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 279, __pyx_L3_error)
-    __pyx_v_timed_out = __Pyx_PyObject_to_MemoryviewSlice_ds_unsigned_int(values[12], PyBUF_WRITABLE); if (unlikely(!__pyx_v_timed_out.memview)) __PYX_ERR(0, 280, __pyx_L3_error)
-    __pyx_v_time_out_num = __Pyx_PyObject_to_MemoryviewSlice_ds_unsigned_int(values[13], PyBUF_WRITABLE); if (unlikely(!__pyx_v_time_out_num.memview)) __PYX_ERR(0, 281, __pyx_L3_error)
-    __pyx_v_real_req_num = __Pyx_PyObject_to_MemoryviewSlice_ds_unsigned_int(values[14], PyBUF_WRITABLE); if (unlikely(!__pyx_v_real_req_num.memview)) __PYX_ERR(0, 282, __pyx_L3_error)
+    __pyx_v_initial_offset = __Pyx_PyLong_As_unsigned_int(values[9]); if (unlikely((__pyx_v_initial_offset == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 277, __pyx_L3_error)
+    __pyx_v_set_fixed_file = __Pyx_PyObject_IsTrue(values[10]); if (unlikely((__pyx_v_set_fixed_file == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 278, __pyx_L3_error)
+    __pyx_v_set_fixed_buffer = __Pyx_PyObject_IsTrue(values[11]); if (unlikely((__pyx_v_set_fixed_buffer == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 279, __pyx_L3_error)
+    __pyx_v_timeout_ns = __Pyx_PyLong_As_unsigned_int(values[12]); if (unlikely((__pyx_v_timeout_ns == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 280, __pyx_L3_error)
+    __pyx_v_timed_out = __Pyx_PyObject_to_MemoryviewSlice_ds_unsigned_int(values[13], PyBUF_WRITABLE); if (unlikely(!__pyx_v_timed_out.memview)) __PYX_ERR(0, 281, __pyx_L3_error)
+    __pyx_v_time_out_num = __Pyx_PyObject_to_MemoryviewSlice_ds_unsigned_int(values[14], PyBUF_WRITABLE); if (unlikely(!__pyx_v_time_out_num.memview)) __PYX_ERR(0, 282, __pyx_L3_error)
+    __pyx_v_real_req_num = __Pyx_PyObject_to_MemoryviewSlice_ds_unsigned_int(values[15], PyBUF_WRITABLE); if (unlikely(!__pyx_v_real_req_num.memview)) __PYX_ERR(0, 283, __pyx_L3_error)
   }
   goto __pyx_L6_skip;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("prepare_sqe_batch_submit_wait_advance_timeout", 1, 15, 15, __pyx_nargs); __PYX_ERR(0, 267, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("prepare_sqe_batch_submit_wait_advance_timeout", 1, 16, 16, __pyx_nargs); __PYX_ERR(0, 267, __pyx_L3_error)
   __pyx_L6_skip:;
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L3_error:;
@@ -24743,7 +24752,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   return NULL;
   __pyx_L4_argument_unpacking_done:;
   if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_ring), __pyx_mstate_global->__pyx_ptype_8liburing_5queue_io_uring, 1, "ring", 0))) __PYX_ERR(0, 268, __pyx_L1_error)
-  __pyx_r = __pyx_pf_8liburing_4file_38prepare_sqe_batch_submit_wait_advance_timeout(__pyx_self, __pyx_v_ring, __pyx_v_n_req, __pyx_v_buffer_addrs, __pyx_v_fd, __pyx_v_bytes_per_read, __pyx_v_file_offsets, __pyx_v_n_group, __pyx_v_group_offset, __pyx_v_batch_offset, __pyx_v_set_fixed_file, __pyx_v_set_fixed_buffer, __pyx_v_timeout_ns, __pyx_v_timed_out, __pyx_v_time_out_num, __pyx_v_real_req_num);
+  __pyx_r = __pyx_pf_8liburing_4file_38prepare_sqe_batch_submit_wait_advance_timeout(__pyx_self, __pyx_v_ring, __pyx_v_n_req, __pyx_v_buffer_addrs, __pyx_v_fd, __pyx_v_bytes_per_read, __pyx_v_file_offsets, __pyx_v_n_group, __pyx_v_group_offset, __pyx_v_batch_offset, __pyx_v_initial_offset, __pyx_v_set_fixed_file, __pyx_v_set_fixed_buffer, __pyx_v_timeout_ns, __pyx_v_timed_out, __pyx_v_time_out_num, __pyx_v_real_req_num);
 
   /* function exit code */
   goto __pyx_L0;
@@ -24767,7 +24776,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_8liburing_4file_38prepare_sqe_batch_submit_wait_advance_timeout(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_8liburing_5queue_io_uring *__pyx_v_ring, unsigned int __pyx_v_n_req, __Pyx_memviewslice __pyx_v_buffer_addrs, int __pyx_v_fd, unsigned int __pyx_v_bytes_per_read, __Pyx_memviewslice __pyx_v_file_offsets, unsigned int __pyx_v_n_group, unsigned int __pyx_v_group_offset, unsigned int __pyx_v_batch_offset, int __pyx_v_set_fixed_file, int __pyx_v_set_fixed_buffer, unsigned int __pyx_v_timeout_ns, __Pyx_memviewslice __pyx_v_timed_out, __Pyx_memviewslice __pyx_v_time_out_num, __Pyx_memviewslice __pyx_v_real_req_num) {
+static PyObject *__pyx_pf_8liburing_4file_38prepare_sqe_batch_submit_wait_advance_timeout(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_8liburing_5queue_io_uring *__pyx_v_ring, unsigned int __pyx_v_n_req, __Pyx_memviewslice __pyx_v_buffer_addrs, int __pyx_v_fd, unsigned int __pyx_v_bytes_per_read, __Pyx_memviewslice __pyx_v_file_offsets, unsigned int __pyx_v_n_group, unsigned int __pyx_v_group_offset, unsigned int __pyx_v_batch_offset, unsigned int __pyx_v_initial_offset, int __pyx_v_set_fixed_file, int __pyx_v_set_fixed_buffer, unsigned int __pyx_v_timeout_ns, __Pyx_memviewslice __pyx_v_timed_out, __Pyx_memviewslice __pyx_v_time_out_num, __Pyx_memviewslice __pyx_v_real_req_num) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -24781,7 +24790,7 @@ static PyObject *__pyx_pf_8liburing_4file_38prepare_sqe_batch_submit_wait_advanc
   if (unlikely(!__pyx_v_timed_out.memview)) { __Pyx_RaiseUnboundLocalError("timed_out"); __PYX_ERR(0, 267, __pyx_L1_error) }
   if (unlikely(!__pyx_v_time_out_num.memview)) { __Pyx_RaiseUnboundLocalError("time_out_num"); __PYX_ERR(0, 267, __pyx_L1_error) }
   if (unlikely(!__pyx_v_real_req_num.memview)) { __Pyx_RaiseUnboundLocalError("real_req_num"); __PYX_ERR(0, 267, __pyx_L1_error) }
-  __pyx_t_1 = __Pyx_PyLong_From_int(__pyx_f_8liburing_4file_prepare_sqe_batch_submit_wait_advance_timeout(__pyx_v_ring, __pyx_v_n_req, __pyx_v_buffer_addrs, __pyx_v_fd, __pyx_v_bytes_per_read, __pyx_v_file_offsets, __pyx_v_n_group, __pyx_v_group_offset, __pyx_v_batch_offset, __pyx_v_set_fixed_file, __pyx_v_set_fixed_buffer, __pyx_v_timeout_ns, __pyx_v_timed_out, __pyx_v_time_out_num, __pyx_v_real_req_num, 1)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 267, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyLong_From_int(__pyx_f_8liburing_4file_prepare_sqe_batch_submit_wait_advance_timeout(__pyx_v_ring, __pyx_v_n_req, __pyx_v_buffer_addrs, __pyx_v_fd, __pyx_v_bytes_per_read, __pyx_v_file_offsets, __pyx_v_n_group, __pyx_v_group_offset, __pyx_v_batch_offset, __pyx_v_initial_offset, __pyx_v_set_fixed_file, __pyx_v_set_fixed_buffer, __pyx_v_timeout_ns, __pyx_v_timed_out, __pyx_v_time_out_num, __pyx_v_real_req_num, 1)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 267, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -24798,7 +24807,7 @@ static PyObject *__pyx_pf_8liburing_4file_38prepare_sqe_batch_submit_wait_advanc
   return __pyx_r;
 }
 
-/* "liburing/file.pyx":380
+/* "liburing/file.pyx":381
  * 
  * 
  * cpdef inline int write_prepare_sqe_batch_submit_wait_advance(io_uring ring,             # <<<<<<<<<<<<<<
@@ -24824,7 +24833,7 @@ static CYTHON_INLINE int __pyx_f_8liburing_4file_write_prepare_sqe_batch_submit_
   size_t __pyx_t_4;
   int __pyx_t_5;
 
-  /* "liburing/file.pyx":392
+  /* "liburing/file.pyx":393
  *     cdef __io_uring_sqe *sqe
  *     cdef int ret
  *     with nogil:             # <<<<<<<<<<<<<<
@@ -24837,7 +24846,7 @@ static CYTHON_INLINE int __pyx_f_8liburing_4file_write_prepare_sqe_batch_submit_
       __Pyx_FastGIL_Remember();
       /*try:*/ {
 
-        /* "liburing/file.pyx":393
+        /* "liburing/file.pyx":394
  *     cdef int ret
  *     with nogil:
  *         for i in range(batch_size):             # <<<<<<<<<<<<<<
@@ -24849,7 +24858,7 @@ static CYTHON_INLINE int __pyx_f_8liburing_4file_write_prepare_sqe_batch_submit_
         for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_2; __pyx_t_3+=1) {
           __pyx_v_i = __pyx_t_3;
 
-          /* "liburing/file.pyx":394
+          /* "liburing/file.pyx":395
  *     with nogil:
  *         for i in range(batch_size):
  *             sqe = __io_uring_get_sqe(&ring.ptr)             # <<<<<<<<<<<<<<
@@ -24858,7 +24867,7 @@ static CYTHON_INLINE int __pyx_f_8liburing_4file_write_prepare_sqe_batch_submit_
 */
           __pyx_v_sqe = io_uring_get_sqe((&__pyx_v_ring->ptr));
 
-          /* "liburing/file.pyx":395
+          /* "liburing/file.pyx":396
  *         for i in range(batch_size):
  *             sqe = __io_uring_get_sqe(&ring.ptr)
  *             __io_uring_prep_write(sqe, fd, <void *>buffer_addrs[i], bytes_per_batch, i * file_offset_n + file_offset_i)             # <<<<<<<<<<<<<<
@@ -24868,7 +24877,7 @@ static CYTHON_INLINE int __pyx_f_8liburing_4file_write_prepare_sqe_batch_submit_
           __pyx_t_4 = __pyx_v_i;
           io_uring_prep_write(__pyx_v_sqe, __pyx_v_fd, ((void *)(*((uintptr_t *) ( /* dim=0 */ (__pyx_v_buffer_addrs.data + __pyx_t_4 * __pyx_v_buffer_addrs.strides[0]) )))), __pyx_v_bytes_per_batch, ((__pyx_v_i * __pyx_v_file_offset_n) + __pyx_v_file_offset_i));
 
-          /* "liburing/file.pyx":396
+          /* "liburing/file.pyx":397
  *             sqe = __io_uring_get_sqe(&ring.ptr)
  *             __io_uring_prep_write(sqe, fd, <void *>buffer_addrs[i], bytes_per_batch, i * file_offset_n + file_offset_i)
  *             if set_fixed_file:             # <<<<<<<<<<<<<<
@@ -24877,7 +24886,7 @@ static CYTHON_INLINE int __pyx_f_8liburing_4file_write_prepare_sqe_batch_submit_
 */
           if (__pyx_v_set_fixed_file) {
 
-            /* "liburing/file.pyx":397
+            /* "liburing/file.pyx":398
  *             __io_uring_prep_write(sqe, fd, <void *>buffer_addrs[i], bytes_per_batch, i * file_offset_n + file_offset_i)
  *             if set_fixed_file:
  *                 __io_uring_sqe_set_flags(sqe, sqe.flags | (1 << 0))             # <<<<<<<<<<<<<<
@@ -24886,7 +24895,7 @@ static CYTHON_INLINE int __pyx_f_8liburing_4file_write_prepare_sqe_batch_submit_
 */
             io_uring_sqe_set_flags(__pyx_v_sqe, (__pyx_v_sqe->flags | 0x1));
 
-            /* "liburing/file.pyx":396
+            /* "liburing/file.pyx":397
  *             sqe = __io_uring_get_sqe(&ring.ptr)
  *             __io_uring_prep_write(sqe, fd, <void *>buffer_addrs[i], bytes_per_batch, i * file_offset_n + file_offset_i)
  *             if set_fixed_file:             # <<<<<<<<<<<<<<
@@ -24896,7 +24905,7 @@ static CYTHON_INLINE int __pyx_f_8liburing_4file_write_prepare_sqe_batch_submit_
           }
         }
 
-        /* "liburing/file.pyx":398
+        /* "liburing/file.pyx":399
  *             if set_fixed_file:
  *                 __io_uring_sqe_set_flags(sqe, sqe.flags | (1 << 0))
  *         ret = __io_uring_submit_and_wait(&ring.ptr, batch_size)             # <<<<<<<<<<<<<<
@@ -24905,7 +24914,7 @@ static CYTHON_INLINE int __pyx_f_8liburing_4file_write_prepare_sqe_batch_submit_
 */
         __pyx_v_ret = io_uring_submit_and_wait((&__pyx_v_ring->ptr), __pyx_v_batch_size);
 
-        /* "liburing/file.pyx":399
+        /* "liburing/file.pyx":400
  *                 __io_uring_sqe_set_flags(sqe, sqe.flags | (1 << 0))
  *         ret = __io_uring_submit_and_wait(&ring.ptr, batch_size)
  *         if ret < 0:             # <<<<<<<<<<<<<<
@@ -24915,7 +24924,7 @@ static CYTHON_INLINE int __pyx_f_8liburing_4file_write_prepare_sqe_batch_submit_
         __pyx_t_5 = (__pyx_v_ret < 0);
         if (__pyx_t_5) {
 
-          /* "liburing/file.pyx":400
+          /* "liburing/file.pyx":401
  *         ret = __io_uring_submit_and_wait(&ring.ptr, batch_size)
  *         if ret < 0:
  *             return ret             # <<<<<<<<<<<<<<
@@ -24925,7 +24934,7 @@ static CYTHON_INLINE int __pyx_f_8liburing_4file_write_prepare_sqe_batch_submit_
           __pyx_r = __pyx_v_ret;
           goto __pyx_L3_return;
 
-          /* "liburing/file.pyx":399
+          /* "liburing/file.pyx":400
  *                 __io_uring_sqe_set_flags(sqe, sqe.flags | (1 << 0))
  *         ret = __io_uring_submit_and_wait(&ring.ptr, batch_size)
  *         if ret < 0:             # <<<<<<<<<<<<<<
@@ -24934,7 +24943,7 @@ static CYTHON_INLINE int __pyx_f_8liburing_4file_write_prepare_sqe_batch_submit_
 */
         }
 
-        /* "liburing/file.pyx":401
+        /* "liburing/file.pyx":402
  *         if ret < 0:
  *             return ret
  *         __io_uring_cq_advance(&ring.ptr, batch_size)             # <<<<<<<<<<<<<<
@@ -24943,7 +24952,7 @@ static CYTHON_INLINE int __pyx_f_8liburing_4file_write_prepare_sqe_batch_submit_
 */
         io_uring_cq_advance((&__pyx_v_ring->ptr), __pyx_v_batch_size);
 
-        /* "liburing/file.pyx":402
+        /* "liburing/file.pyx":403
  *             return ret
  *         __io_uring_cq_advance(&ring.ptr, batch_size)
  *         if fsync:             # <<<<<<<<<<<<<<
@@ -24952,7 +24961,7 @@ static CYTHON_INLINE int __pyx_f_8liburing_4file_write_prepare_sqe_batch_submit_
 */
         if (__pyx_v_fsync) {
 
-          /* "liburing/file.pyx":403
+          /* "liburing/file.pyx":404
  *         __io_uring_cq_advance(&ring.ptr, batch_size)
  *         if fsync:
  *             sqe = __io_uring_get_sqe(&ring.ptr)             # <<<<<<<<<<<<<<
@@ -24961,7 +24970,7 @@ static CYTHON_INLINE int __pyx_f_8liburing_4file_write_prepare_sqe_batch_submit_
 */
           __pyx_v_sqe = io_uring_get_sqe((&__pyx_v_ring->ptr));
 
-          /* "liburing/file.pyx":404
+          /* "liburing/file.pyx":405
  *         if fsync:
  *             sqe = __io_uring_get_sqe(&ring.ptr)
  *             __io_uring_prep_fsync(sqe, fd, 0)             # <<<<<<<<<<<<<<
@@ -24970,7 +24979,7 @@ static CYTHON_INLINE int __pyx_f_8liburing_4file_write_prepare_sqe_batch_submit_
 */
           io_uring_prep_fsync(__pyx_v_sqe, __pyx_v_fd, 0);
 
-          /* "liburing/file.pyx":405
+          /* "liburing/file.pyx":406
  *             sqe = __io_uring_get_sqe(&ring.ptr)
  *             __io_uring_prep_fsync(sqe, fd, 0)
  *             ret = __io_uring_submit_and_wait(&ring.ptr, 1)             # <<<<<<<<<<<<<<
@@ -24979,7 +24988,7 @@ static CYTHON_INLINE int __pyx_f_8liburing_4file_write_prepare_sqe_batch_submit_
 */
           __pyx_v_ret = io_uring_submit_and_wait((&__pyx_v_ring->ptr), 1);
 
-          /* "liburing/file.pyx":406
+          /* "liburing/file.pyx":407
  *             __io_uring_prep_fsync(sqe, fd, 0)
  *             ret = __io_uring_submit_and_wait(&ring.ptr, 1)
  *             if ret < 0:             # <<<<<<<<<<<<<<
@@ -24989,7 +24998,7 @@ static CYTHON_INLINE int __pyx_f_8liburing_4file_write_prepare_sqe_batch_submit_
           __pyx_t_5 = (__pyx_v_ret < 0);
           if (__pyx_t_5) {
 
-            /* "liburing/file.pyx":407
+            /* "liburing/file.pyx":408
  *             ret = __io_uring_submit_and_wait(&ring.ptr, 1)
  *             if ret < 0:
  *                 return ret             # <<<<<<<<<<<<<<
@@ -24999,7 +25008,7 @@ static CYTHON_INLINE int __pyx_f_8liburing_4file_write_prepare_sqe_batch_submit_
             __pyx_r = __pyx_v_ret;
             goto __pyx_L3_return;
 
-            /* "liburing/file.pyx":406
+            /* "liburing/file.pyx":407
  *             __io_uring_prep_fsync(sqe, fd, 0)
  *             ret = __io_uring_submit_and_wait(&ring.ptr, 1)
  *             if ret < 0:             # <<<<<<<<<<<<<<
@@ -25008,7 +25017,7 @@ static CYTHON_INLINE int __pyx_f_8liburing_4file_write_prepare_sqe_batch_submit_
 */
           }
 
-          /* "liburing/file.pyx":408
+          /* "liburing/file.pyx":409
  *             if ret < 0:
  *                 return ret
  *             __io_uring_cq_advance(&ring.ptr, 1)             # <<<<<<<<<<<<<<
@@ -25017,7 +25026,7 @@ static CYTHON_INLINE int __pyx_f_8liburing_4file_write_prepare_sqe_batch_submit_
 */
           io_uring_cq_advance((&__pyx_v_ring->ptr), 1);
 
-          /* "liburing/file.pyx":402
+          /* "liburing/file.pyx":403
  *             return ret
  *         __io_uring_cq_advance(&ring.ptr, batch_size)
  *         if fsync:             # <<<<<<<<<<<<<<
@@ -25027,7 +25036,7 @@ static CYTHON_INLINE int __pyx_f_8liburing_4file_write_prepare_sqe_batch_submit_
         }
       }
 
-      /* "liburing/file.pyx":392
+      /* "liburing/file.pyx":393
  *     cdef __io_uring_sqe *sqe
  *     cdef int ret
  *     with nogil:             # <<<<<<<<<<<<<<
@@ -25049,7 +25058,7 @@ static CYTHON_INLINE int __pyx_f_8liburing_4file_write_prepare_sqe_batch_submit_
       }
   }
 
-  /* "liburing/file.pyx":409
+  /* "liburing/file.pyx":410
  *                 return ret
  *             __io_uring_cq_advance(&ring.ptr, 1)
  *     return ret             # <<<<<<<<<<<<<<
@@ -25058,7 +25067,7 @@ static CYTHON_INLINE int __pyx_f_8liburing_4file_write_prepare_sqe_batch_submit_
   __pyx_r = __pyx_v_ret;
   goto __pyx_L0;
 
-  /* "liburing/file.pyx":380
+  /* "liburing/file.pyx":381
  * 
  * 
  * cpdef inline int write_prepare_sqe_batch_submit_wait_advance(io_uring ring,             # <<<<<<<<<<<<<<
@@ -25119,88 +25128,88 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   {
     PyObject ** const __pyx_pyargnames[] = {&__pyx_mstate_global->__pyx_n_u_ring,&__pyx_mstate_global->__pyx_n_u_batch_size,&__pyx_mstate_global->__pyx_n_u_buffer_addrs,&__pyx_mstate_global->__pyx_n_u_fd,&__pyx_mstate_global->__pyx_n_u_bytes_per_batch,&__pyx_mstate_global->__pyx_n_u_file_offset_i,&__pyx_mstate_global->__pyx_n_u_file_offset_n,&__pyx_mstate_global->__pyx_n_u_set_fixed_file,&__pyx_mstate_global->__pyx_n_u_fsync,0};
     const Py_ssize_t __pyx_kwds_len = (__pyx_kwds) ? __Pyx_NumKwargs_FASTCALL(__pyx_kwds) : 0;
-    if (unlikely(__pyx_kwds_len) < 0) __PYX_ERR(0, 380, __pyx_L3_error)
+    if (unlikely(__pyx_kwds_len) < 0) __PYX_ERR(0, 381, __pyx_L3_error)
     if (__pyx_kwds_len > 0) {
       switch (__pyx_nargs) {
         case  9:
         values[8] = __Pyx_ArgRef_FASTCALL(__pyx_args, 8);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[8])) __PYX_ERR(0, 380, __pyx_L3_error)
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[8])) __PYX_ERR(0, 381, __pyx_L3_error)
         CYTHON_FALLTHROUGH;
         case  8:
         values[7] = __Pyx_ArgRef_FASTCALL(__pyx_args, 7);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[7])) __PYX_ERR(0, 380, __pyx_L3_error)
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[7])) __PYX_ERR(0, 381, __pyx_L3_error)
         CYTHON_FALLTHROUGH;
         case  7:
         values[6] = __Pyx_ArgRef_FASTCALL(__pyx_args, 6);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[6])) __PYX_ERR(0, 380, __pyx_L3_error)
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[6])) __PYX_ERR(0, 381, __pyx_L3_error)
         CYTHON_FALLTHROUGH;
         case  6:
         values[5] = __Pyx_ArgRef_FASTCALL(__pyx_args, 5);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[5])) __PYX_ERR(0, 380, __pyx_L3_error)
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[5])) __PYX_ERR(0, 381, __pyx_L3_error)
         CYTHON_FALLTHROUGH;
         case  5:
         values[4] = __Pyx_ArgRef_FASTCALL(__pyx_args, 4);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[4])) __PYX_ERR(0, 380, __pyx_L3_error)
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[4])) __PYX_ERR(0, 381, __pyx_L3_error)
         CYTHON_FALLTHROUGH;
         case  4:
         values[3] = __Pyx_ArgRef_FASTCALL(__pyx_args, 3);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[3])) __PYX_ERR(0, 380, __pyx_L3_error)
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[3])) __PYX_ERR(0, 381, __pyx_L3_error)
         CYTHON_FALLTHROUGH;
         case  3:
         values[2] = __Pyx_ArgRef_FASTCALL(__pyx_args, 2);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[2])) __PYX_ERR(0, 380, __pyx_L3_error)
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[2])) __PYX_ERR(0, 381, __pyx_L3_error)
         CYTHON_FALLTHROUGH;
         case  2:
         values[1] = __Pyx_ArgRef_FASTCALL(__pyx_args, 1);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[1])) __PYX_ERR(0, 380, __pyx_L3_error)
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[1])) __PYX_ERR(0, 381, __pyx_L3_error)
         CYTHON_FALLTHROUGH;
         case  1:
         values[0] = __Pyx_ArgRef_FASTCALL(__pyx_args, 0);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[0])) __PYX_ERR(0, 380, __pyx_L3_error)
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[0])) __PYX_ERR(0, 381, __pyx_L3_error)
         CYTHON_FALLTHROUGH;
         case  0: break;
         default: goto __pyx_L5_argtuple_error;
       }
       const Py_ssize_t kwd_pos_args = __pyx_nargs;
-      if (__Pyx_ParseKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values, kwd_pos_args, __pyx_kwds_len, "write_prepare_sqe_batch_submit_wait_advance", 0) < (0)) __PYX_ERR(0, 380, __pyx_L3_error)
+      if (__Pyx_ParseKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values, kwd_pos_args, __pyx_kwds_len, "write_prepare_sqe_batch_submit_wait_advance", 0) < (0)) __PYX_ERR(0, 381, __pyx_L3_error)
       for (Py_ssize_t i = __pyx_nargs; i < 9; i++) {
-        if (unlikely(!values[i])) { __Pyx_RaiseArgtupleInvalid("write_prepare_sqe_batch_submit_wait_advance", 1, 9, 9, i); __PYX_ERR(0, 380, __pyx_L3_error) }
+        if (unlikely(!values[i])) { __Pyx_RaiseArgtupleInvalid("write_prepare_sqe_batch_submit_wait_advance", 1, 9, 9, i); __PYX_ERR(0, 381, __pyx_L3_error) }
       }
     } else if (unlikely(__pyx_nargs != 9)) {
       goto __pyx_L5_argtuple_error;
     } else {
       values[0] = __Pyx_ArgRef_FASTCALL(__pyx_args, 0);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[0])) __PYX_ERR(0, 380, __pyx_L3_error)
+      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[0])) __PYX_ERR(0, 381, __pyx_L3_error)
       values[1] = __Pyx_ArgRef_FASTCALL(__pyx_args, 1);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[1])) __PYX_ERR(0, 380, __pyx_L3_error)
+      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[1])) __PYX_ERR(0, 381, __pyx_L3_error)
       values[2] = __Pyx_ArgRef_FASTCALL(__pyx_args, 2);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[2])) __PYX_ERR(0, 380, __pyx_L3_error)
+      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[2])) __PYX_ERR(0, 381, __pyx_L3_error)
       values[3] = __Pyx_ArgRef_FASTCALL(__pyx_args, 3);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[3])) __PYX_ERR(0, 380, __pyx_L3_error)
+      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[3])) __PYX_ERR(0, 381, __pyx_L3_error)
       values[4] = __Pyx_ArgRef_FASTCALL(__pyx_args, 4);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[4])) __PYX_ERR(0, 380, __pyx_L3_error)
+      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[4])) __PYX_ERR(0, 381, __pyx_L3_error)
       values[5] = __Pyx_ArgRef_FASTCALL(__pyx_args, 5);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[5])) __PYX_ERR(0, 380, __pyx_L3_error)
+      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[5])) __PYX_ERR(0, 381, __pyx_L3_error)
       values[6] = __Pyx_ArgRef_FASTCALL(__pyx_args, 6);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[6])) __PYX_ERR(0, 380, __pyx_L3_error)
+      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[6])) __PYX_ERR(0, 381, __pyx_L3_error)
       values[7] = __Pyx_ArgRef_FASTCALL(__pyx_args, 7);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[7])) __PYX_ERR(0, 380, __pyx_L3_error)
+      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[7])) __PYX_ERR(0, 381, __pyx_L3_error)
       values[8] = __Pyx_ArgRef_FASTCALL(__pyx_args, 8);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[8])) __PYX_ERR(0, 380, __pyx_L3_error)
+      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[8])) __PYX_ERR(0, 381, __pyx_L3_error)
     }
     __pyx_v_ring = ((struct __pyx_obj_8liburing_5queue_io_uring *)values[0]);
-    __pyx_v_batch_size = __Pyx_PyLong_As_unsigned_int(values[1]); if (unlikely((__pyx_v_batch_size == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 381, __pyx_L3_error)
-    __pyx_v_buffer_addrs = __Pyx_PyObject_to_MemoryviewSlice_ds_nn_uintptr_t(values[2], PyBUF_WRITABLE); if (unlikely(!__pyx_v_buffer_addrs.memview)) __PYX_ERR(0, 382, __pyx_L3_error)
-    __pyx_v_fd = __Pyx_PyLong_As_unsigned_int(values[3]); if (unlikely((__pyx_v_fd == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 383, __pyx_L3_error)
-    __pyx_v_bytes_per_batch = __Pyx_PyLong_As_unsigned_int(values[4]); if (unlikely((__pyx_v_bytes_per_batch == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 384, __pyx_L3_error)
-    __pyx_v_file_offset_i = __Pyx_PyLong_As_unsigned_int(values[5]); if (unlikely((__pyx_v_file_offset_i == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 385, __pyx_L3_error)
-    __pyx_v_file_offset_n = __Pyx_PyLong_As_unsigned_int(values[6]); if (unlikely((__pyx_v_file_offset_n == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 386, __pyx_L3_error)
-    __pyx_v_set_fixed_file = __Pyx_PyObject_IsTrue(values[7]); if (unlikely((__pyx_v_set_fixed_file == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 387, __pyx_L3_error)
-    __pyx_v_fsync = __Pyx_PyObject_IsTrue(values[8]); if (unlikely((__pyx_v_fsync == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 388, __pyx_L3_error)
+    __pyx_v_batch_size = __Pyx_PyLong_As_unsigned_int(values[1]); if (unlikely((__pyx_v_batch_size == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 382, __pyx_L3_error)
+    __pyx_v_buffer_addrs = __Pyx_PyObject_to_MemoryviewSlice_ds_nn_uintptr_t(values[2], PyBUF_WRITABLE); if (unlikely(!__pyx_v_buffer_addrs.memview)) __PYX_ERR(0, 383, __pyx_L3_error)
+    __pyx_v_fd = __Pyx_PyLong_As_unsigned_int(values[3]); if (unlikely((__pyx_v_fd == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 384, __pyx_L3_error)
+    __pyx_v_bytes_per_batch = __Pyx_PyLong_As_unsigned_int(values[4]); if (unlikely((__pyx_v_bytes_per_batch == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 385, __pyx_L3_error)
+    __pyx_v_file_offset_i = __Pyx_PyLong_As_unsigned_int(values[5]); if (unlikely((__pyx_v_file_offset_i == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 386, __pyx_L3_error)
+    __pyx_v_file_offset_n = __Pyx_PyLong_As_unsigned_int(values[6]); if (unlikely((__pyx_v_file_offset_n == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 387, __pyx_L3_error)
+    __pyx_v_set_fixed_file = __Pyx_PyObject_IsTrue(values[7]); if (unlikely((__pyx_v_set_fixed_file == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 388, __pyx_L3_error)
+    __pyx_v_fsync = __Pyx_PyObject_IsTrue(values[8]); if (unlikely((__pyx_v_fsync == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 389, __pyx_L3_error)
   }
   goto __pyx_L6_skip;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("write_prepare_sqe_batch_submit_wait_advance", 1, 9, 9, __pyx_nargs); __PYX_ERR(0, 380, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("write_prepare_sqe_batch_submit_wait_advance", 1, 9, 9, __pyx_nargs); __PYX_ERR(0, 381, __pyx_L3_error)
   __pyx_L6_skip:;
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L3_error:;
@@ -25212,7 +25221,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_ring), __pyx_mstate_global->__pyx_ptype_8liburing_5queue_io_uring, 1, "ring", 0))) __PYX_ERR(0, 380, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_ring), __pyx_mstate_global->__pyx_ptype_8liburing_5queue_io_uring, 1, "ring", 0))) __PYX_ERR(0, 381, __pyx_L1_error)
   __pyx_r = __pyx_pf_8liburing_4file_40write_prepare_sqe_batch_submit_wait_advance(__pyx_self, __pyx_v_ring, __pyx_v_batch_size, __pyx_v_buffer_addrs, __pyx_v_fd, __pyx_v_bytes_per_batch, __pyx_v_file_offset_i, __pyx_v_file_offset_n, __pyx_v_set_fixed_file, __pyx_v_fsync);
 
   /* function exit code */
@@ -25242,8 +25251,8 @@ static PyObject *__pyx_pf_8liburing_4file_40write_prepare_sqe_batch_submit_wait_
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("write_prepare_sqe_batch_submit_wait_advance", 0);
   __Pyx_XDECREF(__pyx_r);
-  if (unlikely(!__pyx_v_buffer_addrs.memview)) { __Pyx_RaiseUnboundLocalError("buffer_addrs"); __PYX_ERR(0, 380, __pyx_L1_error) }
-  __pyx_t_1 = __Pyx_PyLong_From_int(__pyx_f_8liburing_4file_write_prepare_sqe_batch_submit_wait_advance(__pyx_v_ring, __pyx_v_batch_size, __pyx_v_buffer_addrs, __pyx_v_fd, __pyx_v_bytes_per_batch, __pyx_v_file_offset_i, __pyx_v_file_offset_n, __pyx_v_set_fixed_file, __pyx_v_fsync, 1)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 380, __pyx_L1_error)
+  if (unlikely(!__pyx_v_buffer_addrs.memview)) { __Pyx_RaiseUnboundLocalError("buffer_addrs"); __PYX_ERR(0, 381, __pyx_L1_error) }
+  __pyx_t_1 = __Pyx_PyLong_From_int(__pyx_f_8liburing_4file_write_prepare_sqe_batch_submit_wait_advance(__pyx_v_ring, __pyx_v_batch_size, __pyx_v_buffer_addrs, __pyx_v_fd, __pyx_v_bytes_per_batch, __pyx_v_file_offset_i, __pyx_v_file_offset_n, __pyx_v_set_fixed_file, __pyx_v_fsync, 1)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 381, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -26355,7 +26364,7 @@ static int __Pyx_modinit_function_export_code(__pyx_mstatetype *__pyx_mstate) {
     #if !CYTHON_ASSUME_SAFE_MACROS
     if (unlikely(!__pyx_export_signature)) __PYX_ERR(0, 1, __pyx_L1_error)
     #endif
-    const char * __pyx_export_name = __pyx_export_signature + 3484;
+    const char * __pyx_export_name = __pyx_export_signature + 3498;
     void (*const __pyx_export_pointers[])(void) = {(void (*)(void))&__pyx_f_8liburing_4file_prepare_sqe_batch_submit_wait_advance, (void (*)(void))&__pyx_f_8liburing_4file_prepare_sqe_batch_submit_wait_advance_timeout, (void (*)(void))&__pyx_f_8liburing_4file_write_prepare_sqe_batch_submit_wait_advance, (void (*)(void))&__pyx_f_8liburing_4file_io_uring_prep_files_update, (void (*)(void))&__pyx_f_8liburing_4file_io_uring_prep_openat, (void (*)(void))&__pyx_f_8liburing_4file_io_uring_prep_openat_direct, (void (*)(void))&__pyx_f_8liburing_4file_io_uring_prep_openat2, (void (*)(void))&__pyx_f_8liburing_4file_io_uring_prep_openat2_direct, (void (*)(void))&__pyx_f_8liburing_4file_io_uring_prep_write, (void (*)(void))&__pyx_f_8liburing_4file_io_uring_prep_read, (void (*)(void))&__pyx_f_8liburing_4file_io_uring_prep_read_fixed, (void (*)(void))&__pyx_f_8liburing_4file_io_uring_prep_write_fixed, (void (*)(void))&__pyx_f_8liburing_4file_io_uring_prep_fsync, (void (*)(void))&__pyx_f_8liburing_4file_io_uring_prep_sync_file_range, (void (*)(void))&__pyx_f_8liburing_4file_io_uring_prep_tee, (void (*)(void))&__pyx_f_8liburing_4file_io_uring_prep_ftruncate, (void (*)(void))&__pyx_f_8liburing_4file_io_uring_prep_readv, (void (*)(void))&__pyx_f_8liburing_4file_io_uring_prep_readv2, (void (*)(void))&__pyx_f_8liburing_4file_io_uring_prep_writev, (void (*)(void))&__pyx_f_8liburing_4file_io_uring_prep_writev2, (void (*)(void))&__pyx_f_8liburing_4file_io_uring_prep_read_multishot, (void (*)(void)) NULL};
     void (*const *__pyx_export_pointer)(void) = __pyx_export_pointers;
     const char *__pyx_export_current_signature = __pyx_export_signature;
@@ -28589,19 +28598,19 @@ __Pyx_RefNannySetupContext("PyInit_file", 0);
   if (PyDict_SetItem(__pyx_mstate_global->__pyx_d, __pyx_mstate_global->__pyx_n_u_prepare_sqe_batch_submit_wait_ad_2, __pyx_t_41) < (0)) __PYX_ERR(0, 267, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_41); __pyx_t_41 = 0;
 
-  /* "liburing/file.pyx":380
+  /* "liburing/file.pyx":381
  * 
  * 
  * cpdef inline int write_prepare_sqe_batch_submit_wait_advance(io_uring ring,             # <<<<<<<<<<<<<<
  *                               unsigned int batch_size,
  *                               uintptr_t[:] buffer_addrs,
 */
-  __pyx_t_41 = __Pyx_CyFunction_New(&__pyx_mdef_8liburing_4file_41write_prepare_sqe_batch_submit_wait_advance, 0, __pyx_mstate_global->__pyx_n_u_write_prepare_sqe_batch_submit_w, NULL, __pyx_mstate_global->__pyx_n_u_liburing_file, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[22])); if (unlikely(!__pyx_t_41)) __PYX_ERR(0, 380, __pyx_L1_error)
+  __pyx_t_41 = __Pyx_CyFunction_New(&__pyx_mdef_8liburing_4file_41write_prepare_sqe_batch_submit_wait_advance, 0, __pyx_mstate_global->__pyx_n_u_write_prepare_sqe_batch_submit_w, NULL, __pyx_mstate_global->__pyx_n_u_liburing_file, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[22])); if (unlikely(!__pyx_t_41)) __PYX_ERR(0, 381, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_41);
   #if CYTHON_COMPILING_IN_CPYTHON && PY_VERSION_HEX >= 0x030E0000
   PyUnstable_Object_EnableDeferredRefcount(__pyx_t_41);
   #endif
-  if (PyDict_SetItem(__pyx_mstate_global->__pyx_d, __pyx_mstate_global->__pyx_n_u_write_prepare_sqe_batch_submit_w, __pyx_t_41) < (0)) __PYX_ERR(0, 380, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_mstate_global->__pyx_d, __pyx_mstate_global->__pyx_n_u_write_prepare_sqe_batch_submit_w, __pyx_t_41) < (0)) __PYX_ERR(0, 381, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_41); __pyx_t_41 = 0;
 
   /* "liburing/file.pyx":1
@@ -28825,31 +28834,31 @@ static int __Pyx_InitCachedConstants(__pyx_mstatetype *__pyx_mstate) {
 static int __Pyx_InitConstants(__pyx_mstatetype *__pyx_mstate) {
   CYTHON_UNUSED_VAR(__pyx_mstate);
   {
-    const struct { const unsigned int length: 12; } index[] = {{2},{68},{35},{54},{37},{60},{24},{52},{26},{34},{29},{33},{45},{22},{15},{179},{370},{37},{30},{32},{1},{1},{1},{1},{1},{8},{5},{6},{15},{23},{25},{7},{6},{7},{2},{6},{35},{31},{9},{30},{13},{7},{50},{8},{10},{21},{20},{32},{22},{14},{30},{37},{5},{8},{7},{7},{9},{8},{7},{9},{7},{8},{11},{7},{6},{11},{9},{8},{10},{10},{6},{8},{6},{6},{9},{7},{8},{20},{15},{14},{15},{21},{19},{15},{26},{27},{21},{8},{15},{3},{15},{18},{4},{12},{10},{3},{9},{9},{12},{15},{14},{1},{9},{17},{18},{5},{3},{8},{15},{6},{4},{9},{5},{2},{5},{6},{3},{15},{10},{13},{13},{12},{5},{6},{7},{5},{11},{8},{3},{12},{12},{3},{1},{2},{10},{5},{26},{19},{23},{20},{21},{28},{27},{18},{24},{28},{19},{20},{29},{17},{19},{25},{20},{21},{6},{13},{5},{8},{3},{13},{8},{14},{11},{7},{4},{6},{10},{7},{5},{4},{8},{6},{4},{7},{7},{3},{6},{8},{26},{28},{4},{4},{3},{37},{45},{12},{14},{11},{10},{19},{14},{12},{12},{10},{17},{13},{8},{8},{7},{4},{4},{16},{14},{12},{10},{12},{19},{5},{4},{12},{3},{5},{4},{4},{6},{5},{8},{12},{9},{10},{6},{6},{6},{43},{1},{389},{4033},{30},{24},{25},{549},{30},{21},{23},{28},{33},{35},{28},{250},{208},{33},{9},{15},{18},{27},{40},{23},{21},{23},{1}};
-    #if (CYTHON_COMPRESS_STRINGS) == 2 /* compression: bz2 (3257 bytes) */
-const char* const cstring = "BZh91AY&SYV\330\244$\000\003\024\177\377\377\377\377\377\377\377\377\377\377\357\377\366\277\377\377\366\300@@@@@@@@@@@@\000@\000`\r\035\333\347{d\316\334\327gc+p\251lh\000\024\024\016\330\n\242\216\000\367\274%\021OI\244\3041\031\006O\010\247\210bhS\323\320\241\3514\365\006\200\332i\244i\351\017\325\007\250y'\351\031OSh\323L\203Q\240e#h\231&\001\"{I2=\032\201\246\324\320\003&\200\000\000\000\000\000\000\000\003A\240\324$\375&\224\304\006\201\246\200\0004\003#@\000\001\220\000d\310\r\000\000\310\000\364\322\004\210\204\t\242(\362#\365M=A\240\323\324\003M\244\030\200\000\000\003@\031\000\0004\320\310\001\242\014\230\0010\000\023\000F\230F\000\000\000\t\223LM\006\000F\000\000\000\000H\2212\0044& \323SM\t\350\247\223S\3124\3324OPi\246\200\036\2202\r\000\000\000\032h\000\035\0007^:\026\346\245\035\303)N\004iM\230\003k\203\376\307\271\366fr\371l\373\264\270\231\217\303\221\004DK\256\225\030 \306\014\034\000\244z\352Jh\347k\364\314\203J\0004\224\245\220v\311#\370\034\210\033\235\355\331\235\377\302\376\t\\/\274\373\357\276\374\351\204\354Oh\004\r\033;\035\004\222PJ\342gT\256\336\355\201\200\177\346\014ck\024\025\252\273\033*.|\306\376\333\362\374\307\020\354y\036\006\273\210\251r\275\010\311\203b\232\300}\264\303\274\206\3215cM\243\207mU\337\006\3746\215\252\364$\257\025\311\022Z\205!f+\322,V\231\010\320\306\311\032\306\007F\273\221:3\024Q\030\263\010s\021\002h\244\013Z\314\264Y[\363C\036\026\036\203\022\263\203Q\"R\035\304\3473Qa\236\313<V\357@\033\222;\376\341\375\216r]\366O=\360\373TQ\001dA\374\216\203\220L\346\251\275\314*A\304wV\234J\373\366e\014y\221|{\326\317Oa<\330\237[\026#\237d\222P\214\2660#E\314o\333\223\341\277}\205\3623\022\321\023F!\2062\257\372v\021;'\262\350\320\364'\354n\362c;r\323\355V\224\236$G\271\226%\022CL`466\330\323H`\330n\321\202\266'\002~\\\212\2441\025\237R\344\013U\013\2320\260\372a\375\261\025\236\353QI\r\247L \205l$\007\006P\265A\014$9\216J\022\225\270\200\\\371\245n\022\257_\323\345e\233\347,\014\260\265\230t\026]u\246\242\341\022QS\t\367m""\005\326\264:\301{i\347\030\212\364\3354\257r\244T\375Xa=P\337\307\t\325\270\004xMk\223>~\260v\023hm1\214wdv\273\003\374\030\244\221\221\271\312\325\200\3017\001\204\337B\031\3321\272\266\r\214m\250\206\334\020\230\234\221\004m\311!\232\023\201\216\214\206\342!(l\327\314\322R\272Ny\207\\\233\343u\233(\307\313R\247\212i)c^k\242\311;{\354\036\354l6\275\274\3025\256\270U\324DQ\304\36278\303\177)\001\005\002\373ae\3074\352\270\270W\036\355\377G\316\214]\344\315\000\320\003\200\242\236\000\311\211\244\221+\002\363\210\241\000G\026M\201\235\251\337q\344\220?\202\207,\242_\304S \3216\024w\023\273*\217\347X$\242X\252\203\0214\021\031!\366P\313\270\276\006\321\333^^\203\231\033\335\304e\356\\\245\307\317\252$\031CX\327\315\315g\276\334lg\232y\346\356\310\351\243/\025RD\024\222\341\257\322=\377\027yk\267\034\016<1\227\317\237\223=\306\342\333.g\263\355\377\035\357\333\341\320\347\374\355I\244\364\375\301iy\262\370g+jj\250low\360]\251\346xq\361D\270\262_\303\304-\306\354\3164\327\361\003\252]\313\214\210\206\330+\304\023J*\275\330\307\350\352R\231m\212\352\226\222\022\365\334xjT \270X8\356w\341\270wv\0313\317$G\360\243\245\026\033A\004\204\300\253~\332jU\270 \305\300\014\030\330\301v\3557\2074\232C\304\346=\204\361#G\246\343]5\371*\332\251?!\330\326dcR\220\336q\210\205M8!L\321-\326V\\p\363\225\036j\276\204\370O\276\225:p\220P\250a-*\022^\267\351}\341 %6[4\240x\262\243^\3752-\306_\204 \236\030hAe\327W\202\304)V@5^\314Ue\241\265\316(P|\203\254\335\230\362\324D\235C\026R\254=h,38uy\200f\242 ]\020\366\n\212\002cMc\310\201rs\251HMv\243\311zD\324\216\363\010L\220\253L\273\"&,\177\253\036\223s_\003{{\032\334\3533H\214\n\300[\217\201l\022A\352!4\221[\r\304ol\362J\227R\372M\310\210\027)\t\241XR\363\274\315gj\205\207I\363\333\037\300\222'v/p\342\330T\331UT\245\303\212:\"\246\274\240\336\324,&\354\353\023\214\t+\005\321Eg\220\207a\227\322\010\230\217\361\324B\272\343\223\242\025`J\301\nV\223\241\210\002\231 \0045A^\322\220\262\306\005}\351\"\364\006X\nf\202\275f\313\213\027\343|Q\021""\222\366\022@Vr\026W\001\006\247\257l`\r\337e\336\325\246d\036\034\360&'\245\033\261K\223\024+>\221\211\273\327\363\347Dqn\353\352\260W \200\220z\320\026\005\355\032\205\244B\256\323n\312\355\025c\303J\214\010\021\255Y$\\\2022}\024\017\025\014\302\223\021\267u\366\326l\023\025\371*g\351\353^K\301y\034\252\304YX\260,\332(\233\245A\343\0171c\020K(\241@(\225\r{0\221\326\300\214\004#7.\343\261hG\016=\374\323Da\032S\323\337\2030\213cR%\005\221\204\271\331\265$\264\241\340H\255]\\\374\031\210\246\277\\/\017Pe\235?\356%\322\326(2I\003H\3161\264D\213\003\207\215~\037>\272\236\303\305 \235\311\n!\240_\275\\\220\346J\220V\260I,\327\023\221\243\250\n.b\324\347\307H\224\314\000\262\356j\326\306\213\356d\302d\323N\007\345\204\2219cam\226\"\314\013AvCN\362\231\227Z]\263O_\276\200\2454\177\311\314\243\254tGfm\367\244\267\322t\235V#\331\nM\027A5;\254&\333\256\016K\250\213\342N\321N\203'\020:K\004\3044\005a\025\241\013\264*\215 xf\300'\242\010<I\241\2647|Ak\216\321~\205\031\320-Y\254\231\236P]r,\253\225\261\351B\262F\267}g\243*\321bC=\021\242I\244h\322\321}`KU3\324QH\010\301$,\242\017O|\230\356\207y\266%l\243f[\305\364\326h\245.\256\3703a\254\3071\222\342\262T4i\227&\2746\2646\233M\220\010\232:\022\275\202\314jh\271\360:\274q\353x\016\215\201\360\371t\034\220E\270\0326i\252WU\032\\\013G\327\036\245\354\010\351\256\022&,\354]\347\265\344G\207D\267\344*\034x@y\253\250\334\023\005\333i\010_A\252\006\216\351\250B\314i\261q\241\\\320\235\255\272/;\311\315\254\322\222O`B m\260 \274!\274\253\342\354\371\233\222B\217W\014\270$\026\032$\212\236\263lm\"\231\263\210Y\327\247\264\364\367\202]6\320\321\010\205w\"\215\322\223\364\\1\206\233\235\t\344\255z\332@\226\356\274^^\222G3@\254\265E\"\321\034\010\253\255\034C}\366S1i\227\220\350\345\275\271\231\264Y\214emT\005M\212\321&7 \267\320I\032*\001\210Z\253R~K\210I\035\336\377_bP-i_]6\341`r\226G.\341X\037\2331\340\000/\244p8\352\222\030~\203-\214K\206!`Wyr!q\304p\032\021t\214\322L\370[\273\336\312H2\021\203\320tg\307\344v}Z\004\326\370\322d\310""\241\235e\341\355\316Tu\205\327\337}\205\341B\302gj!4\211\n\255;6\245pP\353]o\\!\007=\267\351\232\302\246\022\221\331q\264\023\206\022\330\342z\231\232\0045}Q\001\322\3221<\232\222\205\305\273~\311\211>\005X2\362l$\242\020y\327\245\317\020\024\032\314\201e\005\315\326\022BM5n*H\360S\231\26662\267\016\201\010\025EY\004\355BAyI\252k)\003\260\237'\230\027\260\270\004\024\020\260\036|\226\343\203]T\t\3207>\352A[L`/-~<\314X\204\204\247\365\210\n\001y\316\3641.h\201\013\002\326\272\210\201EJ\020^\202\016L\311\261\261z\031\316n\202\353\326\236U\311\235\232\013\007\251\027\213\243*M$oP\005\314\004\0334\000\2762H\3240\211\242*\031[\335\031 $a\030#\202Dz\246\206\332\343G\313-\244\002\353\t\276v&\311\013\036\352\2674\222\n\344\220m\r\266\322\212>0#\316\352\355\367<JD\344/\032&\363\255\315]\001\n\023zZ c\335\320\262L&\267\254\266\334*\033F\205\254\303h\004\216&\335\223\022\024-\222\214\366\210Y\205z\315\346\250\022B\211Y\322\221\021.\234\222:T\313\225\200\272\232\220J\242\021\0108\227&\242\274Pf\031X\213\266:E\224\236\010MN\")$)\316\222\306\3136E\020\334\361:\263\333LK\226\274\256z\330\332f\334\256\242\235\305\271$\226\335\345\217(I\033\004[-L\276\364\221\027U\001G\266 X{\252jJ\353CT\315\005\255a\243\017Q1\2630!\240$\312%\330\276\331\335\254\242fg\311\315\303\230\342\243\331\321-N\320\330\345\214\327\t \242H\3275z\331Q\205\246\342\2244\276\215\265\275 \311\244\224\n\240AdX\353u\330aAq!;\325QA\310R\237\n\302\316\265\000\036\210\263Tci@e\226e\025\033E3\344c/\262\253EW\232 \330\213\022\315<\312\274\354\335\252\362\230\231F\244)X_\030\201\031\357\322O\204\242iw\030\010\3442\272\344]\031\355\305\337\321\021\243\225r\256P\224\321\346\350Aj1\001\0170\"z\230#\270\217+\013\r\206\343]\355\037\013\265\2671\240\246\215h\024\360S%uU\351\251\016\213P\2040@B\304\316\r\326\226\306\323m<\207\002\341\262\304]\024\236\203\202\275\"\333\270$\027wyNU\351a\234\265\014aT\243\022Q\022Wj\204X\"\254\31461\240H\360G\343\274\206\rs\003E5I\217lr\036Y\265\001\030\240\317Dq\257\217\330\025WM\314b\032I\005""\030\354b\244\265\221A]G\341\244\337n\346\334\366_1\344Yi\276\307+X+\217''\210\345\003\302\2348<\242v\301P\341\320\314K\010\311\325xO2Y\244\214<gV\320|\374\211\342<\374\313\226\234\343l,*z:\024H\321\230\0056\350\205~WQ\024\300\213\321e2\036:R\222\363\031^\264\310\365[\031\226\254Ti\356e\232\312)\364\215\313;\315o\313#\037\326\245=\345j\206\307\207\263<\314U\276\246{jgLM\341U\203}\201\300\253\026\322F\333a\034;-\025\223z\260\242\215B1o\021\227f\261[U{\347\030\241\0213|\323\210\204QU8\265Y\007\026\330.\235j\303\010\343\252\312\303\030z|\265\353\214\255X\254\265\252\244u\223\343\026\261\025>\344\027Nx\210\240\212+H\271\221A\006o\331\016\257\004\007\032\302\267!\207z\\\037\2141\177\037\246\225^\210\010\252\243!\331\355]44\274\330>\004\350\375g\377S\270'b\354\263]g\0271;\026\254\353\334\304\231\223\357a\313\201{\211\365\211bY\325\332\265\254\355O&\246\211P\344u\350K\351\307\253\177S\273\177n*\371]|\231\024Y\305\277\022\324\275\344\2662\303q\274\"\240-\234\025\355B\245\203c\267Zp\356\tbB\030A\002J\022I\020\0075\210T\2040n\013Z\304B\312s\250\235~\177\256\357\375$\326\247\222uR\254\013\264\006\202\023\257\243\276\241\027\335!\341?\035\207\230\317\374]\311\024\341BA[b\220\220";
-    PyObject *data = __Pyx_DecompressString(cstring, 3257, 2);
+    const struct { const unsigned int length: 12; } index[] = {{2},{68},{35},{54},{37},{60},{24},{52},{26},{34},{29},{33},{45},{22},{15},{179},{370},{37},{30},{32},{1},{1},{1},{1},{1},{8},{5},{6},{15},{23},{25},{7},{6},{7},{2},{6},{35},{31},{9},{30},{13},{7},{50},{8},{10},{21},{20},{32},{22},{14},{30},{37},{5},{8},{7},{7},{9},{8},{7},{9},{7},{8},{11},{7},{6},{11},{9},{8},{10},{10},{6},{8},{6},{6},{9},{7},{8},{20},{15},{14},{15},{21},{19},{15},{26},{27},{21},{8},{15},{3},{15},{18},{4},{12},{10},{3},{9},{9},{12},{15},{14},{1},{9},{17},{18},{5},{3},{8},{15},{6},{4},{9},{5},{2},{5},{6},{3},{15},{10},{13},{13},{12},{5},{6},{7},{5},{11},{8},{3},{12},{12},{3},{1},{2},{10},{5},{14},{26},{19},{23},{20},{21},{28},{27},{18},{24},{28},{19},{20},{29},{17},{19},{25},{20},{21},{6},{13},{5},{8},{3},{13},{8},{14},{11},{7},{4},{6},{10},{7},{5},{4},{8},{6},{4},{7},{7},{3},{6},{8},{26},{28},{4},{4},{3},{37},{45},{12},{14},{11},{10},{19},{14},{12},{12},{10},{17},{13},{8},{8},{7},{4},{4},{16},{14},{12},{10},{12},{19},{5},{4},{12},{3},{5},{4},{4},{6},{5},{8},{12},{9},{10},{6},{6},{6},{43},{1},{389},{4047},{30},{24},{25},{30},{21},{23},{28},{554},{33},{35},{28},{250},{208},{33},{9},{15},{18},{27},{40},{23},{21},{23},{1}};
+    #if (CYTHON_COMPRESS_STRINGS) == 2 /* compression: bz2 (3292 bytes) */
+const char* const cstring = "BZh91AY&SY\316\312\027\343\000\003\025\377\377\377\377\377\377\377\377\377\377\377\357\377\366\277\377\377\366\300@@@@@@@@@@@@\000@\000`\r\035\333\343\327\223;s]\220\355\267\005K\261\242U\323R\321\225[4\240)\266p\007a(\212d\322bi\212x\243\304\330MT\366T\333\023T\375$\366\2054\364\232z\203F\206\323\024\323OHoT\032=5?(\324\332\217\324i\246\202z\217P2\211\204\310\003EOS\332)\372\232\236\215B?Q\352\237\252\001\2312\215\031=@\320\006\t\223#\001\r\006\200\323h\324z\231\002\"G\224\3212\0310L 44\300M\006\214 \014\214\214\201\243L\010`\004b\006\020\006j\002BB\t2\010\305O\310\322\232\033$\332\232\003y$x\247\244\000\000\000h\003&\214\2002i\240\320\000A\223\000&\000\002`\010\323\010\300\000\000\0012i\211\240\300\010\300\000\000\000\t\024\004\004\310&I\232\021\2216\223\n{T\320z\232i\240\364\2154\003\312hh\032\000\000\000\017P\000\365?\360\035\327\256\362\355o\251\324\313[\2637&\315\001\265\355\277\344\373\377\263i\350z\014\375\335\367*\247\253@\302\020\204@\200\246\210\014\020\201\010\300\000\323.\362\3378c;\360W\200W\300\000\342\224\267\200g\312A\367\234D\r\337\257zgw\357\357\343\225\221\347^y\347\236\2370\237;\234\001\366\215\237I\004\222QKBh\324\256\336\364\302\360\363\260c\033X \255U\270N\242\344\304\337\322\374\2775\302\016o3\251\256\342*Z\256B3`\330\244\257\037Ja\337Ch\222\233M\243\322\246S\332\033\203a\262~x\223\367\256$\"RD\240\261\025\211\024'+\304`\306\311\232\306\007H\2541\272C\034q\230\366\010s\026\260\275\374\301JQ\236\253\254\177$1\341A\353\030\025\224\rDH\304v\222\224\215D\315\023\237\212\315\350\003rG\203\314\177s\220\217\201\225\354?}\356\321d\006\021\017\360;\016\2013\327U\233\250\255\016\227\225\355\323\177\305\206X\327\326\231\317\303\215\273\274\232\365\345}\255X\217c\t$\2426phM\354\230\337\212\217\311\237%\367D\304\216P\2220\013\360\215\177\333\231\tN\\\026\303'\222~\326\357W\tY\236\237n\264\244\260!\0176x\024I\r1\200\320\330\333cM!\203h\335\225\352\310I+\376\234\264V\030\264oAS\005\"\245Q P}q\177\214Z7\235,sE+\250\t\211L$\007\006T\244&(\210s\034\272\227Z""\234\010.}\023\267|\214\271\270|m'1\322\006\220\245\030\277\345\027\3561\0270u\0253$\271\264\027\332\320\366\203\016\323\256\023\225\331\232i\241{>\032\376\274\320\240\250o\341\202un\000\216\243Z\353h\321\314\035\t\2646\230\306;s;]\003\374\030$\221\260\350\363\367\364\030&\340iY\330\214\367Ln\355\203c\033jF\334\"btHN:(6\24186\355\010\334\221(\306s\372\333\212\220\337(Ia\250f\370\334\267m\031(\271*\210\246\005-\353\315r*\247k}\203\275m\206\332\245`\211{\213\333\337|\222\316WG|o\322 B\203+\347\205\3406\356\310\310Y\037\203?7\364~tH\377\267`\003P\017\002\252\366\306x\332I\0240+d\212\326\002\334YN\206}T\277\013\311 \366:9e\022\376\"\270\377\270l(\347\013\235uG\272v\211(\226\243A\210\232H\214\220\363(\326\274\275\346\323\333\\\274\247\0327rs0\345\252\264\256Y\021\372\243X\327\215\335g~\316\207A\326\236y\273\322=4\345\347*)!\221\033\341\2606l\342\230G,\203\177$\261|\252\332\235\303\000\215n@\350\370?\214h\360_\221\n\334\214\224.\232\374`\264\274\335\2303\343\344\030@zy{Z1A\346\230\265o\023\3376l\030\313u:\324\216\026la\320V\034,\214\206\334,\306(\234C/WW\241\346.\271\355\026Bz\310^\\Z\261A\021\002\341p\370\034\355\326\340\305\351g\246\231\243;\250<\021q\224,LJQo\351\\\021jS~\200S\251\250\025l\255\367r\256\342\206\230R\352\022\352\376\336\010\317\033*\343\320\265p\317gL\266n\224|\304\0229\017K\233\256\273\202\273\032\262\363\203\256*:\325y\n\020\037uJ\365\340\037\243\236f-J2]\273\352\036tG\311M\226\314\032\214\027@\331\355/Z\331\013\367\3014\305\025K\027bu\232.Y\\5\201\206]tXZ\033e\"\244\027bO\247\303\205\037\"Zu\347k}~\3277n\036\211?C\000;\211 \360\210\377CL\005\327\332\307\300Ast*\2415\333\236-R,\250\362\230D\312\026X\340\361\304X[\337\347\007\325n\257\360\372\272\265\276N\365V\223B\3601\341\320\306\211 \372\350M$_\003rup\371\305\314\255\235\253$H/=\t\241`T\366\346m[qp\300\355_M\261\3764\221]\331\233\216cK\234*\352\326\310r\316\310\271\317\262\035[\342\322\262\333yZ\301%\200\312Ya\354\020\3603;BT\237\355\334B\313#\316\3038\253\"%A\n6\222\251\210\002\221\020\0045A^\322""\210\254\302\002\327T\221\232\003f\202\252\260\263[Y\221\203=s\226D\330\276\332H\013\325\342\276\320 jz\366\302\360n\351\333\355\330b\203\253D\004\304\364\243v\tu\260Bs\372F\006\357/\274\225Q\263wcT\305j\010\004C\327\200L.h\324-\"\026\\\207'\035\372\345\330\364\334\246\204\021\316\260\2222A6>(=Tf\226\251)Iy\332\246\3011^\222\246\216\267S\na\014(\342\253\021eg>\263i\242o\031\343\246m\205\210At\246\024\002\211P\327\301|Nk\310^!\030\361n:,\010r\360\357\343\222!|4\247\247\301\003\021\026CR#\002p\276<\214\332\222ZP\357\"V\256\256^\034HS_\224.\017\030\311\363\377\310G\235\254\020f\222\006\221\240ch\204I\207/\246\2777{.'\300\365H+\265Ad1\013\373]\321\035Qr\027\274(\246s\310\336a\314\024\\e\211\313\206\220\214\213\300\235\274u\254\332.\265\222\t\022M8\017\311\004\221(\3412\311\315\023\274\260\027d4\357)\212\346\217I\247\261\340@R\231\177\331H\243\254:\360\354\311\276\364V\372J\222\252\300|\020Qh\266\004\224\255\231&\335oq]\262k)\346+`e\244\036+bb\032\003(\214\260E\333\026CH\036\315\273\002\333\360\207\230\232\033Cz\310f\347l\327}M\302\027\026\333\330\335P\266\324N\2566C\337\301N&\267ue\226u\242\300\203=\360\321\024\3222\322\321u`\227\0267d)\210\023bH\\\022\036\036\3151\351\036\247$\254\352q\360vE\366V0\245-\256\370\030\337\254\303\0235\262q\241\226\230\365\265\337\265\241\260m6@\021$2\022\364\000f\025\240\027^8z\351\333\3222Z\007\261u\003\nBc\224QmM%\315\"\247\004\262\372\343\324\275\241\034\365\276$\205\241\213\274\366\274\310ue\035\371\245C\206\370\007}v\315\301 ]-!\013\331j\201\227t\324\220\2614\315p\241Z\320\235\215\272.\237\027c\254p\244\223\343\010\2106\330\020\324#|\031w\274~\345\371RB\257\217\263>T\202fQE\207\256\333\033H\246:\022\025\353\324\332z\233\301.{(e\004E\2472\234\265O\3408\306\034:<\026\340Y\276\263H\022\345\366\204\324\325$\216\303\020\257\232\226\232I\331\227w\263\221\2777\025S\025O`\354\351\276:\252\304\303\030\311\322h\n\234\n\301&7\020\263\304\2222\250\006\200\261V\244\275[D\222F}\034\033IH0%\355\2529\026\005\301\314\212\354\000\260\016\364\303H\000""\t\030\233\316\032\244\206\037\240\323\300\322\\\270\004\302\273\313Q\005\303\010r\215\010\266&1L\370z\373\337M$\031\210\275\344u\364a\362;?\026\201%\276\032L\331\n\032\026}]2\215\035`\273\033\356\231pP\231#\265\010&\221\021U\247=\251Z\0249\255\263\260\020A\311\236\2746[24\244\217+\301\274V\232Sc\225\343UX#Y\335\0209\2555>e\312B\357e\312\313\t>\321\223\006jY\205)\020t\352\227D\201\201\255\242\026p-n\260I\t4\302\314\024Q\341\247\033llem\035\002\002\026B\312\202\331\211 \324\305\226:\306 \356[\233\270\032\260\320\004\030\020\257\036\214\326\343\225\256\335\002TF\347\335H+a\204\002\342\307\351\342\305\200DJ\337t\201\2005:\036\373\022\354H!l3k\310$\024\310\301\rP$a\230\241\001\010\007\2178\305\2209\346\253\216\031\320(\013\010\254\207\203\222\226(\2221\224\201k\001\025\312\002\272\364\221\323Debg\177\326\344H'y:\027\303\031\334\362\217\004\257\235\3324`\200]\2226G8\321!]\342\235ZI\004\357H6\r\266\322\226~\000Gs\310\351\362|\305b\250]\364Y\356\\\255i\002(\233\341h\203\036\356\272\3150\222\336\263\333h\250m\032\026\262\375\240\02166\347!!ApF\032,\020\261\025\313\036\372\200\222\024#>t\210B<\371\244s\251\026\251\202\355\265AY\010DA\327\\\337\023\254g\307\r\3033\223^G\211|[y\t\253I)\024)J\221\306s\333\n!\271bt\345e0-[4\332\3661\260f\354\355\242\225\245\231\200\033\271\t\274\340\2226\210\262:\231u\311\"\026\325\001G\272\020\025\375\332jJ\333\003T\214\213\032\277+\374i\215\230\202\032\002,\242]\233\254\225\272\312&b\370\267\363o6Q\351\302-G`\330\342\306qA$\022I\034Q\233\342d\306\024\215IH\320\373\033krA\233\000 *\201\002p\233\255\266\337}\005\261\t\334\252\212\016\"\212}\312\013\031\314\000xB\215I\215\245\000\276\374I)6\211c\352\335\027\332U\242\253\306\0208\0214\261\224\261U\344f\355W\026Y\201\2345!V\013\315\240M\332\360\226\355T\262]\326\0029\216\r4F\223v{\317_\032M\376u\304\270\2022G\203$\026#\000\020\361\004KS\004z(\3620\231\300n5\334\321\361=\r\270\231\024\313X\205\036\204\310\256\304\370\345\007%\220\2040@A\\&H\316\202i\261\010AE!\t\007\201j\310rX\252\005\345\344\210""\335y ;\213p\271xvn3C\030d\224\336*JZqD\\FL\33261\240H\352\207\343\270\203\006\270\301\242\232\242\307\266\035c\311&\240\020\301\006\212#\205{\035\002\252\347\265\214CI \333\317\333\315^\345\255\317o\217t\177\367\263\345\325\017\260pJ\004?\017rnP\026C\177\256/\021\224\016\004\311\217\312&\320*\0314\254%\244d\3739\0172[\250\214<g7l;<I\342<\374k]9\006\332[\nz9TH\221\230\3057)\206\206W)\212cE\345\266\235\027OJT^2\257\261:>\273\243++\025\032u+\032\312)\364\r\254w\032\337\226E/b\225\374\n\325\r\216\016\275\002\302\256%4[\237\323\230\236\001U\203\177\260\340U\207i\"m\320\212\r\226\212\311\274\331\220\304\241\020\270H\213\363X\255\262\275\323\370\024!&xM8H\005\025S\207U\217\360\355\202\351\307\030\302(\254\2621\214=^]\r\001\221\306F\261\331H\243O\214X\310k\366\337\276rBB\3740\334E\261\013\357\373}\3105x\037<\213\002\336\202\017\322[\377\204\020\357\376X,\362\276Ce\031\006\317b\371\245\203\315\223\340N_\316\207\024\377\014\374\355\226k\254\362\364\356\265\313z\367\247L\351use\277\276\315\264\355\tna\315\363]\327sR\316]L\003\347\362\356\254F$\362kb\324\335\305\271f\335n\226\031\0259\276\036\251\316\363\332\274\362\273\004\263\276b`\336\310\367%G\232HYm\236\211W\026D\245\351X[\022\325\260$=\254YB\310`\365\313Z\305\254\262\033U\324\257\303s\331\377f\313\014\361\315\353~\031`\036y\245\307\256\311\204,\254C\326~\303\017\230\317\376.\344\212p\241!\235\224/\306";
+    PyObject *data = __Pyx_DecompressString(cstring, 3292, 2);
     if (unlikely(!data)) __PYX_ERR(0, 1, __pyx_L1_error)
     const char* const bytes = __Pyx_PyBytes_AsString(data);
     #if !CYTHON_ASSUME_SAFE_MACROS
     if (likely(bytes)); else { Py_DECREF(data); __PYX_ERR(0, 1, __pyx_L1_error) }
     #endif
-    #elif (CYTHON_COMPRESS_STRINGS) != 0 /* compression: zlib (3031 bytes) */
-const char* const cstring = "x\332\335X\315S\033G\026\037a\354e\035\22251\376\330\330\3314\353\017\300K\024\363a\342\315\332$\262\020\266*\030\201\300v\330J\252k\230i\211\261G3\303\364\214\214\\N\255\217\034u\324q\216:\316QG\216>\3528G\376\004\377\t\373^\367\010\004\010\214\327\220T\326ef\272_\277~\237\277\367\272G\337\221\224i\022\335(1\213\033\266\305\211\3432\215\351\206U\334!\222\033:)\371\334#+\214\030\226\316\326\231NTK'\226\355\021n\032\300\376\300/\024\230K\312\006{It\233q\261\304\326\035\2333\302=\327\320\031O\253\026\261-\263B4\227\251\036#*Y\221\233\274U\325#\006'\232myF\321\267}\016JH\211\225l\267\222\204](J\345\334(Z\304\263\tl\326\277\026r$\007\252\214\231b\301/]\303SWL\0263H\243\n\256]:l\257p\213\2744\274U\342U\034F\006c\272\347\252\026\027n\354l\221l\260\303\200Pym\261\233n\017\230!\203 \2312%\307\253\020\276\252\202h\317w\300\270\202\355\022\255\342\255\332VRu]\265\222\025\006\330\276G\354\002Y\261}K\347dH]\007)7\364\341\354~]2\370\276\343\330\256\307\364\254UVM\003\262d\353l\004\003\017\314\220\244Am\220\200\236AP\206\216\014\216\220\"\354j1Ks \326B\315\275\307\302\301\247\350 \2300gC(Ej\322\302J\364Gg\246\261\302\\\0102\204\020\323\nJD\376,2\237\231\377z\342\356\204\200\205\313\236\203z\016\326\255h&d\016\340\200>\371\206\351\2012\014/O\222l\201Tl\237X\014\314\204\264:\300\327\276\301[e\026\341\314\303\001\031\024\271P=\360\233\302v\300\346`\034W\243\314p\367\214jr\226$9\0076\315\030&;{\226\304\3772\353j\t\302\275=\307\177SSS\204\2571r\237\0306\365]\020G\213\314\243@\032\302\311\360>\346m6\250\r\207\332\240E\365\206\200}\204\254\014&\277)\200\302$[\367\006\207;iI\372\234\271TW=\025\364\215\216\215\357\342I&\223\007+\203h\224\014\357}&\275T\r\217j\261\351#\004F\303\357U\201!v=\344m\267n\277y\310[\320\301n\000\217C\231\353\332\356\020nr\031\227Jr\273\340\n \211KZ\3254\306[\370]\364\230CJjE \026:\310+\346\332;\320~b\211Z\205$B\375\227\321,\303c%\234\333+\010\243\357\223S\203\303\252\256S\013\001\211\360\"\200\311\333\353\232m\232\010\000(\205\244\272\242\335k\353\036\310$\3411""\265\227\334*\332)\335\340\250\227\t\355C\005S-\362\373E\215\014a}\024E\331\242#\330\005!\263\314\362DO\332i\210\235\020A\206L\303bdt\342\316\260\301\245`\035}\341\306+F\356\335'\267\367\325<T\223\220\222D\010\215\210\342\275o\331Pf\005\3257=B\251\313t_c\224\022\335\027!\262l\353k(\273\262\241\232\260\252\031\026\344\236\306\201\232\032\201\302\343\266Yf\367\271\253}\323\222-\341\351T\326\357\311>\254\357\n\317~\032\366\213\355(\355Z\337M\265\212\334\366]\215M\371\333\tTM\323\326DkG\347\010\242*\331aU\266\035\224\030\237\014\311\324b:\233\315\230\246\341p\203g-/c\371%x\315@Vr4\225N?\316Mg`0?\237\231\233\206\367\342\362\\:G\323\263\271\314O\031\034\3443\251\245\034\235\316\3463\351\235w~\031\206\2223\363\023\360\322\331T\376af&;\013\222\346r\251\245\354c1H/--\343{&7;\233{\206\243\271\007\263\271\364\2179:\237Zz\224\243\371\351\334\334\3542\276\237\345sT\312[z</\345,\345\237\340\034V\200\207\322\371\312:\374MCW\244s\200\232<+\3443\213\271\331\247\031\372 3\0076>jM\323\251\364\243\314tk\226\235\243\371\\n\2515\235\313\321\307\251\207\331\364lv\356\307\3056\342\342\362\343\275\244\237\2463O\321$\212\346\320|j\356a\206>Ke\227hjf)\223\357\270\362 3\223\003\t{\227\362\331\245\314\"[\363\231\2451<\001\222;\207\001\024W+uT\226\267\312+\226f\330I\315v\341\274\002\314\363\025\225\263\025\325\323V\251](@\327\226c\004>\354\200\377\264\010\234\016\016\3049+\305P\250j\227\257T<\306\251\003S\261ig\212\207\265\006 \307\003\201\322\326\000\0325\326\024NA1\210\243\320\2334P\256\275\320\240\013yzA\247T\307\024P\035O\032jp*\353\003\\\203\372b\000-\361\207\247\230\350h\005\334bX\360\000g\n:\350\302\212\241P\204\250@N\204\325b$\375\243F\373\304j\233p\321J\240\320K\252\027\237\272\005\014\227xP\261\0102}\030\2133\007\037\334\303\320\312\020\305RV\355\227\206\001\216\030%<\336\251\324\277\273\347\240NN}\007\252\214\355Y\221\351\331E\362\\P\271\217S\366\255N\264\261\216D\032\037\272\035\326:.a\n\367S\300t\270@v\240\227\240\351\031|\325\356 \245\334\201\264\307F\031`\314\004\304\274\270\307S""\310\365n\002^\022;\221:\031'\026\312\235h`B\231i\034A\266]\014\262\345\307}\337d\326\256&OiI\005\314\302\213\225\340&E-\265\304\370\366\224\213\001^1\361(\200?_\354\210\337\226\204\210\005\336\257\341>J\343\247\250\031h\316P\025\026{\t\017\227\242U\000{\211&\314\020\005H\265\336\311\355\203E\036F\224\266\255\360\026 [k\016\224\226\243z\253\216\355\240\347\252\313\360\246D\343\022\027w\024y\t\201\224\250\320>\216\304D=8J!^ \036\232\246\246:\006\226\270\030\2572\355\005\367Kr\026\327\006\016E5\213\221o9\206\366\002B\202\347\204$\225\305\215\037e\254\371\252)\343\002 11VTp\265\216\322}\276o\023\330:\016\213\006\207K-\216\034\361\024'\2528\356\230)\252]\000$\356\204;s\231\\\321\r\204r\030\305\307x[Hi\207\360\212\323\020\241\302\035\374\222\222-\002b\007\\.\2602\207C\376\340\240\364\341F\355c_\004,s\020\212\001\304\216\205\336\341X\264\257VT-\0161\202\274\311\366\000\267}\237q\t\357#eg\335\260\3406\003\217\021\202\2438\025/\014\007\252\234;\270k\204H\223\3425\333\201\275.\264\266\273-\264\323;\242\271\322\235\233#\271\265\315\0137(H\rn\030V\3126|\211\014\315Wr\242I\223[\037\257R~\250}\240R\337\302\017L\206\267\234c\360Z\364\353C-\330\211\213\322n\257\322\266S$a\267\302\225\347\355\272\340\270\366\341l\212\373\322~/\344\215$\356(\342;}D.\274\237m7\307a\263]\217NA\033V\376h\216\274_\352Qi\277mH\216\356\353\007\247P\026\314\321\r\306\376\202F\037K]O\310;\330\201\327\237C\213\374\303m\326VU\027?F\371\361[\035\177(\376\301\354\215\357v'j\366!\373\245a\255+\312\t\3718\366\377\355\335\311\244\360\210\235\210R\177r\342\004\232\313\021\325\037k<\361\313\343$\242(\360r\353\340\310\035\022\276\217S|\274]\031?\302N\"<\307j\345\236/\305\023\262\367\275g\356\t\024\203\t\037|\364\304\244\037\262mR\263K%\370\234\021\337\303\307\336\304\304\347\376I\244\351\367\365h\354\367v\3517l\323\307a\326I\331\366?\350;\322g\264\362A?\205(\037\360\201\256\034|\031V:\235\377\312!\327\272\216kc\312a\327\010\245\303oa\312~\200+\007\375\366\247\034\370\303\233\322\341<Q\016\355\336\312\276\037\372\224""\003~\373\354`N\271\023m\254\223y\345\216\3041\345\260\2371\337$\266F\307\242\361\211\350\233\333\357\256*\247\257\324\006j\343\265B\220\251_\254\277\014\3257\211wg\024X\357\276R\033\255\245k\345\340I\375fx*\034\005z\257r\372jL\\\002\346r\270\334X\335\304\rc\312\351\277\007}\357z\224\323\327\202\201\250\373\313\332\002\216\377\364\346E\265/\352>\003\257\213\325\265\250\373\354\306@\364\347\263Q\317\247\033\013QO\357F\246z\241\252\002\275\367/\033\257\205T/\030\215\316\365\341\274RK\324\372k\213AB\314/V\315` \030\013\026\202R8\036\252\241\333\270\274\331\2679\020\365~\336\374\374z\220\002\272^\037\300mk\321\271[0\352\377k\255/\352\277Z\233\255'\3520\270 \377\203W}7\202T\247\325\255^\244I\001C@\276P\327\302K\215\323\215\005\330\363)\354\201\020\\\253?\013\037\204*\270\365\351\271\215_\233Wo\207\211\250\267\277\331\1773P\203\265zw=\025\365\342\316Ka\"\354\017\027\")\260\257\372e\363o\343\341X\270\020\252`mu`\253\347\223\215\211\r^\005k/\203\213\027j\352V\017h\335\352\371\254\371\331W\265\265 \021\364\007\020\033dr\253}[\275\347\253\243\260\266\301\252c\325\005\341\356\rpV\r\274\372d\330\027\n\227=\261t\356\022\306\261%\341i}\024\265%\203S\020\320\035\236\363\325\361*\253\215\325\026\242\376/j\003\315+\337\206\274qs\023B\014\266\326\006\203\276\255\230c\274\246\326\326b\236\314\346\342\3333o\265\346B\276\231_\334\352'\220\221\013\227k\24715\260\241\377\n2o\355P\"I\201\310TSQ\017<\252Oj\200\207O6\020==\n@\256\033\375>_\233\t\256\203\037\274>P\237\250\257\207k\260zV`'\030\017\n\365\351\260\247\321\263\231\220\304\026:\247\353g\352\2050\333X\020\370\234\270\023u\243\331\327jO\203\211\240\\\177\032N6.6\326\304\332\235\311\010\341\373\305\256\2153\340j\317[\220\271u\367\237\321\314\303\350\273\177E\223\337\242|\300mp\rBv'<\023\026\033O7\301\322\255\324\203\350\376\024\262t_\013F\2034\310_\n/\204\253\r\204\372U\345\354'\273\320\333\031\204 \257;|\324\230}\233x\333\337|\374K\363\027\243i<o>/5Kv\323~\335|\375\237w\212\362CW\252\013^\251\2564\276\322]\263\370\232\355\232\303""\327\\\327\317\370\372\271\353\227\256\255s\327\005\004\257\327WCss`s\242\371\360Y\363\231\326\324\364\246^l\026Ap\271Y\2564+\257\232\257^\303\226_\0233\270s\246\353\021\276\036ue\273:!;B\310!\245\017\344\026\302\3246\350\"\004]\324\003%\0140\360\202I\250\2218\177\227\017\367|\000\002y\003\240y7\274\327X\333\354nN?i>\001;\227\233\313\322\310\347\037k\006,\215\036\244T.\214\324S\365\205\272\036\336l$\366\326\0062\016\010\250,\264\3749\243<Jd\023\321\267w\333\261\227\t/\312\262x\223\300\206\365\217\352\002\016\320\014-\270\210\212\000\036\337\377\320\016\276\030\274_\354\020\352\247\352\243\002\304\211\246\002\356\377\033[\351\035(\217\013\201\032uC\t\005\347\203\031p\227\205\3375\0267\023\233\227\020\226\330[\277\002Wyp\023\272I&\274\214=NJ\276\\]\253\235\252M\006\227\352=(S\362\022\250\365S\020\226\376\372\223p\2501\2649\220\373/x\225\376\246";
-    PyObject *data = __Pyx_DecompressString(cstring, 3031, 1);
+    #elif (CYTHON_COMPRESS_STRINGS) != 0 /* compression: zlib (3041 bytes) */
+const char* const cstring = "x\332\335X\315S\033G\026\037a\354e\035\22251\376\330\330\3314\353\017\300\213\025\363a\342\315\332$\262\020F\025\214@`;l%\3255\314\264\304\330\243\231azFF.\247\326G\216:\3528G\035\347\250#G\037u\234#\177B\376\204}\257{\004\002\004\266\327\220T\326ef\272_\277~\237\277\367\272G\337\222\224i\022\335(1\213\033\266\305\211\3432\215\351\206U\334%\222\033:)\371\334#\253\214\030\226\3166\230NTK'\226\355\021n\032\300\376\320/\024\230K\312\006{It\233q\261\3046\034\2333\302=\327\320\031O\253\026\261-\263B4\227\251\036#*Y\225\233\2745\325#\006'\232myF\321\267}\016JH\211\225l\267\222\204](J\345\334(Z\304\263\tl\326o\0139\222\003U\306L\261\340\227\256\341\251\253&\213\031\244Q\005\327.\035\265W\270E^\032\336\032\361*\016#\2031\335sU\213\0137v\267H6\330a@\250\274\266\330M\267\007\314\220A\220L\231\222\343U\010_SA\264\347;`\\\301v\211V\361\326l+\251\272\256Z\311\n\003l\337#v\201\254\332\276\245s2\244n\200\224\033\372p\366\240.\031|\337ql\327cz\326*\253\246\001Y\262u6\202\201\007fH\322\2406H@\317 (CG\006GH\021v\265\230\2459\020k\241\346\376c\341\340St\020L\230\267!\224\"5ia%\372\2433\323Xe.\004\031B\210i\005%\"\177\026Y\310,\334\236\2707!`\341\262\347\240\236\203u\253\232\t\231\0038\240O\276az\240\014\303\313\223$[ \025\333'\026\0033!\255\016\360\265o\360\326\230E8\363p@\006E.T\017\374\246\260\035\2609\030\307\325(3\334=\243\232\234%I\316\201M3\206\311\316\236%\361\277\314\206Z\202p\357\314\361\337\324\324\024\341\353\214< \206M}\027\304\321\"\363(\220\206p2|\200y\207\rj\303\2416hQ\275!`\037!\253\203\311\257\013\2400\3116\274\301\341NZ\222>g.\325UO\005}\243c\343{x\222\311\344\341\312 \032%\303{\227I/U\303\243Zl\372\010\201\321\360;U`\210]\017y\333\255;h\036\362\026t\260\033\300\343P\346\272\266;\204\233\\\306\245\222\334\036\270\002H\342\222V5\215\361\026~\227<\346\220\222Z\021\210\205\016\362\212\271\366.\264\237X\242V!\211P\377e4\313\360X\t\347\366*\302\350\273\344\324\340\260\252\353\324B@\"\274\010`\362\316\206f\233&\002\000J!\251\256j\367\333\272\0072IxL\355'\267\212vJ78\352eB""\373P\301T\213\374AQ#CX\037EQ\266\350\010vA\310,\263<\321\223v\033b'D\220!\323\260\030\031\235\270;lp)XG_\270\361\212\221\373\017\310\235\0035\017\325$\244$\021B#\242x\037X6\224YA\365M\217P\3522\335\327\030\245D\367E\210,\333\272\reW6T\023V5\303\202\334\3238PS#Px\3346\313\354\001w\265\257[\262%<\235\312\306}\331\207\365=\3419H\303~\261\023\245=\353{\251V\221\333\276\253\261)\177'\201\252i\332\232h\355\350\034AT%;\254\312\266\203\022\343\223!\231ZJg\263\031\3234\034n\360\254\345e,\277\004\257\031\310J\216\246\322\351\307\271\351\014\014\026\0262\363\323\360^Z\231O\347hz.\227\3711\203\203|&\265\234\243\323\331|&\275\373\316\257\300Prf~\004^:\227\312?\312\314d\347@\322|.\265\234},\006\351\345\345\025|\317\344\346\346r\317p4\377p.\227\376!G\027R\313\2639\232\237\316\315\317\255\340\373Y>G\245\274\345\307\013R\316r\376\t\316a\005x(]\250l\300\3374tE:\017\250\311\263B>\263\224\233{\232\241\0173\363`\343lk\232N\245g3\323\255Yv\236\346s\271\345\326t>G\037\247\036e\323s\331\371\037\226\332\210K+\217\367\223~\234\316<E\223(\232C\363\251\371G\031\372,\225]\246\251\231\345L\276\343\312\303\314L\016$\354_\312g\2273Kl\335g\226\306\360\004H\356\036\006P\\\255\324QY\336*\257X\232a'5\333\205\363\n0\317WU\316VUO[\243v\241\000][\216\021\370\260\003\376\323\"p:8\020\347\254\024C\241\252]\276Z\361\030\247\016L\305\246\335)\036\326\032\200\034\017\004J[\003h\324XS8\005\305 \216Bo\322@\271\366B\203.\344\351\005\235R\035S@u<i\250\301\251\254\017p\r\352\213\001\264\304\037\236b\242\243\025p\213a\301\003\234)\350\240\013+\206B\021\242\0029\021V\213\221\364\217\032\355\023\253m\302E+\201B/\251^|\352\0260\\\342A\305\"\310\364a,\316\034|p\017C+C\024KY\263_\032\0068b\224\360x\247R?V;\024~\314\262\267\003\241\005\234\372\016\324\034\333\267\"\223\265\207\344\271`\300\001N\331\305:\321\306:\022i|\004wX\353\270\204\t=H\001\323\341:\331\201^\202\026h\3605\273\203\224r\007\322>\033e\2701/\220\201\342>O!\363{\txe\354D\352d\234X(w\242\201\te\246q\204\334Ni\310\003 >\005Lf\355i\371\224\226T@0\274X\t\356U""\324RK\214\357L\271\030\340\205\023\017\006\370\363\305\216\370mI\300X\340\375:\356\2434~\212\n\202V\r5b\261\227\360p)Z\005E \201\203\031\242\000\260\326;\271s\314\310\243\211\322\266\025\336\202gk\315\201BsTo\315\261\035\364\\u\031\336\233h\\\360\342\306\"\257$\220\022\025\232\311{1Q\017\016V\210\027\210\207\026\252\251\216\201\005/\306kL{\301\375\222\234\305\225\202CQ\333b\344[\216\241\275\200\220\340\251!Ieq\377G\031\353\276j\312\270\000HL\214\025\025\\\255\203\365\200\357;\004\266\201\303\242\301\341\212\213#G<\305\371*\016?f\212\332\027\000\211\373\342\356\\&W\364\006\241\034F\361\241\336\026R\332!\274\342lD\250p\007\277\253d\303\200\330\001\227\013\254\314\341\220?86}\270_\373\330%\001\313\034\204b\000\261\177\241w8\026\315\254\025U\213C\214 o\262=\300\335\337g\\\302\373\275\262\003\215\007\3566\360\030!8\212S\361\302p\240\312\271\203\273F\2104)^\263\035\330\353B\243\273\327B;\275+Z-\335\275G\222[;\274p\237\202\324\340\206a\245l\303w\311\320B%'Z6\271\365\361*\345g\333\007*\365-\374\334dx\3479\006\257E\367>\322\202\335\270(\355\366*m;E\022\366*\\}\336\256\013\016o\037N\252\270/\035\364B\336O\342\216\"\276\332G\344\302\273\331\366r\0345\333\363\350\024\264a\345\217\341\310an\275[\307\373\322~\333\000}\274\347\207\332+\313\347\375\r\306n\203F\037K\225O\310\373\331\241\227\241#K\376\303m\326\326T\027?T\371\361[\035\177D\376\301\354\215oz'j\366\021\373\245a\255\013\313\t\3718\366\377\355\335\311\244\360=;\021\245\376\344\304\t4\227\367T\177\254\361\304\357\220\223\210\242\300\313\255\303#wD\370>N\361\361ve\374$;\211\360\034\253\225\373\276\033O\310\336w\236\271'P\014&|\376\321\023\223~\304\266I\315.\225\340\343F|\035\037{\023\023\037\377'\221\246\337\327\243\261\337\333\245\337\260M\037\207Y'e\333\377\240\357\275>\252\225\017\372aD\371\200\317u\345\360\313\260\322\351\374W\216\270\326u\\\033S\216\272F(\035~\031S\016\002\\9\354\227@\345\320\237\341\224\016\347\211rd\367V\016\374\354\247\034\362Kh\007s\312\235hc\235\314+w$\216)G\375\250\371&\261=:\026\215OD_\337\371""\365\252r\372Jm\2406^+\004\231\372\305\372\313P}\223\370\365\214\002\353\335Wj\243\265t\255\034<\251\337\014O\205\243@\357UN_\215\211\313\300\\\016W\032k[\270\241G\001i\335\227k\211\332\371\332Lp=P\003^\037\250O\3247\302uX=\253\234\276\026\014\004\343A\241>\035\3664z\266\022\222\330R<]?S/\204\331\306\242P=q7\352\376k\255\257v\255\3664\230\010\312\365\247\341d\343b\003\345L(\247\377\036\364\2012\024\027u\177Y[\304\361\237\336\274\250\366E\335g\340u\261\272\036u\237\335\034\210\376|6\352\371ts1\352\351\335\314T/TU\240\367\376e\363\265\260\335\013F\243s}8\257\200\275\375\265\245 !\346\027\253&\0309\026,\006\245p<TC\267qy\253o\353\366[\267\271\230\217z?o~~=H\301\242^\037\300\275\353\321\271[0\352\007K\243\376\253\265\271z\242\016\203\013\362?x\321w#HuZ\335\356E\232\0240\004\344\013u-\274\3248\335X\204=\237\302\036\210\366\265\372\263\360a\250\202o\237\236\333\374\245y\365N\230\210z\373\233\3757!\254\353\365\356z*\352\305\235\227\302D\330\037.FR`_\365\313\346\337\306\303\261p1T\301\332\352\300v\317'\233\023\233\274\n\326b^.\324\324\355\036\320\272\335\363Y\363\263\257j\353A\"\350\017 @\310\344V\373\266{\317WGam\223U\307\252\213\302\335\033\340\254\032x\365\311\260/\024.{b\351\334%\014fK\302\323\372(jK\006\247 \252\273<\347\253\343UV\033\253-F\375_\324\006\232W\276\ty\343\346\026\304\031\023;\030\364m\307\034\3435\265\266\036\363d\266\226\336\236y\253A\264\233\371\245\355~\002i\271p\271v\032\363\003\033\372\257 \363\366.%\222\024\210L5\025\365\300\243\372\244\006\240\370dsT\240\350\356d\204\030\376b\017\304f\300\210\236\267\200\276\355{\377\214f\036E\337\376+\232\374\006\221\010\260\n\256\2013w\3033a\261\361t\013dl\247\036F\017\246\220\245\373Z0\032\244\001\211\313\341\205p\255\201x\277\252\234\375d\017\270:\303\003\344u\207\263\215\271\267\211\267\375\315\307?7\1776\232\306\363\346\363R\263d7\355\327\315\327\377\371UQ\276\357Ju\301+\325\225\306W\272k\016_s]\363\370\232\357\372\t_?u\375\334\265}\356\272\000\307\365\372Zhn\rlM4\037=k>\323\232\232\336\324\213\315\"\010.7""\313\225f\345U\363\325k\330\362Kb\006w\316t\315\342k\266+\333\325\ts\021\202\001)} \267\020\246v\340\020!\034\242\036\2500H\220\027L\002z\343\310^>\332\363\001\010\344\r\000\315\275\360~c}\253\2739\375\244\371\004\354\\i\256H#\237\177\254\031\2604z\230R\2710RO\325\027\353zx\263\221\330\217Zd\034\020Meq\027)\263\211l\"\372\346^{\227\312\204\027%`\337$\260\237\374\243\272\210\0034C\013.\242\"\200\307w\337\267\267\251\270\315}\261K\250\237\252\217\212v\227h*\340\376\277\261\237\336\005\340^\010\324\250\033\300\035\234\017f\300]\026~\333X\332Jl]BXb\203\375\n\\\345\301M\250\363Lx\031[\220\224|\271\272^;U\233\014.\325{P\246\344%P\205\247 ,\375\365'\341Pchk \367_\006\007\014T";
+    PyObject *data = __Pyx_DecompressString(cstring, 3041, 1);
     if (unlikely(!data)) __PYX_ERR(0, 1, __pyx_L1_error)
     const char* const bytes = __Pyx_PyBytes_AsString(data);
     #if !CYTHON_ASSUME_SAFE_MACROS
     if (likely(bytes)); else { Py_DECREF(data); __PYX_ERR(0, 1, __pyx_L1_error) }
     #endif
-    #else /* compression: none (9521 bytes) */
-const char* const bytes = ": All dimensions preceding dimension %d must be indexed and not slicedBuffer view does not expose stridesCan only create a buffer that is contiguous in memory.Cannot assign to read-only memoryviewCannot create writable memory view from read-only memoryviewCannot index with type 'Cannot transpose memoryview with indirect dimensionsDimension %d is not directEmpty shape tuple for cython.arrayIndex out of bounds (axis %d)Indirect dimensions not supportedInvalid mode, expected 'c' or 'fortran', got Invalid shape in axis <MemoryView of Note that Cython is deliberately stricter than PEP-484 and rejects subclasses of builtin types. If you need to pass subclasses then set the 'annotation_typing' directive to False. Open File\n\n        Example\n            >>> sqe = io_uring_get_sqe(ring)\n            >>> io_uring_prep_openat(sqe, b'./file.ext')\n            >>> sqe.user_data = 123\n            ...\n            >>> io_uring_submit(ring)\n            >>> io_uring_wait_cqe(ring, cqe)\n            ...\n            >>> assert cqe.user_data == 123\n            >>> fd = trap_error(cqe.res)\n    Out of bounds on buffer access (axis Step may not be zero (axis %d)Unable to convert item to object?.>')add_note and  at 0xcollections.abc<contiguous and direct><contiguous and indirect>disableenable(flags=gc (got got differing extents in dimension io_uring_prep_openat (line 145)isenableditemsize <= 0 for cython.arrayliburing.file, mode=no default __reduce__ due to non-trivial __cinit__ object>, resolve=src/liburing/file.pyx<strided and direct><strided and direct or indirect><strided and indirect><stringsource>unable to allocate array data.unable to allocate shape and strides.ASCIIEllipsisIntEnumIntFlagO_ACCMODEO_APPENDO_ASYNCO_CLOEXECO_CREATO_DIRECTO_DIRECTORYO_DSYNCO_EXCLO_LARGEFILEO_NOATIMEO_NOCTTYO_NOFOLLOWO_NONBLOCKO_PATHO_RDONLYO_RDWRO_SYNCO_TMPFILEO_TRUNCO_WRONLY__Pyx_PyDict_NextRefRESOLVE_BENEATHRESOLVE_CACHEDRESOLVE_IN_ROOTRESOLVE_NO_MAGICLINKSRESOLVE_NO_SYMLINKSRESOLVE_NO_XDEVSYNC""_FILE_RANGE_WAIT_AFTERSYNC_FILE_RANGE_WAIT_BEFORESYNC_FILE_RANGE_WRITESequenceView.MemoryViewabcallocate_bufferasyncio.coroutinesbasebatch_offsetbatch_sizebufbuf_groupbuf_indexbuffer_addrsbytes_per_batchbytes_per_readc__class____class_getitem__cline_in_tracebackcountdfd__dict__dtype_is_objectencodeenumenumerateerrorfdfd_infd_outfds__file_define__file_indexfile_offset_ifile_offset_nfile_offsetsflagsformatfortranfsyncfsync_flags__func__get__getstate__group_offsethowiid__import__indexio_uring_prep_files_updateio_uring_prep_fsyncio_uring_prep_ftruncateio_uring_prep_openatio_uring_prep_openat2io_uring_prep_openat2_directio_uring_prep_openat_directio_uring_prep_readio_uring_prep_read_fixedio_uring_prep_read_multishotio_uring_prep_readvio_uring_prep_readv2io_uring_prep_sync_file_rangeio_uring_prep_teeio_uring_prep_writeio_uring_prep_write_fixedio_uring_prep_writevio_uring_prep_writev2iovecs_is_coroutineitemsitemsizelenliburing.file__main___member_names___members__memviewmodemodule__module__n_groupn_reqname__name__nbytesndim__new__nr_vecsobjoffsetopen_howopen_how.__reduce_cython__open_how.__setstate_cython__packpathpopprepare_sqe_batch_submit_wait_advanceprepare_sqe_batch_submit_wait_advance_timeout__pyx_capi____pyx_checksum__pyx_state__pyx_type__pyx_unpickle_Enum__pyx_vtable____qualname__real_req_num__reduce____reduce_cython____reduce_ex__register__repr__resolveringselfset_fixed_bufferset_fixed_file__set_name__setdefault__setstate____setstate_cython__shapesizesplice_flagssqestartstepstopstructsuper__test__time_out_numtimed_outtimeout_nsunpackupdatevalueswrite_prepare_sqe_batch_submit_wait_advancexint (int, int __pyx_skip_dispatch, struct __pyx_opt_args_8liburing_5error_trap_error *__pyx_optional_args)\000void (PyObject *, int __pyx_skip_dispatch, struct __pyx_opt_args_8liburing_5error_memory_error *__pyx_optional_args)\000void (PyObject *, unsigned int, int __pyx_skip_dispatch, struct __pyx_opt_args_8liburing_5error_index_error *__pyx_optional_args)\000trap_error\000memory""_error\000index_errorint (struct __pyx_obj_8liburing_5queue_io_uring *, unsigned int, __Pyx_memviewslice, int, unsigned int, __Pyx_memviewslice, unsigned int, unsigned int, unsigned int, int, int, int __pyx_skip_dispatch)\000int (struct __pyx_obj_8liburing_5queue_io_uring *, unsigned int, __Pyx_memviewslice, int, unsigned int, __Pyx_memviewslice, unsigned int, unsigned int, unsigned int, int, int, unsigned int, __Pyx_memviewslice, __Pyx_memviewslice, __Pyx_memviewslice, int __pyx_skip_dispatch)\000int (struct __pyx_obj_8liburing_5queue_io_uring *, unsigned int, __Pyx_memviewslice, unsigned int, unsigned int, unsigned int, unsigned int, int, int, int __pyx_skip_dispatch)\000void (struct __pyx_obj_8liburing_5queue_io_uring_sqe *, PyObject *, int __pyx_skip_dispatch, struct __pyx_opt_args_8liburing_4file_io_uring_prep_files_update *__pyx_optional_args)\000void (struct __pyx_obj_8liburing_5queue_io_uring_sqe *, char const *, int __pyx_skip_dispatch, struct __pyx_opt_args_8liburing_4file_io_uring_prep_openat *__pyx_optional_args)\000void (struct __pyx_obj_8liburing_5queue_io_uring_sqe *, char const *, int __pyx_skip_dispatch, struct __pyx_opt_args_8liburing_4file_io_uring_prep_openat_direct *__pyx_optional_args)\000void (struct __pyx_obj_8liburing_5queue_io_uring_sqe *, char const *, struct __pyx_obj_8liburing_4file_open_how *, int __pyx_skip_dispatch, struct __pyx_opt_args_8liburing_4file_io_uring_prep_openat2 *__pyx_optional_args)\000void (struct __pyx_obj_8liburing_5queue_io_uring_sqe *, char const *, struct __pyx_obj_8liburing_4file_open_how *, int __pyx_skip_dispatch, struct __pyx_opt_args_8liburing_4file_io_uring_prep_openat2_direct *__pyx_optional_args)\000void (struct __pyx_obj_8liburing_5queue_io_uring_sqe *, int, __Pyx_memviewslice, unsigned int, __u64, int __pyx_skip_dispatch)\000void (struct __pyx_obj_8liburing_5queue_io_uring_sqe *, int, __Pyx_memviewslice, unsigned int, int __pyx_skip_dispatch, struct __pyx_opt_args_8liburing_4file_io_uring_prep_read *__pyx""_optional_args)\000void (struct __pyx_obj_8liburing_5queue_io_uring_sqe *, int, char *, unsigned int, __u64, int, int __pyx_skip_dispatch)\000\000void (struct __pyx_obj_8liburing_5queue_io_uring_sqe *, int, int __pyx_skip_dispatch, struct __pyx_opt_args_8liburing_4file_io_uring_prep_fsync *__pyx_optional_args)\000void (struct __pyx_obj_8liburing_5queue_io_uring_sqe *, int, int __pyx_skip_dispatch, struct __pyx_opt_args_8liburing_4file_io_uring_prep_sync_file_range *__pyx_optional_args)\000void (struct __pyx_obj_8liburing_5queue_io_uring_sqe *, int, int, unsigned int, unsigned int, int __pyx_skip_dispatch)\000void (struct __pyx_obj_8liburing_5queue_io_uring_sqe *, int, loff_t, int __pyx_skip_dispatch)\000void (struct __pyx_obj_8liburing_5queue_io_uring_sqe *, int, struct __pyx_obj_8liburing_6common_iovec *, int __pyx_skip_dispatch, struct __pyx_opt_args_8liburing_4file_io_uring_prep_readv *__pyx_optional_args)\000void (struct __pyx_obj_8liburing_5queue_io_uring_sqe *, int, struct __pyx_obj_8liburing_6common_iovec *, int __pyx_skip_dispatch, struct __pyx_opt_args_8liburing_4file_io_uring_prep_readv2 *__pyx_optional_args)\000void (struct __pyx_obj_8liburing_5queue_io_uring_sqe *, int, struct __pyx_obj_8liburing_6common_iovec *, unsigned int, __u64, int __pyx_skip_dispatch)\000void (struct __pyx_obj_8liburing_5queue_io_uring_sqe *, int, struct __pyx_obj_8liburing_6common_iovec *, unsigned int, __u64, int, int __pyx_skip_dispatch)\000void (struct __pyx_obj_8liburing_5queue_io_uring_sqe *, int, unsigned int, __u64, int, int __pyx_skip_dispatch)\000prepare_sqe_batch_submit_wait_advance\000prepare_sqe_batch_submit_wait_advance_timeout\000write_prepare_sqe_batch_submit_wait_advance\000io_uring_prep_files_update\000io_uring_prep_openat\000io_uring_prep_openat_direct\000io_uring_prep_openat2\000io_uring_prep_openat2_direct\000io_uring_prep_write\000io_uring_prep_read\000io_uring_prep_read_fixed\000io_uring_prep_write_fixed\000io_uring_prep_fsync\000io_uring_prep_sync_file_rang""e\000io_uring_prep_tee\000io_uring_prep_ftruncate\000io_uring_prep_readv\000io_uring_prep_readv2\000io_uring_prep_writev\000io_uring_prep_writev2\000io_uring_prep_read_multishot\200\001\34012\33034\330/0\360\034\000\005\033\230!\2303\230f\240E\250\026\250w\260a\200\001\360\006\00012\330\004\033\2301\230C\230v\240U\250&\260\003\2601\200\001\360\014\000\005\034\2301\230C\230v\240T\250\026\250v\260Y\270h\300a\200\001\3602\000\005\"\240\021\360\010\000\005#\240!\330\004\035\230Q\360\010\000\005\007\200k\220\021\330\004\006\200k\220\026\220q\330\004\n\210!\330\t\n\330\010\r\210Q\330\010\014\210E\220\025\220a\220q\330\014\017\210|\2301\230C\230t\2401\330\020\021\330\014\017\210y\230\001\230\024\230S\240\001\330\020\021\330\014\026\220l\240!\2402\240Q\240m\2603\260a\260r\270\030\300\021\300!\330\014\022\320\022$\240A\240Q\240d\250!\330\014\017\210q\330\020*\250!\330\024\031\230\021\330\024\034\230L\250\001\250\021\330\024\025\330\024\025\330\024\025\360\006\000\021%\240A\330\024\031\230\021\330\024\034\230L\250\001\250\021\330\024\025\330\024\025\340\014\031\230\021\330\014\017\210q\330\020(\250\001\250\025\250c\260\027\270\005\270Q\360\006\000\r%\240A\240U\250#\250W\260B\260a\360\010\000\r\020\210}\320\0340\260\001\330\014\024\320\024&\240a\240q\250\004\250A\330\014(\250\001\250\027\260\001\260\024\260Q\330\014\031\230\021\330\014\021\220\035\320\0363\2602\260Q\260a\330\014\022\220!\340\010\013\2104\210s\220!\330\014\030\230\001\230\025\230a\340\010\017\210q\340\010\016\320\016\037\230q\240\001\240\024\240Q\330\010\013\2104\210r\220\021\340\014\023\2201\340\010\016\210e\2202\220Q\330\014\022\320\022%\240Q\240a\240t\2506\260\021\260!\330\014\017\210t\2202\220Q\330\020\027\220q\330\014\037\230q\240\001\240\024\240V\2501\330\014\022\220.\240\003\2401\330\014\017\210t\2202\220Q\330\020\023\2203\220e\2302\230Q\330\024\032\230!\320\0337\260s\270&\300\001\330\020\031\230\021\230'\240\021\340\020\023\2203\220e\2303\230a\230q\330\024\032\230!\320\033E\300S\310\006\310c\320QR\320RS""\340\024 \240\001\330\025\030\230\005\230S\240\001\240\021\340\024\033\2303\230a\340\025\030\230\005\230S\240\001\240\021\330\024\033\2303\230a\330\014\024\220A\330\010\024\220A\220U\230!\330\004\013\2101\200\001\360\010\00034\330\004\030\230\001\230\023\230F\240$\240a\240s\250!\2504\250x\260q\200\001\360\n\000\005#\240!\2403\240f\250D\260\010\270\010\300\001\200\001\360\n\000\005\033\230!\2303\230f\240D\250\006\250f\260I\270Q\200\001\360\006\00045\330\004\031\230\021\230#\230V\2404\240v\250V\2606\270\026\270q\200\001\360\006\00056\33012\330\004\032\230!\2303\230f\240D\250\006\250f\260F\270&\300\010\310\001\200\001\34089\330FG\330:;\33067\360\n\000\005\"\240\021\240#\240V\2505\260\006\260g\270V\3001\200\001\340AB\330=>\330:;\330\004#\2401\240C\240v\250T\260\025\260h\270a\200\001\360\034\000\n\013\330\010\014\210E\220\025\220a\220q\330\014\022\320\022$\240A\240Q\240d\250!\330\014\017\210q\330\020*\250!\2505\260\004\260H\270L\310\001\310\024\320M]\320]i\320ij\320jm\320mo\320o|\320|\177\360\000\000@\002A\002\360\000\000A\002C\002\360\000\000C\002L\002\360\000\000L\002N\002\360\000\000N\002\\\002\360\000\000\\\002]\002\340\020$\240A\240U\250$\250h\260l\300!\3004\320GW\320Wc\320cd\320dg\320gi\320iv\320vy\320yz\320z|\360\000\000}\001F\002\360\000\000F\002H\002\360\000\000H\002I\002\330\014\017\210q\330\020(\250\001\250\025\250c\260\027\270\005\270Q\330\010\016\320\016(\250\001\250\021\250$\250f\260A\330\010\013\2104\210r\220\021\330\014\023\2201\330\010\035\230Q\230a\230t\2406\250\021\330\004\013\2101\200\001\360\030\000\n\013\330\010\014\210E\220\025\220a\220q\330\014\022\320\022$\240A\240Q\240d\250!\330\014!\240\021\240%\240t\2508\260<\270q\300\004\320DU\320UW\320WY\320Yg\320gi\320ij\330\014\017\210q\330\020(\250\001\250\025\250c\260\027\270\005\270Q\330\010\016\320\016(\250\001\250\021\250$\250f\260A\330\010\013\2104\210r\220\021\330\014\023\2201\330\010\035\230Q\230a\230t\2406\250\021\330\010\013\2101\330\014\022\320\022$\240A\240Q\240d\250!\330\014!\240\021\240%\240t""\2501\330\014\022\320\022,\250A\250Q\250d\260&\270\001\330\014\017\210t\2202\220Q\330\020\027\220q\330\014!\240\021\240!\2404\240v\250Q\330\004\013\2101\200\001\360\006\000H\001I\001\33078\360\n\000\005#\240!\2403\240f\250E\260\026\260s\270&\300\001\200\001\330\004\n\210+\220Q\200\001\330\004\035\230Q\230c\240\026\240t\2501\200\001\340?@\330\004\031\230\021\230#\230V\2404\240q\200\001\360\n\000\005\032\230\021\230#\230V\2404\240q\250\003\2501\250D\260\010\270\001\320\000Y\320YZ\330\004\033\2305\240\001\240\025\240a\330\004 \240\001\240\023\240F\250$\250e\260:\270S\300\001\300\027\310\001\200\001\360\014\000\005\037\230a\230s\240&\250\004\250E\260\030\270\030\300\021\200\001\360\n\000\005\030\220q\230\003\2306\240\027\250\010\260\010\270\001\200\001\360\014\000\005 \230q\240\003\2406\250\024\250U\260(\270(\300!O";
+    #else /* compression: none (9554 bytes) */
+const char* const bytes = ": All dimensions preceding dimension %d must be indexed and not slicedBuffer view does not expose stridesCan only create a buffer that is contiguous in memory.Cannot assign to read-only memoryviewCannot create writable memory view from read-only memoryviewCannot index with type 'Cannot transpose memoryview with indirect dimensionsDimension %d is not directEmpty shape tuple for cython.arrayIndex out of bounds (axis %d)Indirect dimensions not supportedInvalid mode, expected 'c' or 'fortran', got Invalid shape in axis <MemoryView of Note that Cython is deliberately stricter than PEP-484 and rejects subclasses of builtin types. If you need to pass subclasses then set the 'annotation_typing' directive to False. Open File\n\n        Example\n            >>> sqe = io_uring_get_sqe(ring)\n            >>> io_uring_prep_openat(sqe, b'./file.ext')\n            >>> sqe.user_data = 123\n            ...\n            >>> io_uring_submit(ring)\n            >>> io_uring_wait_cqe(ring, cqe)\n            ...\n            >>> assert cqe.user_data == 123\n            >>> fd = trap_error(cqe.res)\n    Out of bounds on buffer access (axis Step may not be zero (axis %d)Unable to convert item to object?.>')add_note and  at 0xcollections.abc<contiguous and direct><contiguous and indirect>disableenable(flags=gc (got got differing extents in dimension io_uring_prep_openat (line 145)isenableditemsize <= 0 for cython.arrayliburing.file, mode=no default __reduce__ due to non-trivial __cinit__ object>, resolve=src/liburing/file.pyx<strided and direct><strided and direct or indirect><strided and indirect><stringsource>unable to allocate array data.unable to allocate shape and strides.ASCIIEllipsisIntEnumIntFlagO_ACCMODEO_APPENDO_ASYNCO_CLOEXECO_CREATO_DIRECTO_DIRECTORYO_DSYNCO_EXCLO_LARGEFILEO_NOATIMEO_NOCTTYO_NOFOLLOWO_NONBLOCKO_PATHO_RDONLYO_RDWRO_SYNCO_TMPFILEO_TRUNCO_WRONLY__Pyx_PyDict_NextRefRESOLVE_BENEATHRESOLVE_CACHEDRESOLVE_IN_ROOTRESOLVE_NO_MAGICLINKSRESOLVE_NO_SYMLINKSRESOLVE_NO_XDEVSYNC""_FILE_RANGE_WAIT_AFTERSYNC_FILE_RANGE_WAIT_BEFORESYNC_FILE_RANGE_WRITESequenceView.MemoryViewabcallocate_bufferasyncio.coroutinesbasebatch_offsetbatch_sizebufbuf_groupbuf_indexbuffer_addrsbytes_per_batchbytes_per_readc__class____class_getitem__cline_in_tracebackcountdfd__dict__dtype_is_objectencodeenumenumerateerrorfdfd_infd_outfds__file_define__file_indexfile_offset_ifile_offset_nfile_offsetsflagsformatfortranfsyncfsync_flags__func__get__getstate__group_offsethowiid__import__indexinitial_offsetio_uring_prep_files_updateio_uring_prep_fsyncio_uring_prep_ftruncateio_uring_prep_openatio_uring_prep_openat2io_uring_prep_openat2_directio_uring_prep_openat_directio_uring_prep_readio_uring_prep_read_fixedio_uring_prep_read_multishotio_uring_prep_readvio_uring_prep_readv2io_uring_prep_sync_file_rangeio_uring_prep_teeio_uring_prep_writeio_uring_prep_write_fixedio_uring_prep_writevio_uring_prep_writev2iovecs_is_coroutineitemsitemsizelenliburing.file__main___member_names___members__memviewmodemodule__module__n_groupn_reqname__name__nbytesndim__new__nr_vecsobjoffsetopen_howopen_how.__reduce_cython__open_how.__setstate_cython__packpathpopprepare_sqe_batch_submit_wait_advanceprepare_sqe_batch_submit_wait_advance_timeout__pyx_capi____pyx_checksum__pyx_state__pyx_type__pyx_unpickle_Enum__pyx_vtable____qualname__real_req_num__reduce____reduce_cython____reduce_ex__register__repr__resolveringselfset_fixed_bufferset_fixed_file__set_name__setdefault__setstate____setstate_cython__shapesizesplice_flagssqestartstepstopstructsuper__test__time_out_numtimed_outtimeout_nsunpackupdatevalueswrite_prepare_sqe_batch_submit_wait_advancexint (int, int __pyx_skip_dispatch, struct __pyx_opt_args_8liburing_5error_trap_error *__pyx_optional_args)\000void (PyObject *, int __pyx_skip_dispatch, struct __pyx_opt_args_8liburing_5error_memory_error *__pyx_optional_args)\000void (PyObject *, unsigned int, int __pyx_skip_dispatch, struct __pyx_opt_args_8liburing_5error_index_error *__pyx_optional_args)\000trap_e""rror\000memory_error\000index_errorint (struct __pyx_obj_8liburing_5queue_io_uring *, unsigned int, __Pyx_memviewslice, int, unsigned int, __Pyx_memviewslice, unsigned int, unsigned int, unsigned int, int, int, int __pyx_skip_dispatch)\000int (struct __pyx_obj_8liburing_5queue_io_uring *, unsigned int, __Pyx_memviewslice, int, unsigned int, __Pyx_memviewslice, unsigned int, unsigned int, unsigned int, unsigned int, int, int, unsigned int, __Pyx_memviewslice, __Pyx_memviewslice, __Pyx_memviewslice, int __pyx_skip_dispatch)\000int (struct __pyx_obj_8liburing_5queue_io_uring *, unsigned int, __Pyx_memviewslice, unsigned int, unsigned int, unsigned int, unsigned int, int, int, int __pyx_skip_dispatch)\000void (struct __pyx_obj_8liburing_5queue_io_uring_sqe *, PyObject *, int __pyx_skip_dispatch, struct __pyx_opt_args_8liburing_4file_io_uring_prep_files_update *__pyx_optional_args)\000void (struct __pyx_obj_8liburing_5queue_io_uring_sqe *, char const *, int __pyx_skip_dispatch, struct __pyx_opt_args_8liburing_4file_io_uring_prep_openat *__pyx_optional_args)\000void (struct __pyx_obj_8liburing_5queue_io_uring_sqe *, char const *, int __pyx_skip_dispatch, struct __pyx_opt_args_8liburing_4file_io_uring_prep_openat_direct *__pyx_optional_args)\000void (struct __pyx_obj_8liburing_5queue_io_uring_sqe *, char const *, struct __pyx_obj_8liburing_4file_open_how *, int __pyx_skip_dispatch, struct __pyx_opt_args_8liburing_4file_io_uring_prep_openat2 *__pyx_optional_args)\000void (struct __pyx_obj_8liburing_5queue_io_uring_sqe *, char const *, struct __pyx_obj_8liburing_4file_open_how *, int __pyx_skip_dispatch, struct __pyx_opt_args_8liburing_4file_io_uring_prep_openat2_direct *__pyx_optional_args)\000void (struct __pyx_obj_8liburing_5queue_io_uring_sqe *, int, __Pyx_memviewslice, unsigned int, __u64, int __pyx_skip_dispatch)\000void (struct __pyx_obj_8liburing_5queue_io_uring_sqe *, int, __Pyx_memviewslice, unsigned int, int __pyx_skip_dispatch, struct __pyx_opt_args_8liburing_4fi""le_io_uring_prep_read *__pyx_optional_args)\000void (struct __pyx_obj_8liburing_5queue_io_uring_sqe *, int, char *, unsigned int, __u64, int, int __pyx_skip_dispatch)\000\000void (struct __pyx_obj_8liburing_5queue_io_uring_sqe *, int, int __pyx_skip_dispatch, struct __pyx_opt_args_8liburing_4file_io_uring_prep_fsync *__pyx_optional_args)\000void (struct __pyx_obj_8liburing_5queue_io_uring_sqe *, int, int __pyx_skip_dispatch, struct __pyx_opt_args_8liburing_4file_io_uring_prep_sync_file_range *__pyx_optional_args)\000void (struct __pyx_obj_8liburing_5queue_io_uring_sqe *, int, int, unsigned int, unsigned int, int __pyx_skip_dispatch)\000void (struct __pyx_obj_8liburing_5queue_io_uring_sqe *, int, loff_t, int __pyx_skip_dispatch)\000void (struct __pyx_obj_8liburing_5queue_io_uring_sqe *, int, struct __pyx_obj_8liburing_6common_iovec *, int __pyx_skip_dispatch, struct __pyx_opt_args_8liburing_4file_io_uring_prep_readv *__pyx_optional_args)\000void (struct __pyx_obj_8liburing_5queue_io_uring_sqe *, int, struct __pyx_obj_8liburing_6common_iovec *, int __pyx_skip_dispatch, struct __pyx_opt_args_8liburing_4file_io_uring_prep_readv2 *__pyx_optional_args)\000void (struct __pyx_obj_8liburing_5queue_io_uring_sqe *, int, struct __pyx_obj_8liburing_6common_iovec *, unsigned int, __u64, int __pyx_skip_dispatch)\000void (struct __pyx_obj_8liburing_5queue_io_uring_sqe *, int, struct __pyx_obj_8liburing_6common_iovec *, unsigned int, __u64, int, int __pyx_skip_dispatch)\000void (struct __pyx_obj_8liburing_5queue_io_uring_sqe *, int, unsigned int, __u64, int, int __pyx_skip_dispatch)\000prepare_sqe_batch_submit_wait_advance\000prepare_sqe_batch_submit_wait_advance_timeout\000write_prepare_sqe_batch_submit_wait_advance\000io_uring_prep_files_update\000io_uring_prep_openat\000io_uring_prep_openat_direct\000io_uring_prep_openat2\000io_uring_prep_openat2_direct\000io_uring_prep_write\000io_uring_prep_read\000io_uring_prep_read_fixed\000io_uring_prep_write_fixed\000io_uring_prep_fsync""\000io_uring_prep_sync_file_range\000io_uring_prep_tee\000io_uring_prep_ftruncate\000io_uring_prep_readv\000io_uring_prep_readv2\000io_uring_prep_writev\000io_uring_prep_writev2\000io_uring_prep_read_multishot\200\001\34012\33034\330/0\360\034\000\005\033\230!\2303\230f\240E\250\026\250w\260a\200\001\360\006\00012\330\004\033\2301\230C\230v\240U\250&\260\003\2601\200\001\360\014\000\005\034\2301\230C\230v\240T\250\026\250v\260Y\270h\300a\200\001\360\010\00034\330\004\030\230\001\230\023\230F\240$\240a\240s\250!\2504\250x\260q\200\001\360\n\000\005#\240!\2403\240f\250D\260\010\270\010\300\001\200\001\360\n\000\005\033\230!\2303\230f\240D\250\006\250f\260I\270Q\200\001\360\006\00045\330\004\031\230\021\230#\230V\2404\240v\250V\2606\270\026\270q\200\001\3604\000\005\"\240\021\360\010\000\005#\240!\330\004\035\230Q\360\010\000\005\007\200k\220\021\330\004\006\200k\220\026\220q\330\004\n\210!\330\t\n\330\010\r\210Q\330\010\014\210E\220\025\220a\220q\330\014\017\210|\2301\230C\230t\2401\330\020\021\330\014\017\210y\230\001\230\024\230S\240\001\330\020\021\330\014\026\220l\240!\2402\240Q\240m\2603\260a\260r\270\030\300\021\300-\310r\320QR\330\014\022\320\022$\240A\240Q\240d\250!\330\014\017\210q\330\020*\250!\330\024\031\230\021\330\024\034\230L\250\001\250\021\330\024\025\330\024\025\330\024\025\360\006\000\021%\240A\330\024\031\230\021\330\024\034\230L\250\001\250\021\330\024\025\330\024\025\340\014\031\230\021\330\014\017\210q\330\020(\250\001\250\025\250c\260\027\270\005\270Q\360\006\000\r%\240A\240U\250#\250W\260B\260a\360\010\000\r\020\210}\320\0340\260\001\330\014\024\320\024&\240a\240q\250\004\250A\330\014(\250\001\250\027\260\001\260\024\260Q\330\014\031\230\021\330\014\021\220\035\320\0363\2602\260Q\260a\330\014\022\220!\340\010\013\2104\210s\220!\330\014\030\230\001\230\025\230a\340\010\017\210q\340\010\016\320\016\037\230q\240\001\240\024\240Q\330\010\013\2104\210r\220\021\340\014\023\2201\340\010\016\210e\2202\220Q\330\014\022\320\022%\240Q\240a\240t\2506\260""\021\260!\330\014\017\210t\2202\220Q\330\020\027\220q\330\014\037\230q\240\001\240\024\240V\2501\330\014\022\220.\240\003\2401\330\014\017\210t\2202\220Q\330\020\023\2203\220e\2302\230Q\330\024\032\230!\320\0337\260s\270&\300\001\330\020\031\230\021\230'\240\021\340\020\023\2203\220e\2303\230a\230q\330\024\032\230!\320\033E\300S\310\006\310c\320QR\320RS\340\024 \240\001\330\025\030\230\005\230S\240\001\240\021\340\024\033\2303\230a\340\025\030\230\005\230S\240\001\240\021\330\024\033\2303\230a\330\014\024\220A\330\010\024\220A\220U\230!\330\004\013\2101\200\001\360\006\00056\33012\330\004\032\230!\2303\230f\240D\250\006\250f\260F\270&\300\010\310\001\200\001\34089\330FG\330:;\33067\360\n\000\005\"\240\021\240#\240V\2505\260\006\260g\270V\3001\200\001\340AB\330=>\330:;\330\004#\2401\240C\240v\250T\260\025\260h\270a\200\001\360\034\000\n\013\330\010\014\210E\220\025\220a\220q\330\014\022\320\022$\240A\240Q\240d\250!\330\014\017\210q\330\020*\250!\2505\260\004\260H\270L\310\001\310\024\320M]\320]i\320ij\320jm\320mo\320o|\320|\177\360\000\000@\002A\002\360\000\000A\002C\002\360\000\000C\002L\002\360\000\000L\002N\002\360\000\000N\002\\\002\360\000\000\\\002]\002\340\020$\240A\240U\250$\250h\260l\300!\3004\320GW\320Wc\320cd\320dg\320gi\320iv\320vy\320yz\320z|\360\000\000}\001F\002\360\000\000F\002H\002\360\000\000H\002I\002\330\014\017\210q\330\020(\250\001\250\025\250c\260\027\270\005\270Q\330\010\016\320\016(\250\001\250\021\250$\250f\260A\330\010\013\2104\210r\220\021\330\014\023\2201\330\010\035\230Q\230a\230t\2406\250\021\330\004\013\2101\200\001\360\030\000\n\013\330\010\014\210E\220\025\220a\220q\330\014\022\320\022$\240A\240Q\240d\250!\330\014!\240\021\240%\240t\2508\260<\270q\300\004\320DU\320UW\320WY\320Yg\320gi\320ij\330\014\017\210q\330\020(\250\001\250\025\250c\260\027\270\005\270Q\330\010\016\320\016(\250\001\250\021\250$\250f\260A\330\010\013\2104\210r\220\021\330\014\023\2201\330\010\035\230Q\230a\230t\2406\250\021\330\010\013\2101\330\014\022\320\022$""\240A\240Q\240d\250!\330\014!\240\021\240%\240t\2501\330\014\022\320\022,\250A\250Q\250d\260&\270\001\330\014\017\210t\2202\220Q\330\020\027\220q\330\014!\240\021\240!\2404\240v\250Q\330\004\013\2101\200\001\360\006\000H\001I\001\33078\360\n\000\005#\240!\2403\240f\250E\260\026\260s\270&\300\001\200\001\330\004\n\210+\220Q\200\001\330\004\035\230Q\230c\240\026\240t\2501\200\001\340?@\330\004\031\230\021\230#\230V\2404\240q\200\001\360\n\000\005\032\230\021\230#\230V\2404\240q\250\003\2501\250D\260\010\270\001\320\000Y\320YZ\330\004\033\2305\240\001\240\025\240a\330\004 \240\001\240\023\240F\250$\250e\260:\270S\300\001\300\027\310\001\200\001\360\014\000\005\037\230a\230s\240&\250\004\250E\260\030\270\030\300\021\200\001\360\n\000\005\030\220q\230\003\2306\240\027\250\010\260\010\270\001\200\001\360\014\000\005 \230q\240\003\2406\250\024\250U\260(\270(\300!O";
     PyObject *data = NULL;
     CYTHON_UNUSED_VAR(__Pyx_DecompressString);
     #endif
     PyObject **stringtab = __pyx_mstate->__pyx_string_tab;
     Py_ssize_t pos = 0;
-    for (int i = 0; i < 225; i++) {
+    for (int i = 0; i < 226; i++) {
       Py_ssize_t bytes_length = index[i].length;
       PyObject *string = PyUnicode_DecodeUTF8(bytes + pos, bytes_length, NULL);
       if (likely(string) && i >= 52) PyUnicode_InternInPlace(&string);
@@ -28860,7 +28869,7 @@ const char* const bytes = ": All dimensions preceding dimension %d must be index
       stringtab[i] = string;
       pos += bytes_length;
     }
-    for (int i = 225; i < 250; i++) {
+    for (int i = 226; i < 251; i++) {
       Py_ssize_t bytes_length = index[i].length;
       PyObject *string = PyBytes_FromStringAndSize(bytes + pos, bytes_length);
       stringtab[i] = string;
@@ -28871,14 +28880,14 @@ const char* const bytes = ": All dimensions preceding dimension %d must be index
       }
     }
     Py_XDECREF(data);
-    for (Py_ssize_t i = 0; i < 250; i++) {
+    for (Py_ssize_t i = 0; i < 251; i++) {
       if (unlikely(PyObject_Hash(stringtab[i]) == -1)) {
         __PYX_ERR(0, 1, __pyx_L1_error)
       }
     }
     #if CYTHON_IMMORTAL_CONSTANTS
     {
-      PyObject **table = stringtab + 225;
+      PyObject **table = stringtab + 226;
       for (Py_ssize_t i=0; i<25; ++i) {
         #if CYTHON_COMPILING_IN_CPYTHON_FREETHREADING
         #if PY_VERSION_HEX < 0x030E0000
@@ -28931,10 +28940,10 @@ const char* const bytes = ": All dimensions preceding dimension %d must be index
 }
 /* #### Code section: init_codeobjects ### */
 typedef struct {
-    unsigned int argcount : 4;
+    unsigned int argcount : 5;
     unsigned int num_posonly_args : 1;
     unsigned int num_kwonly_args : 1;
-    unsigned int nlocals : 4;
+    unsigned int nlocals : 5;
     unsigned int flags : 10;
     unsigned int first_line : 9;
 } __Pyx_PyCode_New_function_description;
@@ -29058,12 +29067,12 @@ static int __Pyx_CreateCodeObjects(__pyx_mstatetype *__pyx_mstate) {
     __pyx_mstate_global->__pyx_codeobj_tab[20] = __Pyx_PyCode_New(descr, varnames, __pyx_mstate->__pyx_kp_u_src_liburing_file_pyx, __pyx_mstate->__pyx_n_u_prepare_sqe_batch_submit_wait_ad, __pyx_mstate->__pyx_kp_b_iso88591_E_aq_AQd_q_5_HL_M_iijjmmoo_A_A, tuple_dedup_map); if (unlikely(!__pyx_mstate_global->__pyx_codeobj_tab[20])) goto bad;
   }
   {
-    const __Pyx_PyCode_New_function_description descr = {15, 0, 0, 15, (unsigned int)(CO_OPTIMIZED|CO_NEWLOCALS), 267};
-    PyObject* const varnames[] = {__pyx_mstate->__pyx_n_u_ring, __pyx_mstate->__pyx_n_u_n_req, __pyx_mstate->__pyx_n_u_buffer_addrs, __pyx_mstate->__pyx_n_u_fd, __pyx_mstate->__pyx_n_u_bytes_per_read, __pyx_mstate->__pyx_n_u_file_offsets, __pyx_mstate->__pyx_n_u_n_group, __pyx_mstate->__pyx_n_u_group_offset, __pyx_mstate->__pyx_n_u_batch_offset, __pyx_mstate->__pyx_n_u_set_fixed_file, __pyx_mstate->__pyx_n_u_set_fixed_buffer, __pyx_mstate->__pyx_n_u_timeout_ns, __pyx_mstate->__pyx_n_u_timed_out, __pyx_mstate->__pyx_n_u_time_out_num, __pyx_mstate->__pyx_n_u_real_req_num};
-    __pyx_mstate_global->__pyx_codeobj_tab[21] = __Pyx_PyCode_New(descr, varnames, __pyx_mstate->__pyx_kp_u_src_liburing_file_pyx, __pyx_mstate->__pyx_n_u_prepare_sqe_batch_submit_wait_ad_2, __pyx_mstate->__pyx_kp_b_iso88591_2_Q_k_k_q_Q_E_aq_1Ct1_y_S_l_2Qm, tuple_dedup_map); if (unlikely(!__pyx_mstate_global->__pyx_codeobj_tab[21])) goto bad;
+    const __Pyx_PyCode_New_function_description descr = {16, 0, 0, 16, (unsigned int)(CO_OPTIMIZED|CO_NEWLOCALS), 267};
+    PyObject* const varnames[] = {__pyx_mstate->__pyx_n_u_ring, __pyx_mstate->__pyx_n_u_n_req, __pyx_mstate->__pyx_n_u_buffer_addrs, __pyx_mstate->__pyx_n_u_fd, __pyx_mstate->__pyx_n_u_bytes_per_read, __pyx_mstate->__pyx_n_u_file_offsets, __pyx_mstate->__pyx_n_u_n_group, __pyx_mstate->__pyx_n_u_group_offset, __pyx_mstate->__pyx_n_u_batch_offset, __pyx_mstate->__pyx_n_u_initial_offset, __pyx_mstate->__pyx_n_u_set_fixed_file, __pyx_mstate->__pyx_n_u_set_fixed_buffer, __pyx_mstate->__pyx_n_u_timeout_ns, __pyx_mstate->__pyx_n_u_timed_out, __pyx_mstate->__pyx_n_u_time_out_num, __pyx_mstate->__pyx_n_u_real_req_num};
+    __pyx_mstate_global->__pyx_codeobj_tab[21] = __Pyx_PyCode_New(descr, varnames, __pyx_mstate->__pyx_kp_u_src_liburing_file_pyx, __pyx_mstate->__pyx_n_u_prepare_sqe_batch_submit_wait_ad_2, __pyx_mstate->__pyx_kp_b_iso88591_4_Q_k_k_q_Q_E_aq_1Ct1_y_S_l_2Qm, tuple_dedup_map); if (unlikely(!__pyx_mstate_global->__pyx_codeobj_tab[21])) goto bad;
   }
   {
-    const __Pyx_PyCode_New_function_description descr = {9, 0, 0, 9, (unsigned int)(CO_OPTIMIZED|CO_NEWLOCALS), 380};
+    const __Pyx_PyCode_New_function_description descr = {9, 0, 0, 9, (unsigned int)(CO_OPTIMIZED|CO_NEWLOCALS), 381};
     PyObject* const varnames[] = {__pyx_mstate->__pyx_n_u_ring, __pyx_mstate->__pyx_n_u_batch_size, __pyx_mstate->__pyx_n_u_buffer_addrs, __pyx_mstate->__pyx_n_u_fd, __pyx_mstate->__pyx_n_u_bytes_per_batch, __pyx_mstate->__pyx_n_u_file_offset_i, __pyx_mstate->__pyx_n_u_file_offset_n, __pyx_mstate->__pyx_n_u_set_fixed_file, __pyx_mstate->__pyx_n_u_fsync};
     __pyx_mstate_global->__pyx_codeobj_tab[22] = __Pyx_PyCode_New(descr, varnames, __pyx_mstate->__pyx_kp_u_src_liburing_file_pyx, __pyx_mstate->__pyx_n_u_write_prepare_sqe_batch_submit_w, __pyx_mstate->__pyx_kp_b_iso88591_E_aq_AQd_t8_q_DUUWWYYggiij_q_c, tuple_dedup_map); if (unlikely(!__pyx_mstate_global->__pyx_codeobj_tab[22])) goto bad;
   }

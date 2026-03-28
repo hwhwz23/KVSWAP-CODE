@@ -7,3 +7,5 @@ frpc
 jupyter.log
 wheel_pkgs/*
 __pycache__
+.ipynb_checkpoints
+*.so

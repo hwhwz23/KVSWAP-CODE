@@ -60,6 +60,7 @@ class DiskIO(DiskIO_Base):
 		##########################################################################
 		if hasattr(self, "read_tensor"):            
 			buffer_size = token_group * self.hd_bytes
+			# print(f"name={name}, b_size={self.b_size}, token_group={token_group}", flush=True)
 			# if 'nvme' in name.lower():
 			# 	self.read_timeout_ns = round(b_size * max_kv_num * self.hd_bytes / 1024 / 1024 / 400 * 1000 * 1000000)
 			# 	self.read_timeout_ns = max(self.read_timeout_ns, self.min_read_timeout_ns)
@@ -74,6 +75,19 @@ class DiskIO(DiskIO_Base):
 				mv = memoryview((ctypes.c_char * buffer_size).from_address(self.tensor_buf.value + i * buffer_size))
 				self.rd_mv_list.append(mv.obj)
 				self.rd_addr_array[i] = ctypes.addressof(mv.obj)
+			if 'mmc' in name.lower() and self.b_size >= 5 and token_group == 1: 
+				self.split_rd_req = True
+				self.MAX_READ_BATCH = 4
+				self.split_batches_num = (self.b_size + self.MAX_READ_BATCH-1) // self.MAX_READ_BATCH
+				self.rd_addr_array_list = []
+				for b in range(self.split_batches_num):
+					b_start = b*self.MAX_READ_BATCH
+					b_end = min(b_start + self.MAX_READ_BATCH, self.b_size)
+					b_start *= self.max_group_num
+					b_end *= self.max_group_num
+					b_len = b_end - b_start
+					sub_arr = (ctypes.c_uint64 * b_len)(*self.rd_addr_array[b_start:b_end])
+					self.rd_addr_array_list.append(sub_arr)
 			# self.register_buffer(self.rd_mv_list)
 		##########################################################################
 		self.wr_addr_array = (ctypes.c_uint64 * self.max_wr_req)()
@@ -253,7 +267,6 @@ class DiskIO(DiskIO_Base):
 				self.read_tensor = self.read_tensor.view(dtype).view(self.b_size*self.max_group_num, 2, -1)
 			read_addrs = self.rd_addr_array
 			set_fixed_buffer = self.reg_buffer
-			file_offsets = indices.view(-1).numpy()
 			group_offset = self.buffer_size
 			bytes_per_read = self.buffer_size
 			timeout_ns = self.read_timeout_ns
@@ -299,28 +312,46 @@ class DiskIO(DiskIO_Base):
 			if ret < 0:
 				raise RuntimeError(f"prepare_sqe_batch_submit_wait_advance failed: {ret}")  
 	
-		else:
-			self.timeout_array[:read_req_n] = 1
-			timeout_ns_ = timeout_ns
-			for retry_i in range(self.timeout_max_retries):
-				ret = prepare_sqe_batch_submit_wait_advance_timeout(self.rd_ring, read_req_n, read_addrs, fd_, bytes_per_read, 
-															file_offsets, n_group, group_offset, self.batch_offset, 
-															len(self.fd_dict) > 0, set_fixed_buffer, timeout_ns_,
-															self.timeout_array, self.timeout_num_array, self.real_req_num_array)
-				
-				if retry_i == 0:
-					real_req_num = self.real_req_num_array[0]
-				
-				if ret < 0:
-					if ret == -2:
-						pass
-					else:
-						print(f"prepare_sqe_batch_submit_wait_advance_timeout failed: {ret}", flush=True)
-						os._exit(1)
-						# raise RuntimeError(f"prepare_sqe_batch_submit_wait_advance_timeout failed: {ret}")  
-				elif self.timeout_num_array[0] == 0:
-					break
-				timeout_ns_ = timeout_ns					
+		else:			
+			def read_(read_req_n_, read_addrs_, file_offsets_, initial_offset_):
+				self.timeout_array[:read_req_n_] = 1
+				timeout_ns_ = timeout_ns
+				for retry_i in range(self.timeout_max_retries):
+					ret = prepare_sqe_batch_submit_wait_advance_timeout(self.rd_ring, read_req_n_, read_addrs_, fd_, bytes_per_read, 
+																file_offsets_, n_group, group_offset, self.batch_offset, initial_offset_,
+																len(self.fd_dict) > 0, set_fixed_buffer, timeout_ns_,
+																self.timeout_array, self.timeout_num_array, self.real_req_num_array)
+					
+					if retry_i == 0:
+						real_req_num = self.real_req_num_array[0]
+					
+					if ret < 0:
+						if ret == -2:
+							pass
+						else:
+							print(f"prepare_sqe_batch_submit_wait_advance_timeout failed: {ret}", flush=True)
+							os._exit(1)
+					elif self.timeout_num_array[0] == 0:
+						break
+					timeout_ns_ = timeout_ns	
+				return real_req_num
+		
+			if hasattr(self, "split_rd_req") and self.split_rd_req and (not en_reuse):
+				# print(f"split_rd_req, split_batches_num={self.split_batches_num}", flush=True)
+				for b in range(self.split_batches_num):
+					b_start = b * self.MAX_READ_BATCH
+					b_end = min(b_start + self.MAX_READ_BATCH, self.b_size)
+					indices_ = indices[b_start:b_end]
+					read_req_n_ = indices_.numel()
+					file_offsets_ = indices_.view(-1).numpy()
+					# print(f"b={b}, file_offsets_: {file_offsets_}", flush=True)
+					read_addrs_ = self.rd_addr_array_list[b]
+					initial_offset_ = b_start * self.batch_offset
+					read_(read_req_n_, read_addrs_, file_offsets_, initial_offset_)
+			else:
+				file_offsets = indices.view(-1).numpy()
+				# print(f"file_offsets: {file_offsets}", flush=True)
+				real_req_num = read_(read_req_n, read_addrs, file_offsets, 0)
 			if en_reuse:
 				out_tensor = self.read_tensor[:real_req_num].view(real_req_num, 2, -1)
 			else:

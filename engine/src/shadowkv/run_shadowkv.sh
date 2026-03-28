@@ -139,15 +139,20 @@ run(){
         exit 1
     fi
     mkdir -p $(dirname $log_file)
-    if grep -q "Throughput:" "$log_file"; then
+    if [ -f "$log_file" ] && grep -q "Throughput:" "$log_file" 2>/dev/null; then
         echo "Log file $log_file already contains throughput results. Skipping this run."
         return
     fi
     cache_dir=${OFFLOAD_DIR_}
-    python src/shadowkv/test/e2e_jetson.py --model_path ${model_path} --min_prompt_len ${min_prompt_len} \
+    run_log=${log_file}.run
+    echo "Start running..."
+    { 
+      python src/shadowkv/test/e2e_jetson.py --model_path ${model_path} --min_prompt_len ${min_prompt_len} \
         --bsz ${bsz} --budget ${budget} --genlen ${genlen} --input_path ${TEST_INPUT_PATH} \
         --chunk_size ${chunk_size} --rank ${rank} --cache_dir ${cache_dir} \
-        --offload_device ${offload_device} --log_file ${log_file} --seed ${seed}
+        --offload_device ${offload_device} --log_file ${log_file} --seed ${seed} 
+        } > "${run_log}" 2>&1 || true
+    echo "Running finished."
 }
 
 
@@ -161,8 +166,8 @@ source .venv/bin/activate
 offload_device="disk"
 
 
-if [ -z "$EVAL_USER" ]; then
-  echo "EVAL_USER is not set. This is set for storing results. Exit."
+if [ -z "${EVAL_USER:-}" ] || [ "${EVAL_USER}" = '$EVAL_USER' ]; then
+  echo "EVAL_USER is not correctly set, EVAL_USER=$EVAL_USER. Exit."
   exit 1
 fi
 
@@ -175,7 +180,7 @@ log_dir=$EVAL_LOG_DIR/$EVAL_USER/logs/shadowkv
 mkdir -p $log_dir
 
 READAHEAD=0
-echo 1 | sudo tee /sys/module/nvme_core/parameters/io_timeout
+# echo 1 | sudo tee /sys/module/nvme_core/parameters/io_timeout
 
 if [ -z "$MODEL_PATH_BASE_HF" ]; then
   echo "MODEL_PATH_BASE_HF is not set. Exit."
@@ -204,8 +209,6 @@ echo BATCHSIZE_LIST=${BATCHSIZE_LIST[@]}
 ####################################################################
 model_path=${MODEL_PATH_BASE_HF}/${TEST_MODEL}
 genlen=100
-min_prompt_len=$((TOTAL_LEN - genlen))
-
 
 SKIP_MODEL_RUN=${SKIP_MODEL_RUN:-0}
 if [ "$SKIP_MODEL_RUN" = "1" ]; then
@@ -215,6 +218,14 @@ fi
 
 for bsz in ${BATCHSIZE_LIST[@]}; do
   echo Evaluating bsz=$bsz
+  # when DISK_TYPE is emmc, and BATCHSIZE is 16, and TOTAL_LEN is 32768, 
+  # we set TOTAL_LEN to 28000 to avoid running out of emmc disk space
+  # we do the same for all offloading methods with emmc disk
+  if [ "$disk_type_" = "emmc" ] && [ "$bsz" = 16 ] && [ "$TOTAL_LEN" = 32768 ]; then
+    echo "Setting TOTAL_LEN to 28000 to avoid running out of emmc disk space"
+    TOTAL_LEN=28000
+  fi
+  min_prompt_len=$((TOTAL_LEN - genlen))
   run
   sleep 3
 done

@@ -55,7 +55,7 @@ class DiskIO(DiskIO_Base):
         self.read_timeout_ns = 5 * 1000000 * 100 # 500ms
         self.timeout_array = np.array([0 for _ in range(self.max_rd_req)], dtype=np.uint32)
         self.timeout_num_array = np.array([0], dtype=np.uint32)
-        self.timeout_max_retries = 2
+        self.timeout_max_retries = 1
         self.do_fsync = False
         self.real_req_num_array = np.array([0], dtype=np.uint32)
         ##########################################################################
@@ -159,6 +159,7 @@ class DiskIO(DiskIO_Base):
         set_fixed_buffer = self.reg_buffer
         # file_offsets = indices.contiguous().view(-1).cpu().numpy().astype(np.uint32)
         file_offsets = indices.cpu().view(-1).numpy().astype(np.int32)
+        print(f"file_offsets: {file_offsets}", flush=True)
         # file_offsets = np.tile(np.arange(n_group, dtype=np.uint32), indices.shape[0]).reshape(-1)
         group_offset = self.buffer_size
         bytes_per_read = self.buffer_size
@@ -179,7 +180,7 @@ class DiskIO(DiskIO_Base):
             timeout_ns_ = timeout_ns
             for retry_i in range(self.timeout_max_retries):
                 ret = prepare_sqe_batch_submit_wait_advance_timeout(self.rd_ring, read_req_n, read_addrs, fd_, bytes_per_read, 
-                                                            file_offsets, n_group, group_offset, self.batch_offset, 
+                                                            file_offsets, n_group, group_offset, self.batch_offset, 0,
                                                             len(self.fd_dict) > 0, set_fixed_buffer, timeout_ns_,
                                                             self.timeout_array, self.timeout_num_array, self.real_req_num_array)
                 if ret < 0:

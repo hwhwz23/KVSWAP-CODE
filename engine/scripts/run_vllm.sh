@@ -102,8 +102,8 @@ fi
 
 MODEL_PATH=${MODEL_PATH_BASE_HF}/${TEST_MODEL}
 
-if [ -z "$EVAL_USER" ]; then
-  echo "EVAL_USER is not set. This is set for storing results. Exit."
+if [ -z "${EVAL_USER:-}" ] || [ "${EVAL_USER}" = '$EVAL_USER' ]; then
+  echo "EVAL_USER is not correctly set, EVAL_USER=$EVAL_USER. Exit."
   exit 1
 fi
 
@@ -140,16 +140,18 @@ echo 3 | sudo tee /proc/sys/vm/drop_caches
 if [ $? -ne 0 ]; then
   echo "Error: No permission to clear system cache."
   echo "We enforce clearing system cache to avoid possible OOM errors when running vLLM."
-  echo "Add '<user> ALL=(ALL) NOPASSWD: /usr/bin/tee' to /etc/sudoers to grant permission."
+  echo "Add '<yourname> ALL=(ALL) NOPASSWD: /usr/bin/tee' as the last line of /etc/sudoers to grant permission."
   exit 1  
 fi
 
 echo "System cache cleared."
 sleep 2
-
-python src/run_vllm.py --model_path $MODEL_PATH --output_path $OUTPUT_PATH \
-    --seqlen-list $SEQLEN_LIST --batch-list $BATCH_LIST > $LOG_OUT 
-
+echo "Start running..."
+{ 
+  python src/run_vllm.py --model_path $MODEL_PATH --output_path $OUTPUT_PATH \
+    --seqlen-list $SEQLEN_LIST --batch-list $BATCH_LIST 
+    } > "${LOG_OUT}" 2>&1 || true
+echo "Running finished."
 sleep 3
 
 echo "Done"

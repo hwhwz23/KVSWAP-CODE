@@ -14,14 +14,14 @@
         ],
         "include_dirs": [
             "src/liburing/lib",
-            "/tmp/tmpric_x_qi/libs/liburing/src/include"
+            "/tmp/tmpeya7xl58/libs/liburing/src/include"
         ],
         "language": "c",
         "libraries": [
             "uring-ffi"
         ],
         "library_dirs": [
-            "/tmp/tmpric_x_qi/libs/liburing/src"
+            "/tmp/tmpeya7xl58/libs/liburing/src"
         ],
         "name": "liburing.xattr",
         "sources": [

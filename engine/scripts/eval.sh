@@ -7,8 +7,8 @@ echo "Running on host: $HOSTNAME"
 
 TEST_INPUT_PATH=./data/test_inputs
 
-if [ -z "$EVAL_USER" ]; then
-  echo "EVAL_USER is not set. This is set for storing results. Exit."
+if [ -z "${EVAL_USER:-}" ] || [ "${EVAL_USER}" = '$EVAL_USER' ]; then
+  echo "EVAL_USER is not correctly set, EVAL_USER=$EVAL_USER. Exit."
   exit 1
 fi
 
@@ -187,14 +187,14 @@ set_dir() {
   fi
 }
 
-cleanup() {
-    echo "Cleaning up..."
-    if [[ -n "$PROGRAM_PID" ]]; then
-        echo "Killing program (PID: $PROGRAM_PID)"
-        kill -9 "$PROGRAM_PID" 2>/dev/null
-    fi
-    exit 0
-}
+# cleanup() {
+#     echo "Cleaning up..."
+#     if [[ -n "$PROGRAM_PID" ]]; then
+#         echo "Killing program (PID: $PROGRAM_PID)"
+#         kill -9 "$PROGRAM_PID" 2>/dev/null
+#     fi
+#     exit 0
+# }
 
 #################################################################################
 #################################################################################
@@ -242,13 +242,13 @@ run_once() {
     if [ "$NV_PROFILE" = 1 ]
     then
       LOG_OUT=$NVVP_LOG_DIR/$RUN_INFO".log"
-      if grep -q "Throughput Total:" "$LOG_OUT"; then
+      if [ -f "$LOG_OUT" ] && grep -q "Throughput Total:" "$LOG_OUT" 2>/dev/null; then
         echo "Log file $LOG_OUT already contains throughput results. Skipping this run."
         return
       fi
     else
       LOG_OUT=$LOG_DIR/$RUN_INFO".log"
-      if grep -q "Throughput Total:" "$LOG_OUT"; then
+      if [ -f "$LOG_OUT" ] && grep -q "Throughput Total:" "$LOG_OUT" 2>/dev/null; then
         echo "Log file $LOG_OUT already contains throughput results. Skipping this run."
         return
       fi
@@ -259,17 +259,22 @@ run_once() {
     #   echo "/dev/${DISK_DEV_NAME_} READAHEAD is: "
     #   sudo -S sh -c "blockdev --getra /dev/${DISK_DEV_NAME_}"
     # done
-
+    echo "Start running..."
     if [ "$NV_PROFILE" = 1 ]
     then
       echo "CMD="$CMD > $LOG_OUT
-      $NVPROF_CMD$NVVP_DIR/$RUN_INFO $PYTHON_EXE src/main.py $CMD --nv_profile 1 >> $LOG_OUT &
+      { 
+        $NVPROF_CMD$NVVP_DIR/$RUN_INFO $PYTHON_EXE src/main.py $CMD --nv_profile 1 
+        } > "${LOG_OUT}" 2>&1  || true
     else
       echo "CMD="$CMD > $LOG_OUT
-      $PYTHON_EXE src/main.py $CMD --nv_profile 0 >> $LOG_OUT &
+      { 
+        $PYTHON_EXE src/main.py $CMD --nv_profile 0 
+        } > "${LOG_OUT}" 2>&1  || true
     fi
-    PROGRAM_PID=$!
-    wait $PROGRAM_PID
+    # PROGRAM_PID=$!
+    # wait $PROGRAM_PID 2>>"$LOG_OUT"
+    echo "Running finished."
 }
 
 
@@ -320,7 +325,6 @@ echo START_LAYER=$START_LAYER
 echo USE_TOKEN_CACHE=$USE_TOKEN_CACHE
 echo RUN_ARGS=$RUN_ARGS
 echo BATCHSIZE_LIST=$BATCHSIZE_LIST
-
 ##################################################
 set_io
 check_powermode
@@ -334,7 +338,6 @@ else
 fi
 ##################################################
 GEN_LEN=100
-PROMPT_LEN=$((TOTAL_LEN - GEN_LEN))
 # check MODEL_PATH_BASE is set
 if [ -z "$MODEL_PATH_BASE" ]; then
   echo "MODEL_PATH_BASE is not set. Exit."
@@ -353,6 +356,14 @@ fi
 
 for BATCHSIZE in ${BATCHSIZE_LIST[@]}; do
   echo Evaluating BATCHSIZE=$BATCHSIZE
+  # when DISK_TYPE is emmc, and BATCHSIZE is 16, and TOTAL_LEN is 32768, 
+  # we set TOTAL_LEN to 28000 to avoid running out of emmc disk space
+  # we do the same for all offloading methods with emmc disk
+  if [ "$DISK_TYPE" = "emmc" ] && [ "$BATCHSIZE" = 16 ] && [ "$TOTAL_LEN" = 32768 ]; then
+    echo "Setting TOTAL_LEN to 28000 to avoid running out of emmc disk space"
+    TOTAL_LEN=28000
+  fi
+  PROMPT_LEN=$((TOTAL_LEN - GEN_LEN))
   run_once
   sleep 3
 done

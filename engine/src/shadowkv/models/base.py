@@ -309,8 +309,8 @@ class LLM:
     @torch.inference_mode()
     def warmup(self):
 
-        a = torch.randn(self.batch_size, 1024, 1024).to(self.dtype).to(self.device)
-        b = torch.randn(self.batch_size, 1024, 1024).to(self.dtype).to(self.device)
+        a = torch.randn(4, 128, 128).to(self.dtype).to(self.device)
+        b = torch.randn(4, 128, 128).to(self.dtype).to(self.device)
         for _ in range(100):
             torch.bmm(a, b)
         del a, b

@@ -116,6 +116,7 @@ cpdef int prepare_sqe_batch_submit_wait_advance_timeout(
             unsigned int n_group,
             unsigned int group_offset,
             unsigned int batch_offset,
+            unsigned int initial_offset, 
             bint set_fixed_file,
             bint set_fixed_buffer,
             unsigned int timeout_ns,

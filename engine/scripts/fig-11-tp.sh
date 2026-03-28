@@ -6,7 +6,7 @@ if [ "$run_mode" = "full" ]; then
     MAX_COUNT=5
     echo "=============== Running full evaluation ==============="
 else
-    MAX_COUNT=2
+    MAX_COUNT=3
     echo "=============== Running quick evaluation ==============="
 fi
 
@@ -123,7 +123,7 @@ while IFS= read -r seed; do
         echo "Running with sequence length: $TOTAL_LEN and seed: $seed"
         SEED=$seed
         #########################################################
-        export MAX_ALLOC_KV_SIZE=$((1024*1024*2048))
+        export MAX_ALLOC_KV_SIZE=$((1024*1024*768))
         DISK_TYPE=nvme
         KVSWAP_TG=4
         BATCH_LIST="1 3"
@@ -157,12 +157,12 @@ while IFS= read -r seed; do
         echo "Running with sequence length: $TOTAL_LEN and seed: $seed"
         SEED=$seed
         #########################################################
-        export MAX_ALLOC_KV_SIZE=$((1024*1024*2048))
+        export MAX_ALLOC_KV_SIZE=$((512*512*768))
         BATCH_LIST="2 4"
         DISK_TYPE=nvme
         run_shadowkv
         #########################################################
-        export MAX_ALLOC_KV_SIZE=$((1024*1024*768))
+        export MAX_ALLOC_KV_SIZE=$((512*512*768))
         BATCH_LIST="2 4"
         DISK_TYPE=emmc
         run_shadowkv
@@ -189,9 +189,9 @@ BATCH_LIST="8"
 # Output Results
 mkdir -p ./RESULTS
 
-if [ -z "$EVAL_USER" ]; then
-    echo "EVAL_USER is not set. Exit."
-    exit 1
+if [ -z "${EVAL_USER:-}" ] || [ "${EVAL_USER}" = '$EVAL_USER' ]; then
+  echo "EVAL_USER is not correctly set, EVAL_USER=$EVAL_USER. Exit."
+  exit 1
 fi
 
 mkdir -p ./RESULTS/$EVAL_USER

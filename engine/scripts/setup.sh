@@ -66,7 +66,7 @@ if [ ! -d .venv ]; then
     uv pip install ./wheel_pkgs/torch-2.7.0-cp310-cp310-linux_aarch64.whl
     uv pip install ./wheel_pkgs/flash_attn-2.7.4.post1-cp310-cp310-linux_aarch64.whl --no-build-isolation
     uv pip install ./wheel_pkgs/triton-3.2.0-cp310-cp310-linux_aarch64.whl --no-deps
-    uv pip install ./wheel_pkgs/vllm-0.10.1.dev271+g60523a731.cu126-cp310-cp310-linux_aarch64.whl --no-build-isolation
+    UV_SKIP_WHEEL_FILENAME_CHECK=1 uv pip install ./wheel_pkgs/vllm-0.10.1.dev271+g60523a731.cu126-cp310-cp310-linux_aarch64.whl --no-build-isolation
     uv pip install notebook jupyterlab
     # transformers==4.51.0
     # tokenizers==0.21
@@ -78,8 +78,10 @@ if [ ! -d .venv ]; then
 
     echo "Building Liburing..."
     pushd src/Liburing
-    pip install -e .
+    pip install -e . --force-reinstall
     popd
+    # remove torchvision to avoid conflict 
+    uv pip uninstall torchvision
 
     echo "Done: Installing dependencies"
 else
@@ -98,7 +100,7 @@ echo "Starting to setup disk..."
 #     sudo zramctl --reset $zram
 # done
 
-echo 1 | sudo tee /sys/module/nvme_core/parameters/io_timeout
+# echo 1 | sudo tee /sys/module/nvme_core/parameters/io_timeout
 
 if [ -z "$EMMC_OFFLOAD_DIR" ]; then
     echo "Error: EMMC_OFFLOAD_DIR is not set"
@@ -166,15 +168,17 @@ mount_dev_if_needed() {
     echo "Mounting ${_label} to ${_mnt_dir}"
     # sudo mount "${_dev_path}" "${_mnt_dir}"
     sudo mount -o noatime,nodiratime,data=ordered,nodelalloc,nolazytime "${_dev_path}" "${_mnt_dir}"
-    # give permission to the mount directory
-    sudo chmod -R 777 "${_mnt_dir}"
 }
 
-mkdir -p "${EMMC_OFFLOAD_DIR}"
-mkdir -p "${NVME_OFFLOAD_DIR}"
+
+sudo mkdir -p "${EMMC_OFFLOAD_DIR}"
+sudo mkdir -p "${NVME_OFFLOAD_DIR}"
 
 mount_dev_if_needed "eMMC" "${EMMC_DEV_NAME}" "${EMMC_OFFLOAD_DIR}"
 mount_dev_if_needed "NVMe" "${NVME_DEV_NAME}" "${NVME_OFFLOAD_DIR}"
+# give permission to the mount directory
+sudo chmod -R 777 "${EMMC_OFFLOAD_DIR}"
+sudo chmod -R 777 "${NVME_OFFLOAD_DIR}"
 
 echo "Done: Setting up disk"
 echo "--------------------------------"
@@ -213,7 +217,7 @@ echo "--------------------------------"
 echo "Checking remaining disk space..."
 
 _GB=$((1000 * 1000 * 1000))
-_EMMC_MIN_FREE=$((64 * 1000 * 1000 * 1000))
+_EMMC_MIN_FREE=$((59 * 1000 * 1000 * 1000))
 _NVME_MIN_FREE=$((200 * 1000 * 1000 * 1000))
 
 # Returns 0 if / is on the given device name (e.g. mmcblk0p1), same logic as mount_dev_if_needed.
